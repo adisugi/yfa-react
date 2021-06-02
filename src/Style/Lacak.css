@@ -1,0 +1,309 @@
+/* navigasi */
+.search-by {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.lacak-paket, .cek-tarif {
+    background-color: #ececec;
+    width: 100px;
+    height: 25px;
+    font-size: 11px;
+    text-align: center;
+    line-height: 25px;
+    color: #333;
+    cursor: pointer;
+}
+
+.lacak-paket {
+    border-right: .5px solid #fff;
+    background-color: rgba(30, 171, 255, 1);
+    color: #fff;
+}
+
+.form-cek-tarif {
+    display: none;
+}
+
+@media (min-width: 450px) {
+    .lacak-paket, .cek-tarif {
+        width: 150px;
+        height: 37px;
+        line-height: 37px;
+        font-size: 14px;
+    }
+}
+
+/* lacak resi */
+/* search */
+.search {
+    box-shadow: 0 2px 12px 2px #ddd;
+    border-radius: 5px;
+    padding: 0;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.search input {
+    width: 100%;
+    font-size: 12px;
+    border: none;
+    outline: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 5px 0 5px 10px;
+}
+
+.search .icon-hapus {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #cfcece;
+    cursor: pointer;
+}
+
+.icon-hapus:hover {
+    color: rgba(30, 171, 255, 1);
+}
+
+.tombol-search {
+    padding: 0;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.tombol-search button {
+    width: 80px;
+    line-height: 10px;
+    font-size: 14px;
+    background-color: rgba(30, 171, 255, 1);
+    border: none;
+}
+
+@media (min-width: 992px) {
+    .form-lacak-paket {
+        width: 700px;
+    }
+
+    .container-form {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* background lacak */
+.col-gambar-lacak {
+    margin-top: 80px;
+}
+
+.col-gambar-lacak img {
+    width: 100%;
+}
+
+/* tabel cek-resi */
+.table-resi {
+    margin-top: 70px;
+    /*display: none;*/
+}
+
+table {
+    font-size: 12px;
+}
+
+.table th {
+    background-color: #133671;
+    color: #fff;
+}
+
+.table-2 {
+    margin-top: 50px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* cek tarif */
+/* form input */
+.container-form {
+    margin-top: 40px;
+}
+
+.form-cek-tarif, .input-data-lacak input, .col-form {
+    width: 100%;
+}
+
+.form-cek-tarif .container {
+    padding-right: 0;
+    padding-top: 50px;
+}
+
+@media (min-width: 768px) {
+    .form-cek-tarif .container {
+        max-width: 900px !important;
+    }
+}
+
+.asal-paket, .tujuan-paket, .berat-paket {
+    padding-bottom: 15px;
+}
+
+.input-data-lacak .col-md-4 {
+    padding-left: 0;
+}
+
+.text-naik input {
+    width: 100%;
+    height: 25px;
+    outline: none;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid #a3a3a3;
+    font-size: 11px;
+    background: none;
+}
+
+.text-naik span::before {
+    content: attr(data-placeholder);
+    position: absolute;
+    z-index: -1;
+    top: 5px;
+    left: 0;
+    color: #a3a3a3;
+    transition: .5s;
+}
+
+.text-naik span::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 0;
+    height: 2px;
+    background: rgba(30,171,255,1);
+    transition: .5s;
+}
+
+.naik + span::before{
+    top: -12px;
+    font-size: 12px;
+    color: rgba(30,171,255,1) ;
+}
+
+.naik + span::after{
+    top: 24px;
+    width: 100%;
+}
+
+/*#kotaList, #kotaList2 {*/
+/*    font-size: 12px;*/
+/*    overflow-y: scroll;*/
+/*    position: absolute;*/
+/*    max-height: 150px;*/
+/*    z-index: 2;*/
+/*    width: 100%;*/
+/*    background: #fff;*/
+/*    color: #333;*/
+/*    border: 1px solid #a3a3a3;*/
+/*}*/
+
+/*#kotaList::-webkit-scrollbar,*/
+/*#kotaList2::-webkit-scrollbar,*/
+/*.table-responsive::-webkit-scrollbar {*/
+/*    width: 3px;*/
+/*    height: 3px;*/
+/*}*/
+
+/*#kotaList::-webkit-scrollbar-thumb,*/
+/*#kotaList2::-webkit-scrollbar-thumb,*/
+/*.table-responsive::-webkit-scrollbar-thumb {*/
+/*    border-radius: 10px;*/
+/*    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,.2);*/
+/*    background: #133671;*/
+/*}*/
+
+/*#kotaList::-webkit-scrollbar-track,*/
+/*#kotaList2::-webkit-scrollbar-track,*/
+/*.table-responsive::-webkit-scrollbar-track {*/
+/*    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, .2);*/
+/*    border-radius: 0;*/
+/*    background: rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.pilihKota {*/
+/*    line-height: 30px;*/
+/*    height: 30px;*/
+/*    cursor: context-menu;*/
+/*    padding: 0 10px;*/
+/*    margin: 0;*/
+/*    overflow: hidden;*/
+
+/*}*/
+
+/*.pilihKota:hover {*/
+/*    background: rgba(30, 171, 255, .5);*/
+/*}*/
+
+@media (max-width: 380px) {
+    /*.pilihKota {*/
+    /*    font-size: 10px;*/
+    /*}*/
+
+    span::before {
+        font-size: 11px;
+    }
+
+}
+
+.div-berat {
+    display: flex;
+    justify-content: center;
+}
+
+.div-berat .fa-plus-circle {
+    margin-right: 5px;
+}
+
+.div-berat i {
+    margin-top: 7px;
+    background: #fff;
+    color: #a3a3a3;
+}
+
+.div-berat i:hover {
+    color: rgba(30, 171, 255, 1);
+}
+
+.btn-cek-tarif {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.cari-layanan {
+    width: 80px;
+    height: 30px;
+    line-height: 17px;
+}
+
+@media (min-width: 768px) {
+    .btn-cek-tarif {
+        margin-top: 50px;
+    }
+
+    .cari-layanan {
+        width: 100px;
+    }
+}

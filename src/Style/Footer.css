@@ -1,0 +1,259 @@
+/* footer */
+.footer-container {
+    height: 600px;
+    width: 100%;
+    margin-top: 80px;
+    position: relative;
+}
+
+.skew-box {
+    height: 500px;
+    width: 100%;
+    background: #133671;
+}
+
+.box-child {
+    width: 100%;
+    height: 100px;
+    background: rgba(30, 171, 255, 1);
+}
+
+.logo {
+    display: none;
+}
+
+.alamat-kantor, .box-child {
+    padding-top: 30px;
+    text-align: center;
+    line-height: 8px;
+    color: #a1b2f7;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.box-child {
+    color: #fff;
+    font-size: 12px;
+}
+
+.kantor {
+    font-weight: bold;
+    font-size: 20px;
+    color: #fff;
+}
+
+.enter {
+    margin-bottom: 30px;
+}
+
+.app {
+    width: 100%;
+    margin-top: 50px;
+    position: relative;
+}
+
+.img-app1 {
+    background-image: url(../img/googleplay.jpg);
+}
+
+.img-app2 {
+    background-image: url(../img/appgalery.jpg);
+}
+
+.img-app3 {
+    background-image: url(../img/appstore.jpg);
+}
+
+.app .img-app1, .app .img-app2, .app .img-app3 {
+    height: 60px;
+    width: 200px;
+    margin: 8px auto;
+    border-radius: 10px;
+    background-size: cover
+}
+
+.hold-us {
+    position: absolute;
+    background: rgba(0,0,0,.5);
+    bottom: 150px;
+    right: 0;
+    height: 200px;
+    width: 50px;
+    padding-top: 30px;
+    box-shadow: 0 0 2px black;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.hold-us i {
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    display: block;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.hold-us i:hover {
+    font-size: 25px;
+    color: rgba(30, 171, 255, 1);
+}
+
+@media (min-width: 650px) {
+    /* footer */
+    .footer-container {
+        height: 450px;
+    }
+
+    .skew-box {
+        height: 350px;
+        padding: 30px;
+        box-sizing: border-box;
+    }
+
+    .box-child {
+        height: 100px;
+    }
+
+    .alamat-kantor {
+        padding-top: 30px;
+        text-align: left;
+        padding-left: 5%;
+    }
+
+    .app {
+        position: absolute;
+        top: 0;
+        padding-left: 60%;
+        width: 200px;
+    }
+
+    .app .img-app1, .app .img-app2, .app .img-app3 {
+        margin: 8px 0;
+    }
+
+    .hold-us {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        margin: auto;
+        margin-top: 200px;
+        padding-top: 0;
+        background: none;
+        box-shadow: none;
+        height: 50px;
+        width: 200px;
+    }
+
+    .hold-us i {
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .hold-us i:hover {
+        font-size: 20px;
+        color: rgba(30, 171, 255, 1);
+    }
+}
+
+/* desktp version*/
+@media (min-width: 992px) {
+    /* footer */
+    .footer-container {
+        width: 100%;
+        height: 300px;
+        position: relative;
+        background-color: #133671;
+    }
+
+    .skew-box {
+        width: 75%;
+        height: 100%;
+        background-color: rgba(30,171,255,1);
+        border-right: 100px solid #133671;
+        border-bottom: 300px solid transparent;
+        box-sizing: border-box;
+        padding: 0;
+    }
+
+    .box-child {
+        height: 50px;
+        background: #fff;
+        color: #999;
+        padding: 15px;
+        font-size: 12px;
+        line-height: 3px;
+    }
+
+    .logo {
+        display: block;
+        position: absolute;
+        top: 50px;
+        left: 90px;
+        width: 200px;
+        height: 200px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 0 20px 2px rgba(0,0,0,.5);
+    }
+
+    .alamat-kantor {
+        position: absolute;
+        padding: 0;
+        top: 50px;
+        left: 350px;
+        display: block;
+        color: #fff;
+        line-height: 5px;
+    }
+
+    .app {
+        padding-left: 0;
+        display: block;
+        right: 50px;
+    }
+
+    .app .img-app1, .app .img-app2, .app .img-app3 {
+        display: block;
+    }
+
+    .hold-us {
+        position: absolute;
+        bottom: 10px;
+        left: 340px;
+        width: 200px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .hold-us i {
+        display: block;
+    }
+
+    .hold-us i:hover {
+        color: #133671;
+    }
+}
+
+@media (min-width: 1225px) {
+    .list-layanan {
+        display: block;
+        position: absolute;
+        padding: 0;
+        top: 50px;
+        left: 700px;
+        color: #fff;
+        line-height: 5px;
+    }
+}
+
+@media (max-width: 1225px) {
+    .list-layanan {
+        display: none;
+    }
+}

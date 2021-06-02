@@ -1,0 +1,103 @@
+/* card layanan */
+.card-section {
+    padding: 80px 0px 20px;
+    margin-bottom: 50px;
+}
+
+.card-row {
+    display: flex;
+    justify-content: center;
+}
+
+.card-service {
+    margin: 10px 20px;
+    opacity: 0;
+    transform: translate(0, 40px);
+    transition: .5s;
+}
+
+.card-service img {
+    height: 175px;
+}
+
+.card-service.muncul {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.card-service img {
+    filter: brightness(40%);
+}
+
+.image-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    position: relative;
+    margin-top: -35px;
+}
+
+.card-body {
+    background-color: #eaeaea;
+    margin-top: -35px;
+    padding-top: 60px;
+    height: 200px;
+}
+
+.card-body p {
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 3px;
+}
+
+.card-body-content {
+    width: 100%;
+}
+
+.image-col {
+    border-radius: 5%;
+    height: 100%;
+    width: 45%;
+    line-height: 70px;
+    background-color: rgba(30,171,255,.6);
+    box-shadow: 0 0 10px rgba(0,0,0,.8);
+    transition: 1s;
+}
+
+.image-col p {
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    transition: 1s;
+}
+
+.img-col-tengah {
+    background-color: rgba(255,255,255,.8);
+}
+
+.img-col-tengah p {
+    color: #555;
+}
+
+.card-service {
+    box-shadow: 0 0 3px rgba(0,0,0,.2);
+}
+
+.card-service:hover {
+    transform: translate(0, -10px);
+    box-shadow: 0 30px 3px -25px rgba(0,0,0,.2);
+}
+
+.card-service:hover .image-col {
+    background-color: rgba(30,171,255,1);
+    box-shadow: 0 0 0 9px rgba(30,171,255,.4);
+}
+
+.card-service:hover .image-col p {
+    text-shadow: 0px 2px 3px #666;
+}
+
+.card-service:hover .img-col-tengah p {
+    color: #fff;
+}
