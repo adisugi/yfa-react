@@ -46,8 +46,11 @@ class DropOff extends Component {
             city_name: "",
             city_idpenerima: "",
             city_namepenerima: "",
-            beratBarang:""
-
+            ongkir: "",
+            estimasi: "",
+            layanan: "",
+            setDetail: false,
+            displayDetail: 'none'
         }
     }
 
@@ -123,8 +126,10 @@ class DropOff extends Component {
             "label": d.service,
             "title": d.cost[0].etd
         }))
-        this.setState({selectOptionLayanan : options})
-        console.log(options)
+        this.setState({
+            selectOptionLayanan : options,
+            displayDetail: 'block'
+        })
     }
 
 
@@ -143,6 +148,15 @@ class DropOff extends Component {
             city_namepenerima: e.label
         })
         cityIdPenerima = e.value
+    }
+
+    handleChangeSelectLayanan(e) {
+        this.setState({
+            ongkir: e.value,
+            estimasi: e.title,
+            layanan: e.label,
+            setDetail: true,
+        })
     }
 
 
@@ -330,7 +344,7 @@ class DropOff extends Component {
                                     </CardBody>
                                 </Card>
                             </Col>
-                            <Col md="12">
+                            <Col md="12" style={{display: this.state.displayDetail}}>
                                 <Card className="main-card mb-3">
                                     <CardBody>
                                         <CardTitle><h5>Total Harga</h5></CardTitle>
@@ -341,16 +355,16 @@ class DropOff extends Component {
                                                 <Select type="select" name="layanan_id" id="layanan"
                                                         placeholder="Pilih Layanan"
                                                         options={this.state.selectOptionLayanan}
-                                                        onChange={this.handleChangeSelectProvince.bind(this)} required/>
-                                                <Input type="text" id="kategoriLayanan" name="kategoriLayanan"/>
+                                                        onChange={this.handleChangeSelectLayanan.bind(this)} required/>
+                                                <Input type="hidden" id="kategoriLayanan" name="kategoriLayanan" value={this.state.setDetail? this.state.layanan : ""}/>
                                             </FormGroup>
                                             <FormGroup className="ongkirajadeh">
                                                 <NamaLabel name="Total Biaya Kirim :"/>
-                                                <p>Rp. <span id="ongkosKirimSpan">0</span></p>
+                                                <p>Rp. <span id="ongkosKirimSpan">{this.state.setDetail? this.state.ongkir : 0}</span></p>
                                                 <NamaLabel name="Estimasi : "/>
-                                                <p><span id="waktuKirim">-</span> Hari</p>
-                                                <Input type="hidden" id="ongkosKirim" name="ongkosKirim"/>
-                                                <Input type="hidden" id="estimasi" name="estimasi"/>
+                                                <p><span id="waktuKirim">{this.state.setDetail? this.state.estimasi : "-"}</span> Hari</p>
+                                                <Input type="hidden" id="ongkosKirim" name="ongkosKirim" value={this.state.ongkir}/>
+                                                <Input type="hidden" id="estimasi" name="estimasi" value={this.state.estimasi}/>
                                                 <Input type="hidden" id="statusDelivery" name="statusDelivery"
                                                        value="Undelivered"/>
                                                 <Input type="hidden" id="penerimaPaket" name="penerimaPaket"
