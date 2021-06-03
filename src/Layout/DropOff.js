@@ -113,11 +113,6 @@ class DropOff extends Component {
     }
 
     async handleRequestCost(e) {
-
-        console.log("kata kata")
-        console.log(cityId, cityIdPenerima, berat)
-
-
         const res = await axios.get("http://localhost:3333/api/cost/" + cityId + "/" + cityIdPenerima + "/" + berat, {
             headers: {'Content-Type': 'application/json'}
         })
@@ -128,7 +123,7 @@ class DropOff extends Component {
             "label": d.service,
             "title": d.cost[0].etd
         }))
-        // this.setState({selectOptionLayanan: options})
+        this.setState({selectOptionLayanan : options})
         console.log(options)
     }
 
@@ -327,7 +322,7 @@ class DropOff extends Component {
                                                        onChange={this.handleChangeBerat} required/>
                                             </FormGroup>
                                             <Button className="mb-2 mr-2 btn-icon" color="primary" id="btn-cekharga"
-                                                    type="button" onClick={this.handleRequestCost}>
+                                                    type="button" onClick={this.handleRequestCost.bind(this)}>
                                                 <i className="pe-7s-tools btn-icon-wrapper"> </i>
                                                 Cek Harga
                                             </Button>
