@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Container} from "bootstrap-4-react/lib/components/layout";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faTrash, faFilePdf, faFileExcel} from "@fortawesome/free-solid-svg-icons";
 import ReactTable from 'react-table'
 import Header from "../Components/Header";
 import Jumbo from "../Components/Jumbo";
@@ -45,8 +45,12 @@ const ButtonGroup = styled.div`
 
 var displayLacak = {display: 'block'}
 var displayTarif = {display: 'none'}
+var showTable = {
+    transform: 'scale(0)',
+    transition: '1s'
+}
 
-// const getDataResi = (resi) => {
+ // const getDataResi = (resi) => {
 //     fetch(`http://localhost:3333/api/transaksi/resi/${resi}`, {
 //         mode: 'no-cors',
 //         method: 'get',
@@ -81,6 +85,10 @@ class Lacak extends Component {
         this.getDataResi = this.getDataResi.bind(this)
         this.state = {
             active : types[0],
+            loading : false,
+            display: 'block',
+            // displayTable: 'block',
+            displayLoading : 'none',
             data: []
         }
     }
@@ -104,14 +112,29 @@ class Lacak extends Component {
     }
 
     handleDeleteResi() {
-        this.setState({resi : ''})
+        this.setState({
+            resi : '',
+            display: 'block',
+            // displayTable: 'none'
+        })
     }
 
-    getDataResi = (resi) => {
-        axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
+    getDataResi = async (resi) => {
+        this.setState({
+            displayLoading: 'block'
+        })
+
+        await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
-                this.setState({data: res.data})
-                console.log(this.state.data)
+                showTable = {transform: 'scale(1)'}
+
+                this.setState({
+                        data: res.data,
+                        loading: true,
+                        display: 'none',
+                        // displayTable: 'block',
+                    })
+                // console.log(this.state.data)
             })
     }
 
@@ -159,14 +182,14 @@ class Lacak extends Component {
                                 </div>
 
                                 {/* image lacak */}
-                                <div className="row gambar-lacak">
+                                <div className="row gambar-lacak" style={{display : this.state.display}}>
                                     <div className="col-md-12 col-gambar-lacak">
                                         <img src={bgLacak} alt="lacak"/>
                                     </div>
                                 </div>
 
                                 {/* tabel resi */}
-                                <div className="table-resi">
+                                {this.state.loading? <div className="table-resi" style={showTable}>
                                     <div className="table-responsive">
                                         <table className="table table-1">
                                             <thead>
@@ -208,17 +231,21 @@ class Lacak extends Component {
                                                 <td className="tglSampai">{this.state.data.tanggalSampai}</td>
                                                 <td className="col-print">
                                                     <a className="pdf">
-                                                        <i className="fas fa-file-pdf print" title="pdf"></i>
+                                                        <i className="fas fa-file-pdf print" title="pdf">
+                                                            <FontAwesomeIcon icon={faFilePdf}/>
+                                                        </i>
                                                     </a>
                                                     <a className="excel">
-                                                        <i className="fas fa-file-excel print" title="excel"></i>
+                                                        <i className="fas fa-file-excel print" title="excel">
+                                                            <FontAwesomeIcon icon={faFileExcel}/>
+                                                        </i>
                                                     </a>
                                                 </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> : <Loading display={this.state.displayLoading}/>}
                             </div>
 
                             {/* cek tarif */}

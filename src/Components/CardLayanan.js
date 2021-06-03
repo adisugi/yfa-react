@@ -8,14 +8,14 @@ import '../Style/LayananCard.scss'
 const CardLayanan = () => {
 
     return (
-        <Card className="card" style={{ width: '18rem', margin: '10px' }}>
+        <Card className="card card-layanan" style={{ width: '18rem', margin: '10px' }}>
             <Card.Image className="card-image" src={bgCard} />
             <div className="card-jenis-layanan">
                 <div className="card-jenis-layanan-nama">
                     <p>Ok</p>
                 </div>
             </div>
-            <Card.Body className="card-body">
+            <Card.Body className="card-body-layanan">
                 <div className="card-body-description">
                     <div className="card-body-description-icon">
                         <FontAwesomeIcon icon={faStopwatch}/>

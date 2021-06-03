@@ -2,10 +2,10 @@ import React, {Fragment} from 'react'
 import '../Style/Loading.scss'
 
 
-const Loading = () => {
+const Loading = (props) => {
     return (
         <Fragment>
-            <div className="row-loading">
+            <div className="row-loading" style={{display: props.display}}>
                 <div className="loading">
                     <div className="circle"></div>
                     <div style={{display: 'flex', justifyContent: 'center'}}>
