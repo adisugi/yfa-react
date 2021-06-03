@@ -112,7 +112,6 @@ class DropOff extends Component {
             "label": d.type + " " + d.city_name
         }))
         this.setState({selectOptionsKotaPenerima: options})
-        console.log(this.state)
     }
 
     async handleRequestCost(e) {
@@ -120,7 +119,6 @@ class DropOff extends Component {
             headers: {'Content-Type': 'application/json'}
         })
         const data = res.data
-        console.log(data)
         const options = data.map(d => ({
             "value": d.cost[0].value,
             "label": d.service,
@@ -166,7 +164,6 @@ class DropOff extends Component {
 
     onSubmit = (e) => {
         const formData = new FormData();
-        // console.log("step 1");
         const json = JSON.stringify({
             "namaPengirim": this.state.namaPengirim,
             "telpPengirim": this.state.telpPengirim,
