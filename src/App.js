@@ -15,6 +15,7 @@ function App() {
         <Route path="/lacak" component={Lacak}/>
         <Route path="/layanan" component={Layanan}/>
         <Route path="/about-us" component={AboutUs}/>
+        <Route path="/admin/transaksi" component={MenuAdmin}/>
     </Fragment>
   );
 }
