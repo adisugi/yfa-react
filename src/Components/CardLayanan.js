@@ -8,22 +8,22 @@ import '../Style/LayananCard.scss'
 const CardLayanan = () => {
 
     return (
-        <Card className="card card-layanan" style={{ width: '18rem', margin: '10px' }}>
-            <Card.Image className="card-image" src={bgCard} />
-            <div className="card-jenis-layanan">
-                <div className="card-jenis-layanan-nama">
+        <Card className="Card" style={{ width: '18rem', margin: '10px' }}>
+            <Card.Image className="Card-img" src={bgCard} />
+            <div className="Card-jenis-layanan">
+                <div className="Card-jenis-layanan-nama">
                     <p>Ok</p>
                 </div>
             </div>
-            <Card.Body className="card-body-layanan">
-                <div className="card-body-description">
-                    <div className="card-body-description-icon">
+            <Card.Body className="Card-body-layanan">
+                <div className="Card-body-layanan-description">
+                    <div className="Card-body-layanan-description-icon">
                         <FontAwesomeIcon icon={faStopwatch}/>
                     </div>
                     <p>Estimasi waktu pengiriman : 2-3 hari</p>
                 </div>
-                <div className="card-body-description">
-                    <div className="card-body-description-icon">
+                <div className="Card-body-layanan-description">
+                    <div className="Card-body-layanan-description-icon">
                         <FontAwesomeIcon icon={faDolly}/>
                     </div>
                     <p>Seluruh Indonesia</p>

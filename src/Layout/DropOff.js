@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
 
-import{
+import {
     Button,
     Card,
     CardBody,
@@ -15,52 +15,147 @@ import{
     Label,
     Row
 } from "reactstrap";
+
+import Select from 'react-select'
 import Header from "../Components/Header";
 import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import bg from "../img/1.jpg"
 
-function NamaLabel(props){
+function NamaLabel(props) {
     return <label>{props.name}</label>;
 }
+
+var cityId
+var cityIdPenerima
+var berat
 
 class DropOff extends Component {
     constructor() {
         super();
-        this.state = {}
+        this.state = {
+            selectOptions: [],
+            selectOptionsKota: [],
+            selectOptionsKotaPenerima: [],
+            selectOptionLayanan:[],
+            province_id: "",
+            provinceName: "",
+            provinceIdPenerima: "",
+            provinceNamePenerima: "",
+            city_id: "",
+            city_name: "",
+            city_idpenerima: "",
+            city_namepenerima: "",
+            beratBarang:""
+
+        }
     }
+
 
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    async getOptions(){
-        const res = await axios.get('http://localhost:1515/api/provinsi', {
-            headers: { 'Content-Type': 'application/json'}
+    handleChangeBerat = (e) => {
+        this.setState({[e.target.name]: e.target.value})
+        berat = e.target.value
+    }
+
+
+    async getOptions() {
+        const res = await axios.get('http://localhost:3333/api/provinsi', {
+            headers: {'Content-Type': 'application/json'}
+        })
+        const data = res.data
+        const options = data.map(d => ({
+            "value": d.province_id,
+            "label": d.province
+        }))
+        this.setState({selectOptions: options})
+    }
+
+
+    async handleChangeSelectProvince(e) {
+        this.setState({
+            province_id: e.value,
+            provinceName: e.label
+        })
+        const province_id = e.value
+        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + province_id, {
+            headers: {'Content-Type': 'application/json'}
         })
 
         const data = res.data
-
         const options = data.map(d => ({
-            "value" : d.province_id,
-            "label" : d.province
-
+            "value": d.city_id,
+            "label": d.type + " " + d.city_name
         }))
-
-        this.setState({selectOptions: options})
-
+        this.setState({selectOptionsKota: options})
     }
 
-    handleChangeSelectProvince(e){
-        this.setState({province_id:e.value})
+
+    async handleChangeSelectProvincePenerima(e) {
+        this.setState({
+            provinceIdPenerima: e.value,
+            provinceNamePenerima: e.label
+        })
+        const provinceIdPenerima = e.value
+        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + provinceIdPenerima, {
+            headers: {'Content-Type': 'application/json'}
+        })
+        const data = res.data
+        const options = data.map(d => ({
+            "value": d.city_id,
+            "label": d.type + " " + d.city_name
+        }))
+        this.setState({selectOptionsKotaPenerima: options})
+        console.log(this.state)
     }
+
+    async handleRequestCost(e) {
+
+        console.log("kata kata")
+        console.log(cityId, cityIdPenerima, berat)
+
+
+        const res = await axios.get("http://localhost:3333/api/cost/" + cityId + "/" + cityIdPenerima + "/" + berat, {
+            headers: {'Content-Type': 'application/json'}
+        })
+        const data = res.data
+        console.log(data)
+        const options = data.map(d => ({
+            "value": d.cost[0].value,
+            "label": d.service,
+            "title": d.cost[0].etd
+        }))
+        // this.setState({selectOptionLayanan: options})
+        console.log(options)
+    }
+
+
+    handleChangeSelectKota(e) {
+        this.setState({
+            city_id: e.value,
+            city_name: e.label
+        })
+        cityId = e.value
+    }
+
+
+    handleChangeSelectKotaPenerima(e) {
+        this.setState({
+            city_idpenerima: e.value,
+            city_namepenerima: e.label
+        })
+        cityIdPenerima = e.value
+    }
+
 
     componentDidMount() {
         this.getOptions()
     }
 
     onSubmit = (e) => {
-
         const formData = new FormData();
         // console.log("step 1");
         const json = JSON.stringify({
@@ -80,11 +175,10 @@ class DropOff extends Component {
 
             "namaBarang": this.state.namaBarang,
             "jumlahBarang": this.state.jumlahBarang,
-            "kategoriBeratBarang":this.state.kategoriBeratBarang,
+            "kategoriBeratBarang": this.state.kategoriBeratBarang,
 
-            "layanan":this.state.layanan
+            "layanan": this.state.layanan
         });
-
         const blobDoc = new Blob([json], {
             type: "application/json"
         });
@@ -92,22 +186,12 @@ class DropOff extends Component {
         const config = {
             headers: {
                 "content-type": "multipart/mixed",
-
             }
         }
-
-        axios.post("http://localhost:1515/api/kotaRaja", formData, config)
+        axios.post("http://localhost:3333/api/kotaRaja", formData, config)
             .then(res => console.log(res.data))
-
-
-        // const cors = require('cors');
-        // const corsOptions ={
-        //     origin:'http://localhost:3000',
-        //     credentials:true,            //access-control-allow-credentials:true
-        //     optionSuccessStatus:200
-        // }
-        // app.use(cors(corsOptions));
     }
+
 
     render() {
         return (
@@ -127,34 +211,43 @@ class DropOff extends Component {
                                             <Input id="idPengirim" name="idPengirim" type="hidden"/>
                                             <FormGroup>
                                                 <NamaLabel name="Nama Pengirim :"/>
-                                                <Input type="text" name="namaPengirim" id="namaPengirim" onChange={this.handleChange} required/>
+                                                <Input type="text" name="namaPengirim" id="namaPengirim"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="No Telp :"/>
-                                                <Input type="tel" name="telpPengirim" id="telpPengirim" onChange={this.handleChange} required/>
+                                                <Input type="tel" name="telpPengirim" id="telpPengirim"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Provinsi :"/>
-                                                <CustomInput type="select" name="province_id" id="province" onChange={this.handleChangeSelectProvince.bind(this)} required>
-                                                    <option value="-1">Provinsi</option>
-                                                </CustomInput>
-                                                <Input type="hidden" id="provinceName" name="provinceName"/>
+                                                <Select type="select" name="province_id" id="province"
+                                                        placeholder="Pilih Provinsi"
+                                                        options={this.state.selectOptions}
+                                                        onChange={this.handleChangeSelectProvince.bind(this)} required/>
+                                                <Input type="hidden" id="provinceName" name="provinceName"
+                                                       value={this.state.provinceName}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Kota Asal :"/>
-                                                <CustomInput type="select" name="city_id" id="city_name" onChange={this.handleChange} required>
-                                                    <option value="-1">Kota Asal</option>
-                                                </CustomInput>
-                                                <Input type="hidden" id="cityName" name="cityName"/>
-                                                <Input type="hidden" id="cityPengirimId" name="cityPengirimId"/>
+                                                <Select name="city_id" id="city_name"
+                                                        placeholder="Pilih Kota"
+                                                        options={this.state.selectOptionsKota}
+                                                        onChange={this.handleChangeSelectKota.bind(this)} required/>
+                                                <Input type="hidden" id="cityName" name="cityName"
+                                                       value={this.state.city_name}/>
+                                                <Input type="hidden" id="cityPengirimId" name="cityPengirimId"
+                                                       value={this.state.city_id}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Alamat :"/>
-                                                <Input type="text" name="alamatPengirim" id="alamatPengirim" onChange={this.handleChange} required/>
+                                                <Input type="text" name="alamatPengirim" id="alamatPengirim"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input type="text" name="kodePosPengirim" id="kodePosPengirim" onChange={this.handleChange} required/>
+                                                <Input type="text" name="kodePosPengirim" id="kodePosPengirim"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                         </Form>
                                     </CardBody>
@@ -168,34 +261,45 @@ class DropOff extends Component {
                                             <Input id="idPenerima" name="idPenerima" type="hidden"/>
                                             <FormGroup>
                                                 <NamaLabel name="Nama Penerima :"/>
-                                                <Input type="text" name="namePenerima" id="namaPenerima" onChange={this.handleChange} required/>
+                                                <Input type="text" name="namePenerima" id="namaPenerima"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="No Telp :"/>
-                                                <Input type="tel" name="telpPenerima" id="telpPenerima" onChange={this.handleChange} required/>
+                                                <Input type="tel" name="telpPenerima" id="telpPenerima"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Provinsi :"/>
-                                                <CustomInput type="select" name="province_id" id="provincepenerima"  onChange={this.handleChange} required>
-                                                    <option value="-1">Provinsi</option>
-                                                </CustomInput>
-                                                <Input type="hidden" id="provinceNamePenerima" name="provinceNamePenerima"/>
+                                                <Select name="province_id" id="provincepenerima"
+                                                        placeholder="Pilih Provinsi"
+                                                        options={this.state.selectOptions}
+                                                        onChange={this.handleChangeSelectProvincePenerima.bind(this)}
+                                                        required/>
+                                                <Input type="hidden" id="provinceNamePenerima" name="provinceNamePenerima"
+                                                       value={this.state.provinceNamePenerima}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Kota Tujuan :"/>
-                                                <CustomInput type="select" name="city_id" id="city_namepenerima" onChange="kotaPenerimaHidden()" onChange={this.handleChange} required>
-                                                    <option value="-1">Kota Tujuan</option>
-                                                </CustomInput>
-                                                <Input type="hidden" id="cityNamePenerima" name="cityNamePenerima"/>
-                                                <Input type="hidden" id="cityPenerimaId" name="cityPenerimaId"/>
+                                                <Select name="city_id" id="city_name"
+                                                        placeholder="Pilih Kota"
+                                                        options={this.state.selectOptionsKotaPenerima}
+                                                        onChange={this.handleChangeSelectKotaPenerima.bind(this)}
+                                                        required/>
+                                                <Input type="hidden" id="cityNamePenerima" name="cityNamePenerima"
+                                                       value={this.state.city_namepenerima}/>
+                                                <Input type="hidden" id="cityPenerimaId" name="cityPenerimaId"
+                                                       value={this.state.city_idpenerima}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Alamat :"/>
-                                                <Input type="text" name="alamatPenerima" id="alamatPenerima" onChange={this.handleChange} required/>
+                                                <Input type="text" name="alamatPenerima" id="alamatPenerima"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input type="text" name="kodePosPenerima" id="kodePosPenerima" onChange={this.handleChange} required/>
+                                                <Input type="text" name="kodePosPenerima" id="kodePosPenerima"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                         </Form>
                                     </CardBody>
@@ -209,17 +313,21 @@ class DropOff extends Component {
                                             <Input id="idBarang" name="idBarang" type="hidden"/>
                                             <FormGroup>
                                                 <NamaLabel name="Nama Barang :"/>
-                                                <Input type="text" name="namaBarang" id="namaBarang" onChange={this.handleChange} required/>
+                                                <Input type="text" name="namaBarang" id="namaBarang"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Jumlah Barang :"/>
-                                                <Input type="text" name="jumlahBarang" id="jumlahBarang" onChange={this.handleChange} required/>
+                                                <Input type="text" name="jumlahBarang" id="jumlahBarang"
+                                                       onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <NamaLabel name="Total Berat Barang (gram) :"/>
-                                                <Input type="number" name="beratBarang" id="kategoriBeratBarang" onChange={this.handleChange} required/>
+                                                <Input type="number" name="beratBarang" id="kategoriBeratBarang"
+                                                       onChange={this.handleChangeBerat} required/>
                                             </FormGroup>
-                                            <Button className="mb-2 mr-2 btn-icon" color="primary" id="btn-cekharga" type="button" onClick={this.onSubmit}>
+                                            <Button className="mb-2 mr-2 btn-icon" color="primary" id="btn-cekharga"
+                                                    type="button" onClick={this.handleRequestCost}>
                                                 <i className="pe-7s-tools btn-icon-wrapper"> </i>
                                                 Cek Harga
                                             </Button>
@@ -235,10 +343,11 @@ class DropOff extends Component {
                                             <Input id="idtotalBiaya" name="idtotalBiaya" type="hidden"/>
                                             <FormGroup>
                                                 <NamaLabel name="Pilih Layanan :"/>
-                                                <CustomInput type="select" name="layanan_id" id="layanan" onChange="layananOngkirHidden()" required>
-                                                    <option value="-1">Services</option>
-                                                </CustomInput>
-                                                <Input type="hidden" id="kategoriLayanan" name="kategoriLayanan"/>
+                                                <Select type="select" name="layanan_id" id="layanan"
+                                                        placeholder="Pilih Layanan"
+                                                        options={this.state.selectOptionLayanan}
+                                                        onChange={this.handleChangeSelectProvince.bind(this)} required/>
+                                                <Input type="text" id="kategoriLayanan" name="kategoriLayanan"/>
                                             </FormGroup>
                                             <FormGroup className="ongkirajadeh">
                                                 <NamaLabel name="Total Biaya Kirim :"/>
@@ -247,15 +356,20 @@ class DropOff extends Component {
                                                 <p><span id="waktuKirim">-</span> Hari</p>
                                                 <Input type="hidden" id="ongkosKirim" name="ongkosKirim"/>
                                                 <Input type="hidden" id="estimasi" name="estimasi"/>
-                                                <Input type="hidden" id="statusDelivery" name="statusDelivery" value="Undelivered"/>
-                                                <Input type="hidden" id="penerimaPaket" name="penerimaPaket" value="penerima"/>
-                                                <Input type="hidden" id="fotoPenerima" name="fotoPenerima" value="penerima.jpg"/>
+                                                <Input type="hidden" id="statusDelivery" name="statusDelivery"
+                                                       value="Undelivered"/>
+                                                <Input type="hidden" id="penerimaPaket" name="penerimaPaket"
+                                                       value="penerima"/>
+                                                <Input type="hidden" id="fotoPenerima" name="fotoPenerima"
+                                                       value="penerima.jpg"/>
                                             </FormGroup>
-                                            <Button className="mb-2 mr-2 btn-icon" color="info" id="btn-save-utama" type="button" onClick={this.onSubmit}>
+                                            <Button className="mb-2 mr-2 btn-icon" color="info" id="btn-save-utama"
+                                                    type="button" onClick={this.onSubmit}>
                                                 <i className="pe-7s-science btn-icon-wrapper"> </i>
                                                 Order
                                             </Button>
-                                            <Button className="mb-2 mr-2 btn-icon" color="danger" id="btn-reset" type="button" onClick={this.onSubmit}>
+                                            <Button className="mb-2 mr-2 btn-icon" color="danger" id="btn-reset"
+                                                    type="button" onClick={this.onSubmit}>
                                                 <i className="pe-7s-science btn-icon-wrapper"> </i>
                                                 Close
                                             </Button>
@@ -267,7 +381,7 @@ class DropOff extends Component {
                     </Container>
 
                 </main>
-                <Footer />
+                <Footer/>
 
             </Fragment>
         );
