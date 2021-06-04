@@ -11,6 +11,10 @@
 /*  top: 0;*/
 /*}*/
 
+.jumbotron {
+  margin-bottom: 50px;
+}
+
 .jumbotron .container {
   z-index: 1;
   position: relative;

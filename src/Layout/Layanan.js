@@ -10,7 +10,6 @@ const cardStyle = {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    marginTop: "80px"
 }
 
 class Layanan extends Component {
