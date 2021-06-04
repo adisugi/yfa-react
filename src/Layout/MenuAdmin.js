@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import {Table} from "../Components/Table"
+import {ModalKu} from "../Components/ModalKu";
 import bg from "../img/2.jpg"
 import axios from "axios";
 
@@ -29,6 +30,7 @@ class MenuAdmin extends Component {
         }
         const data = res.data
         const dataTable = data.map((content, index) => ({
+            id: content.idTransaksi,
             image: <img src={"data:image/*;base64," + img[index]} alt="foto penerima" style={{width:"100px", borderRadius:"5px"}} />,
             tanggalTransaksi: content.tanggalTransaksi,
             resi: content.resi,
@@ -61,6 +63,7 @@ class MenuAdmin extends Component {
         this.getDataTransaksi().then(res => {
             this.setState({ dataTable:res })
             this.setState({ column: [
+                    // {title: 'id', field: 'id'},
                     {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
                     {title: 'No. Resi', field: 'resi'},
                     {title: 'User Name', field: 'userName'},
@@ -99,12 +102,14 @@ class MenuAdmin extends Component {
                        title={"Menu Admin"}/>
                 <main>
                     <Table title={"Data Transaksi"}
+                           color={"rgba(30, 171, 255, 1)"}
                            data={this.state.dataTable}
                            column={this.state.column}
                            search={true}
                            paging={true}
                            filter={false}
                            export={true}/>
+                    <ModalKu/>
                 </main>
                 <Footer />
             </Fragment>
