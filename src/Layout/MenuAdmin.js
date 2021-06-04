@@ -4,20 +4,93 @@ import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import {Table} from "../Components/Table"
 import bg from "../img/2.jpg"
+import axios from "axios";
 
-
-const data = [
-    {nama: 'Adi', umur: 20},
-    {nama: 'Adi', umur: 20},
-    {nama: 'Adi', umur: 20}
-]
-
-const column = [
-    {title: 'Name', field: 'nama'},
-    {title: 'Age', field: 'umur'}
-]
 
 class MenuAdmin extends Component {
+    constructor() {
+        super();
+        this.state= {
+            dataTable:[],
+            column:[],
+            idImage: []
+        }
+    }
+
+    async getDataTransaksi() {
+        const res = await axios.get("http://localhost:3333/api/transaksi", {
+            headers: {'Content-Type': 'application/json'}
+        })
+        // this.setState({idImage: res.data.idUser})
+        // const image = await axios.get("http://localhost:3333/api/transaksi/getImage/"+this.state.idImage)
+        const data = res.data
+        const dataTable = data.map(content => ({
+            id: content.idUser,
+            tanggalTransaksi: content.tanggalTransaksi,
+            resi: content.resi,
+            userName: content.firstName,
+            barang: content.namaBarang,
+            berat: content.beratBarang,
+            pengirim: content.namaPengirim,
+            provPengirim: content.provinceName,
+            kotaPengirim: content.cityName,
+            alamatPengirim: content.alamatPengirim,
+            telpPengirim: content.telpPengirim,
+            kodePosPengirim: content.kodePosPengirim,
+            penerima: content.namaPenerima,
+            provPenerima: content.provinceNamePenerima,
+            kotaPenerima: content.cityNamePenerima,
+            alamatPenerima: content.alamatPenerima,
+            telpPenerima: content.telpPenerima,
+            kodePosPenerima: content.kodePosPenerima,
+            layanan: content.kategoriLayanan,
+            ongkir: content.ongkosKirim,
+            estimasi: content.estimasi,
+            status: content.statusDelivery,
+            kurir: content.namaKurir,
+            penerimaPaket: content.penerimaPaket
+        }))
+
+        const idTransaksi = dataTable.map(id => {
+
+        })
+
+        return dataTable
+    }
+
+    componentDidMount() {
+        this.getDataTransaksi().then(res => {
+            this.setState({ dataTable:res })
+        })
+        this.setState({ column: [
+                {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
+                {title: 'No. Resi', field: 'resi'},
+                {title: 'User Name', field: 'userName'},
+                {title: 'Nama Barang', field: 'barang'},
+                {title: 'Berat Barang (gram)', field: 'berat'},
+                {title: 'Pengirim', field: 'pengirim'},
+                {title: 'Provinsi Pengirim', field: 'provPengirim'},
+                {title: 'Kota Pengirim', field: 'kotaPengirim'},
+                {title: 'Alamat Pengirim', field: 'alamatPengirim'},
+                {title: 'Telp. Pengirim', field: 'telpPengirim'},
+                {title: 'Kode Pos Pengirim', field: 'kodePosPengirim'},
+                {title: 'Penerima', field: 'penerima'},
+                {title: 'Provinsi Penerima', field: 'provPenerima'},
+                {title: 'Kota Penerima', field: 'kotaPenerima'},
+                {title: 'Alamat Penerima', field: 'alamatPenerima'},
+                {title: 'Telp. Penerima', field: 'telpPenerima'},
+                {title: 'Kode Pos Penerima', field: 'kodePosPenerima'},
+                {title: 'Layanan', field: 'layanan'},
+                {title: 'Ongkir (Rp)', field: 'ongkir'},
+                {title: 'Estimasi (Hari)', field: 'estimasi'},
+                {title: 'Nama Kurir', field: 'kurir'},
+                {title: 'Penerima Paket', field: 'penerimaPaket'},
+                {title: 'Status', field: 'status'},
+                {title: 'Foto Penerima', field: 'img', render: item => <img src={"data:image/*;base64,"} alt="foto penerima" style={{height:"100px", width:"100px", borderRadius:"5px"}}/>}
+            ]})
+    }
+
+
     render() {
         return (
             <Fragment>
@@ -26,17 +99,15 @@ class MenuAdmin extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={"Menu Admin"}/>
                 <main>
-                    <Table title={"Data Adi"}
-                           data={data}
-                           column={column}
+                    <Table title={"Data Transaksi"}
+                           data={this.state.dataTable}
+                           column={this.state.column}
                            search={true}
                            paging={true}
                            filter={false}
                            export={true}/>
-
                 </main>
                 <Footer />
-
             </Fragment>
         );
     }
