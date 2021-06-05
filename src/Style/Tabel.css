@@ -5,3 +5,11 @@
 .Component-horizontalScrollContainer-15>div>div::-webkit-scrollbar-thumb {
     background: rgba(30,171,255,1);
 }
+
+.edit {
+    color: #133671;
+}
+
+.delete {
+    color: #ea0303;
+}

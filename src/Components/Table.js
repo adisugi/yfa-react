@@ -39,17 +39,19 @@ export const Table = (props) => {
                         {
                             icon: 'edit',
                             tooltip: 'Edit Data',
+                            iconProps: {className: "edit"},
                             onClick: (event, rowData) => {
                                 props.actionEdit(rowData, "Edit")
                                 // alert("You saved " + rowData.id)
                             }
                         },
-                        rowData => ({
+                        {
                             icon: 'delete',
                             tooltip: 'Delete Data',
+                            iconProps: {className: "delete"},
                             // eslint-disable-next-line no-restricted-globals
                             onClick: (event, rowData) => confirm("You want to delete " + rowData.id),
-                        })
+                        }
                     ]}/>
             </Container>
         </Fragment>

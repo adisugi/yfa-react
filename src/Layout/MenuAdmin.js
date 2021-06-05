@@ -5,6 +5,7 @@ import Footer from "../Components/Footer";
 import {Table} from "../Components/Table"
 import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
+import '../Style/MenuAdmin.scss'
 import axios from "axios";
 import {Button, TextField} from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -22,9 +23,10 @@ class MenuAdmin extends Component {
             column:[],
             modalInsert : false,
             modalEdit: false,
-            dataForm : dataForm
-        }
+            dataForm : dataForm,
+            selectOptionProvince: [],
 
+        }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
         this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
@@ -96,8 +98,22 @@ class MenuAdmin extends Component {
         return dataTable
     }
 
+    //request data provinsi
+    async getProvinceOption() {
+        const res = await axios.get('http://localhost:3333/api/provinsi', {
+            headers : {'Content-Type' : 'application/json'}
+        })
+        const data = res.data
+        const option = data.map(item => ({
+            "value" : item.province_id,
+            "label" : item.province
+        }))
+        this.setState({selectOptionProvince : option})
+    }
+
     //mounting
     componentDidMount() {
+
         //set state data transaksi
         this.getDataTransaksi().then(res => {
             this.setState({ dataTable:res })
@@ -129,9 +145,13 @@ class MenuAdmin extends Component {
                     {title: 'Foto Penerima', field: 'image'}
                 ]})
         })
+
+        //set state data provinsi
+        this.getProvinceOption()
+
     }
 
-    //handleChange modal form
+    //handleChange input modal form
     handleChange= (e) =>{
         const {name, value} = e.target;
         this.setState(prevState =>({
@@ -140,6 +160,7 @@ class MenuAdmin extends Component {
                 [name]: value
             }
         }));
+        console.log(this.state.dataForm)
     }
 
     //post mapping tambah data
@@ -161,6 +182,12 @@ class MenuAdmin extends Component {
                 </div>
                 <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="id" />
                 <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" />
+                <Autocomplete
+                    options={this.state.selectOptionProvince}
+                    getOptionLabel={option => option.label}
+                    id="blur-on-select"
+                    renderInput={(params) => <TextField {...params} label="Provinsi Penerima" onChange={this.handleChange} margin="normal" />}
+                />
             </Fragment>
         )
     }

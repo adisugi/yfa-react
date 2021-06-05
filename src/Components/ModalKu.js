@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
         position: 'relative',
         width: 400,
         backgroundColor: theme.palette.background.paper,
-        borderRadius: '10px',
+        borderRadius: '5px',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
         overflowY: 'scroll',
