@@ -11,6 +11,7 @@ import bg from "../img/2.jpg";
 import bgLacak from "../img/lacak.jpg"
 import '../Style/Lacak.css';
 import styled from "styled-components";
+import Tooltip from "@material-ui/core/Tooltip";
 import axios from "axios";
 
 const types = ['lacak', 'tarif']
@@ -224,16 +225,20 @@ class Lacak extends Component {
                                                 <td className="penerima">{this.state.data.namaPenerima}</td>
                                                 <td className="tglSampai">{this.state.data.tanggalSampai}</td>
                                                 <td className="col-print">
-                                                    <a className="pdf">
-                                                        <i className="fas fa-file-pdf print" title="pdf">
-                                                            <FontAwesomeIcon icon={faFilePdf}/>
-                                                        </i>
-                                                    </a>
-                                                    <a className="excel">
-                                                        <i className="fas fa-file-excel print" title="excel">
-                                                            <FontAwesomeIcon icon={faFileExcel}/>
-                                                        </i>
-                                                    </a>
+                                                    <Tooltip title="pdf">
+                                                        <a className="pdf">
+                                                            <i className="fas fa-file-pdf print">
+                                                                <FontAwesomeIcon icon={faFilePdf}/>
+                                                            </i>
+                                                        </a>
+                                                    </Tooltip>
+                                                    <Tooltip title="excel">
+                                                        <a className="excel">
+                                                            <i className="fas fa-file-excel print">
+                                                                <FontAwesomeIcon icon={faFileExcel}/>
+                                                            </i>
+                                                        </a>
+                                                    </Tooltip>
                                                 </td>
                                             </tr>
                                             </tbody>

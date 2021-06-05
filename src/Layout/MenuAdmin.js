@@ -186,7 +186,6 @@ class MenuAdmin extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={"Menu Admin"}/>
                 <main>
-                    <Button onClick={this.modalToggleInsert}>Tambah</Button>
                     <ModalKu formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
@@ -204,6 +203,7 @@ class MenuAdmin extends Component {
                            paging={true}
                            filter={false}
                            export={false}
+                           actionAdd={this.modalToggleInsert}
                            actionEdit={this.selectDataRow}/>
 
                 </main>
