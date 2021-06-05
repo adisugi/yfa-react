@@ -45,10 +45,6 @@ const ButtonGroup = styled.div`
 
 var displayLacak = {display: 'block'}
 var displayTarif = {display: 'none'}
-var showTable = {
-    transform: 'scale(0)',
-    transition: '1s'
-}
 
  // const getDataResi = (resi) => {
 //     fetch(`http://localhost:3333/api/transaksi/resi/${resi}`, {
@@ -87,7 +83,7 @@ class Lacak extends Component {
             active : types[0],
             loading : false,
             display: 'block',
-            // displayTable: 'block',
+            displayTable: 'block',
             displayLoading : 'none',
             data: []
         }
@@ -115,7 +111,7 @@ class Lacak extends Component {
         this.setState({
             resi : '',
             display: 'block',
-            // displayTable: 'none'
+            displayTable: 'none'
         })
     }
 
@@ -126,13 +122,11 @@ class Lacak extends Component {
 
         await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
-                showTable = {transform: 'scale(1)'}
-
                 this.setState({
                         data: res.data,
                         loading: true,
                         display: 'none',
-                        // displayTable: 'block',
+                        displayTable: 'block',
                     })
                 // console.log(this.state.data)
             })
@@ -189,7 +183,7 @@ class Lacak extends Component {
                                 </div>
 
                                 {/* tabel resi */}
-                                {this.state.loading? <div className="table-resi" style={showTable}>
+                                {this.state.loading? <div className="table-resi" style={{display : this.state.displayTable}}>
                                     <div className="table-responsive">
                                         <table className="table table-1">
                                             <thead>

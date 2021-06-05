@@ -5,6 +5,13 @@ import Footer from "../Components/Footer";
 import bg from "../img/2.jpg"
 
 class AboutUs extends Component {
+    constructor() {
+        super();
+        this.state = {
+
+        }
+    }
+
     render() {
         return (
             <Fragment>
@@ -12,7 +19,9 @@ class AboutUs extends Component {
                 <Jumbo image={bg}
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={'About Us'}/>
-                About Us
+                <main>
+                    About Us
+                </main>
                 <Footer />
 
             </Fragment>

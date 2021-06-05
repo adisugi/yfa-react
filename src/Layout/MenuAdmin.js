@@ -3,20 +3,52 @@ import Header from "../Components/Header";
 import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import {Table} from "../Components/Table"
-import {ModalKu} from "../Components/ModalKu";
+import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
 import axios from "axios";
+import {Button, TextField} from "@material-ui/core";
 
 
 class MenuAdmin extends Component {
     constructor() {
         super();
+        const dataForm = {
+            artista: "",
+            genero: "",
+            id: "",
+            pais: "",
+            ventas: ""
+        }
+        const contentForm = (
+            <Fragment>
+                <h3>Agregar Nuevo Artista</h3>
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Artista" name="artista" />
+                <br />
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="País" name="pais" />
+                <br />
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Ventas" name="ventas" />
+                <br />
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Género" name="genero" />
+                <br /><br />
+            </Fragment>
+        )
         this.state= {
             dataTable:[],
-            column:[]
+            column:[],
+            modalInsert : false,
+            dataForm : dataForm,
+            contentForm : contentForm
         }
+        this.modalToogle = this.modalToogle.bind(this)
+        this.sendDataForm = this.sendDataForm.bind(this)
     }
 
+    //buka tutup modal
+    modalToogle(e) {
+        this.setState({modalInsert : !this.state.modalInsert})
+    }
+
+    //request data transaksi dan gambar
     async getDataTransaksi() {
         const res = await axios.get("http://localhost:3333/api/transaksi", {
             headers: {'Content-Type': 'application/json'}
@@ -60,6 +92,7 @@ class MenuAdmin extends Component {
     }
 
     componentDidMount() {
+        //set state data transaksi
         this.getDataTransaksi().then(res => {
             this.setState({ dataTable:res })
             this.setState({ column: [
@@ -92,6 +125,21 @@ class MenuAdmin extends Component {
         })
     }
 
+    //handleChange modal form
+    handleChange= (e) =>{
+        const {name, value} = e.target;
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                [name]: value
+            }
+        }));
+    }
+
+    sendDataForm(e) {
+        this.modalToogle(e)
+    }
+
 
     render() {
         return (
@@ -101,6 +149,12 @@ class MenuAdmin extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={"Menu Admin"}/>
                 <main>
+                    <Button onClick={this.modalToogle}>buka Artista</Button>
+                    <ModalKu formData={this.state.dataForm}
+                             isiForm={this.state.contentForm}
+                             modalInsert={this.state.modalInsert}
+                             toggles={this.modalToogle}
+                             saveData={this.sendDataForm}/>
                     <Table title={"Data Transaksi"}
                            color={"rgba(30, 171, 255, 1)"}
                            data={this.state.dataTable}
@@ -108,8 +162,8 @@ class MenuAdmin extends Component {
                            search={true}
                            paging={true}
                            filter={false}
-                           export={true}/>
-                    <ModalKu/>
+                           export={false}/>
+
                 </main>
                 <Footer />
             </Fragment>
