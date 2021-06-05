@@ -7,45 +7,50 @@ import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
 import axios from "axios";
 import {Button, TextField} from "@material-ui/core";
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
 class MenuAdmin extends Component {
     constructor() {
         super();
-        const dataForm = {
-            artista: "",
-            genero: "",
+        let dataForm = {
             id: "",
-            pais: "",
-            ventas: ""
+            resi: "",
         }
-        const contentForm = (
-            <Fragment>
-                <h3>Agregar Nuevo Artista</h3>
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Artista" name="artista" />
-                <br />
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="País" name="pais" />
-                <br />
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Ventas" name="ventas" />
-                <br />
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Género" name="genero" />
-                <br /><br />
-            </Fragment>
-        )
         this.state= {
             dataTable:[],
             column:[],
             modalInsert : false,
-            dataForm : dataForm,
-            contentForm : contentForm
+            modalEdit: false,
+            dataForm : dataForm
         }
-        this.modalToogle = this.modalToogle.bind(this)
-        this.sendDataForm = this.sendDataForm.bind(this)
+
+        this.modalToggleInsert = this.modalToggleInsert.bind(this)
+        this.modalToggleEdit = this.modalToggleEdit.bind(this)
+        this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
+        this.sendDataEditForm = this.sendDataEditForm.bind(this)
+        this.selectDataRow = this.selectDataRow.bind(this)
     }
 
-    //buka tutup modal
-    modalToogle(e) {
+    //action edit data pada tabel
+    selectDataRow (data, modal) {
+        this.state.dataForm = data
+        if (modal === "Edit") {
+            this.modalToggleEdit()
+        } else {
+            // this.modalToggleDelete()
+            console.log("Hapus")
+        }
+    }
+
+    //buka tutup modal insert data
+    modalToggleInsert(e) {
         this.setState({modalInsert : !this.state.modalInsert})
+    }
+
+    //buka tutup modal edit data
+    modalToggleEdit(e) {
+        this.setState({modalEdit : !this.state.modalEdit})
     }
 
     //request data transaksi dan gambar
@@ -91,6 +96,7 @@ class MenuAdmin extends Component {
         return dataTable
     }
 
+    //mounting
     componentDidMount() {
         //set state data transaksi
         this.getDataTransaksi().then(res => {
@@ -136,10 +142,41 @@ class MenuAdmin extends Component {
         }));
     }
 
-    sendDataForm(e) {
-        this.modalToogle(e)
+    //post mapping tambah data
+    sendDataFormInsert(e) {
+        this.modalToggleInsert(e)
     }
 
+    //post mapping edit data
+    sendDataEditForm(e) {
+        this.modalToggleEdit(e)
+    }
+
+    //isi form insert
+    contentForm () {
+        return (
+            <Fragment>
+                <div>
+                    <h3>Form Transaksi</h3>
+                </div>
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="id" />
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" />
+            </Fragment>
+        )
+    }
+
+    //isi form edit
+    contentFormEdit () {
+        return (
+            <Fragment>
+                <div>
+                    <h3>Edit</h3>
+                </div>
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="id" value={this.state.dataForm&&this.state.dataForm.id}/>
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
+            </Fragment>
+        )
+    }
 
     render() {
         return (
@@ -149,12 +186,16 @@ class MenuAdmin extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={"Menu Admin"}/>
                 <main>
-                    <Button onClick={this.modalToogle}>buka Artista</Button>
+                    <Button onClick={this.modalToggleInsert}>Tambah</Button>
                     <ModalKu formData={this.state.dataForm}
-                             isiForm={this.state.contentForm}
+                             isiFormInsert={this.contentForm()}
+                             isiFormEdit={this.contentFormEdit()}
                              modalInsert={this.state.modalInsert}
-                             toggles={this.modalToogle}
-                             saveData={this.sendDataForm}/>
+                             modalEdit={this.state.modalEdit}
+                             togglesInsert={this.modalToggleInsert}
+                             togglesEdit={this.modalToggleEdit}
+                             saveDataInsert={this.sendDataFormInsert}
+                             saveDataEdit={this.sendDataEditForm}/>
                     <Table title={"Data Transaksi"}
                            color={"rgba(30, 171, 255, 1)"}
                            data={this.state.dataTable}
@@ -162,7 +203,8 @@ class MenuAdmin extends Component {
                            search={true}
                            paging={true}
                            filter={false}
-                           export={false}/>
+                           export={false}
+                           actionEdit={this.selectDataRow}/>
 
                 </main>
                 <Footer />

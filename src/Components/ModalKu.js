@@ -3,18 +3,26 @@ import {Modal, TextField, Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import Zoom from '@material-ui/core/Zoom';
+import '../Style/Modal.scss'
 
 export const useStyles = makeStyles((theme) => ({
     modal: {
-        position: 'absolute',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    modalBody: {
+        position: 'relative',
         width: 400,
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        borderRadius: '10px',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
-        top: '25%',
-        left: '33%',
-        transform: 'translate(-50%, -50%)'
+        overflowY: 'scroll',
+        height: '500px',
+        '&::-webkit-scrollbar' : {
+            display: 'none'
+        }
     },
     iconos:{
         cursor: 'pointer'
@@ -24,12 +32,22 @@ export const useStyles = makeStyles((theme) => ({
 function ModalKu(props) {
     const styles= useStyles();
 
-    const modalBody=(
-        <div className={styles.modal}>
-            {props.isiForm}
+    const modalBodyInsert=(
+        <div className={styles.modalBody}>
+            {props.isiFormInsert}
             <div align="right">
-                <Button color="primary" onClick={props.saveData}>Insertar</Button>
-                <Button onClick={props.toggles}>Cancelar</Button>
+                <Button color="primary" onClick={props.saveDataInsert}>Insertar</Button>
+                <Button onClick={props.togglesInsert}>Cancelar</Button>
+            </div>
+        </div>
+    )
+
+    const modalBodyEdit=(
+        <div className={styles.modalBody}>
+            {props.isiFormEdit}
+            <div align="right">
+                <Button color="primary" onClick={props.saveDataEdit}>Editar</Button>
+                <Button onClick={props.togglesEdit}>Cancelar</Button>
             </div>
         </div>
     )
@@ -37,14 +55,29 @@ function ModalKu(props) {
     return (
         <div>
             <Modal
+                className={styles.modal}
                 open={props.modalInsert}
-                onClose={props.toggles}
+                onClose={props.togglesInsert}
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
-                }}>
+                }}
+                disableScrollLock={true}>
                 <Zoom in={props.modalInsert}>
-                    {modalBody}
+                    {modalBodyInsert}
+                </Zoom>
+            </Modal>
+            <Modal
+                className={styles.modal}
+                open={props.modalEdit}
+                onClose={props.togglesEdit}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+                disableScrollLock={true}>
+                <Zoom in={props.modalEdit}>
+                    {modalBodyEdit}
                 </Zoom>
             </Modal>
         </div>

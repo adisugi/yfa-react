@@ -1,6 +1,7 @@
 import React, {Fragment} from 'react'
 import MaterialTable from "material-table";
 import {Container} from "bootstrap-4-react";
+import '../Style/Tabel.css'
 
 
 export const Table = (props) => {
@@ -27,7 +28,8 @@ export const Table = (props) => {
                             icon: 'edit',
                             tooltip: 'Edit Data',
                             onClick: (event, rowData) => {
-                                alert("You saved " + rowData.id)
+                                props.actionEdit(rowData, "Edit")
+                                // alert("You saved " + rowData.id)
                             }
                         },
                         rowData => ({
