@@ -9,23 +9,30 @@ import '../Style/MenuAdmin.scss'
 import axios from "axios";
 import {Button, TextField} from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import {optional} from "glamor";
 
 
 class MenuAdmin extends Component {
     constructor() {
         super();
         let dataForm = {
-            id: "",
+            idTransaksi: "",
+            provinceName: "",
+            cityName: "",
             resi: "",
         }
-        this.state= {
+        this.state = {
             dataTable:[],
             column:[],
             modalInsert : false,
             modalEdit: false,
             dataForm : dataForm,
             selectOptionProvince: [],
-
+            selectOptionCityName: [],
+            cityId: "",
+            selectOptionProvincePenerima: [],
+            selectOptionCityNamePenerima: [],
+            cityIdPenerima: ""
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -69,30 +76,30 @@ class MenuAdmin extends Component {
         }
         const data = res.data
         const dataTable = data.map((content, index) => ({
-            id: content.idTransaksi,
+            idTransaksi: content.idTransaksi,
             image: <img src={"data:image/*;base64," + img[index]} alt="foto penerima" style={{width:"100px", borderRadius:"5px"}} />,
             tanggalTransaksi: content.tanggalTransaksi,
             resi: content.resi,
-            userName: content.firstName,
-            barang: content.namaBarang,
-            berat: content.beratBarang,
-            pengirim: content.namaPengirim,
-            provPengirim: content.provinceName,
-            kotaPengirim: content.cityName,
+            firstName: content.firstName,
+            namaBarang: content.namaBarang,
+            beratBarang: content.beratBarang,
+            namaPengirim: content.namaPengirim,
+            provinceName: content.provinceName,
+            cityName: content.cityName,
             alamatPengirim: content.alamatPengirim,
             telpPengirim: content.telpPengirim,
             kodePosPengirim: content.kodePosPengirim,
-            penerima: content.namaPenerima,
-            provPenerima: content.provinceNamePenerima,
-            kotaPenerima: content.cityNamePenerima,
+            namaPenerima: content.namaPenerima,
+            provinceNamePenerima: content.provinceNamePenerima,
+            cityNamePenerima: content.cityNamePenerima,
             alamatPenerima: content.alamatPenerima,
             telpPenerima: content.telpPenerima,
             kodePosPenerima: content.kodePosPenerima,
-            layanan: content.kategoriLayanan,
-            ongkir: content.ongkosKirim,
+            kategoriLayanan: content.kategoriLayanan,
+            ongkosKirim: content.ongkosKirim,
             estimasi: content.estimasi,
-            status: content.statusDelivery,
-            kurir: content.namaKurir,
+            statusDelivery: content.statusDelivery,
+            namaKurir: content.namaKurir,
             penerimaPaket: content.penerimaPaket
         }))
         return dataTable
@@ -113,7 +120,6 @@ class MenuAdmin extends Component {
 
     //mounting
     componentDidMount() {
-
         //set state data transaksi
         this.getDataTransaksi().then(res => {
             this.setState({ dataTable:res })
@@ -121,27 +127,27 @@ class MenuAdmin extends Component {
                     // {title: 'id', field: 'id'},
                     {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
                     {title: 'No. Resi', field: 'resi'},
-                    {title: 'User Name', field: 'userName'},
-                    {title: 'Nama Barang', field: 'barang'},
-                    {title: 'Berat Barang (gram)', field: 'berat'},
-                    {title: 'Pengirim', field: 'pengirim'},
-                    {title: 'Provinsi Pengirim', field: 'provPengirim'},
-                    {title: 'Kota Pengirim', field: 'kotaPengirim'},
+                    {title: 'User Name', field: 'firstName'},
+                    {title: 'Nama Barang', field: 'namaBarang'},
+                    {title: 'Berat Barang (gram)', field: 'beratBarang'},
+                    {title: 'Pengirim', field: 'namaPengirim'},
+                    {title: 'Provinsi Pengirim', field: 'provinceName'},
+                    {title: 'Kota Pengirim', field: 'cityName'},
                     {title: 'Alamat Pengirim', field: 'alamatPengirim'},
                     {title: 'Telp. Pengirim', field: 'telpPengirim'},
                     {title: 'Kode Pos Pengirim', field: 'kodePosPengirim'},
-                    {title: 'Penerima', field: 'penerima'},
-                    {title: 'Provinsi Penerima', field: 'provPenerima'},
-                    {title: 'Kota Penerima', field: 'kotaPenerima'},
+                    {title: 'Penerima', field: 'namaPenerima'},
+                    {title: 'Provinsi Penerima', field: 'provinceNamePenerima'},
+                    {title: 'Kota Penerima', field: 'cityNamePenerima'},
                     {title: 'Alamat Penerima', field: 'alamatPenerima'},
                     {title: 'Telp. Penerima', field: 'telpPenerima'},
                     {title: 'Kode Pos Penerima', field: 'kodePosPenerima'},
-                    {title: 'Layanan', field: 'layanan'},
-                    {title: 'Ongkir (Rp)', field: 'ongkir'},
+                    {title: 'Layanan', field: 'kategoriLayanan'},
+                    {title: 'Ongkir (Rp)', field: 'ongkosKirim'},
                     {title: 'Estimasi (Hari)', field: 'estimasi'},
-                    {title: 'Nama Kurir', field: 'kurir'},
+                    {title: 'Nama Kurir', field: 'namaKurir'},
                     {title: 'Penerima Paket', field: 'penerimaPaket'},
-                    {title: 'Status', field: 'status'},
+                    {title: 'Status', field: 'statusDelivery'},
                     {title: 'Foto Penerima', field: 'image'}
                 ]})
         })
@@ -160,7 +166,56 @@ class MenuAdmin extends Component {
                 [name]: value
             }
         }));
-        console.log(this.state.dataForm)
+        console.log(this.state)
+    }
+
+    //handleChange input modal form (pilih provinsi penerima dan request kota sesuai provinsi)
+    async handleChangeProvinsiPenerima (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    provinceName: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    provinceName: content.label
+                }
+
+            }));
+
+            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value, {
+                headers : {'Content-Type' : 'application/json'}
+            })
+            const cityName = dataKota.data.map(data => ({
+                "value": data.city_id,
+                "label": data.type + " " + data.city_name
+            }))
+            this.setState({selectOptionCityName : cityName})
+        }
+    }
+
+    //handle change input modal form (pilih kota penerima dan simpan id kota penerima)
+    handleChangeKotaPenerima (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityName: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityName: content.label
+                },
+                cityId : content.value
+            }));
+        }
     }
 
     //post mapping tambah data
@@ -177,17 +232,36 @@ class MenuAdmin extends Component {
     contentForm () {
         return (
             <Fragment>
-                <div>
-                    <h3>Form Transaksi</h3>
-                </div>
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="id" />
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" />
-                <Autocomplete
-                    options={this.state.selectOptionProvince}
-                    getOptionLabel={option => option.label}
-                    id="blur-on-select"
-                    renderInput={(params) => <TextField {...params} label="Provinsi Penerima" onChange={this.handleChange} margin="normal" />}
-                />
+                <form>
+                    <div>
+                        <h3>Form Transaksi</h3>
+                    </div>
+                    <div>
+                        <h4>Data Pengirim</h4>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" />
+                        <Autocomplete
+                            options={this.state.selectOptionProvince}
+                            getOptionLabel={option => option.label}
+                            onChange={(a,content) => {
+                                this.handleChangeProvinsiPenerima(content)
+                                // console.log(this.state.dataForm)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Provinsi Penerima" name="provinceName" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="text" value={this.state.dataForm.provinceName}/>
+                        <Autocomplete
+                            options={this.state.selectOptionCityName}
+                            noOptionsText={"Provinsi Penerima Kosong"}
+                            getOptionLabel={option => option.label}
+                            onChange={(a,content) => {
+                                this.handleChangeKotaPenerima(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Kota Penerima" name="cityName" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="text" value={this.state.dataForm.cityName}/>
+                    </div>
+                </form>
             </Fragment>
         )
     }
@@ -199,7 +273,7 @@ class MenuAdmin extends Component {
                 <div>
                     <h3>Edit</h3>
                 </div>
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="id" value={this.state.dataForm&&this.state.dataForm.id}/>
+                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm&&this.state.dataForm.idTransaksi}/>
                 <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
             </Fragment>
         )
