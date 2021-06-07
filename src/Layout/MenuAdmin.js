@@ -41,16 +41,31 @@ class MenuAdmin extends Component {
         this.state = {
             dataTable:[],
             column:[],
+
+            //toggle modal
             modalInsert : false,
             modalEdit: false,
+
+            //reset form
             initialDataForm: dataForm,
+
+            //tampung data form
             dataForm : dataForm,
+
+            //select option form add data
             selectOptionProvince: [],
             selectOptionCityName: [],
-            cityId: "",
             selectOptionCityNamePenerima: [],
-            cityIdPenerima: "",
             selectOptionLayanan: [],
+            //tampung all data kota dan layanan
+            selectOptionCity : [],
+            selectOptionLayananEdit: [],
+
+            //persiapan request cost
+            cityId: "",
+            cityIdPenerima: "",
+
+            //manipulasi tampilan request layanan
             setDetail: false,
             display: 'none',
             loadDisplay : 'none'
@@ -120,6 +135,7 @@ class MenuAdmin extends Component {
             resi: content.resi,
             firstName: content.firstName,
             namaBarang: content.namaBarang,
+            jumlahBarang: content.jumlahBarang,
             beratBarang: content.beratBarang,
             namaPengirim: content.namaPengirim,
             provinceName: content.provinceName,
@@ -176,6 +192,24 @@ class MenuAdmin extends Component {
         })
     }
 
+    //request all data kota
+    async getCity() {
+        const city = await axios.get("http://localhost:3333/api/kotaRaja", {
+            headers : {'Content-Type' : 'application/json'}
+        })
+        const dataCity = city.data.map(res => ({
+            "value" : res.city_id,
+            "label": res.type + " " + res.city_name
+        }))
+        this.setState({selectOptionCity : dataCity})
+    }
+    setLayananEdit() {
+        const kategoriLayanan = ["REG", "YES", "OKE", "CTC", "CTCYES"].map(layanan => ({
+            'label' : layanan
+        }))
+        this.setState({selectOptionLayananEdit : kategoriLayanan})
+    }
+
     //mounting
     componentDidMount() {
         //set state data transaksi
@@ -187,6 +221,7 @@ class MenuAdmin extends Component {
                     {title: 'No. Resi', field: 'resi'},
                     {title: 'User Name', field: 'firstName'},
                     {title: 'Nama Barang', field: 'namaBarang'},
+                    {title: 'Jumlah Barang', field: 'jumlahBarang'},
                     {title: 'Berat Barang (gram)', field: 'beratBarang'},
                     {title: 'Pengirim', field: 'namaPengirim'},
                     {title: 'Provinsi Pengirim', field: 'provinceName'},
@@ -212,6 +247,12 @@ class MenuAdmin extends Component {
 
         //set state data provinsi
         this.getProvinceOption()
+
+        //set state all data kota
+        this.getCity();
+
+        //set state all data layanan
+        this.setLayananEdit();
     }
 
     //handleChange input modal form
@@ -367,7 +408,8 @@ class MenuAdmin extends Component {
     }
 
     //post mapping edit data
-    sendDataEditForm(e) {
+    sendDataFormEdit(e) {
+        console.log(this.state.dataForm)
         this.modalToggleEdit(e)
     }
 
@@ -388,7 +430,6 @@ class MenuAdmin extends Component {
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Provinsi Pengirim" name="provinceName" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="hidden" value={this.state.dataForm.provinceName}/>
                         <Autocomplete
                             options={this.state.selectOptionCityName}
                             getOptionLabel={option => option.label}
@@ -397,7 +438,6 @@ class MenuAdmin extends Component {
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="hidden" value={this.state.dataForm.cityName}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" />
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPengirim" />
                     </div>
@@ -413,7 +453,6 @@ class MenuAdmin extends Component {
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Provinsi Penerima" name="provinceNamePenerima" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="hidden" value={this.state.dataForm.provinceNamePenerima}/>
                         <Autocomplete
                             options={this.state.selectOptionCityNamePenerima}
                             getOptionLabel={option => option.label}
@@ -422,12 +461,10 @@ class MenuAdmin extends Component {
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Tujuan" name="cityNamePenerima" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="hidden" value={this.state.dataForm.cityNamePenerima}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPenerima" />
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPenerima" />
                     </div>
 
-                    {this.tabLayanan}
                     <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
                         <h5>Data Barang</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Barang" name="namaBarang" />
@@ -436,7 +473,7 @@ class MenuAdmin extends Component {
                     </div>
                     <Button variant="outlined" color="primary"
                             onClick={this.getCost.bind(this)}>
-                        Cek Ongkir
+                        Cek Layanan
                     </Button>
                     <div style={{display:this.state.display}}>
                         <div style={{paddingTop: '20px'}}>
@@ -470,12 +507,100 @@ class MenuAdmin extends Component {
     contentFormEdit () {
         return (
             <Fragment>
-                <div>
-                    <h5>Data Pengirim</h5>
-                    <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm&&this.state.dataForm.idTransaksi}/>
-                    <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
-                </div>
+                <form>
+                    <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
+                        <h5>Data Pengirim</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPengirim" value={this.state.dataForm && this.state.dataForm.namaPengirim}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPengirim" value={this.state.dataForm && this.state.dataForm.telpPengirim}/>
+                        <Autocomplete
+                            options={this.state.selectOptionProvince}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionProvince.find(v => v.label === this.state.dataForm.provinceName)}
+                            onChange={(a,content) => {
+                                this.handleChangeProvinsiPengirim(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Provinsi Pengirim" name="provinceName" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.provinceName} />}/>
+                        <Autocomplete
+                            options={this.state.selectOptionCityName}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionCity.find(v => v.label === this.state.dataForm.cityName)}
+                            onChange={(a,content) => {
+                                this.handleChangeKotaPengirim(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.cityName}/>}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" value={this.state.dataForm && this.state.dataForm.alamatPengirim}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPengirim" value={this.state.dataForm && this.state.dataForm.kodePosPengirim}/>
+                    </div>
+                    <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                        <h5>Data Penerima</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPenerima" value={this.state.dataForm && this.state.dataForm.namaPenerima}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPenerima" value={this.state.dataForm && this.state.dataForm.telpPenerima}/>
+                        <Autocomplete
+                            options={this.state.selectOptionProvince}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionProvince.find(v => v.label === this.state.dataForm.provinceNamePenerima)}
+                            onChange={(a,content) => {
+                                this.handleChangeProvinsiPenerima(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Provinsi Penerima" name="provinceNamePenerima" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.provinceNamePenerima}/>}/>
+                        <Autocomplete
+                            options={this.state.selectOptionCityNamePenerima}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionCity.find(v => v.label === this.state.dataForm.cityNamePenerima)}
+                            onChange={(a,content) => {
+                                this.handleChangeKotaPenerima(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Kota Tujuan" name="cityNamePenerima" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.cityNamePenerima}/>}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPenerima" value={this.state.dataForm && this.state.dataForm.alamatPenerima}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPenerima" value={this.state.dataForm && this.state.dataForm.kodePosPenerima}/>
+                    </div>
+                    <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                        <h5>Data Barang</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Barang" name="namaBarang" value={this.state.dataForm && this.state.dataForm.namaBarang} />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Jumlah Barang" name="jumlahBarang" value={this.state.dataForm && this.state.dataForm.jumlahBarang}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Total Berat Barang (gram)" name="beratBarang" value={this.state.dataForm && this.state.dataForm.beratBarang}/>
+                    </div>
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Button variant="outlined" color="primary"
+                                onClick={this.getCost.bind(this)}>
+                            Cek Layanan
+                        </Button>
+                    </div>
+                    <div style={{paddingTop: '20px'}}>
+                        <h5>Data Layanan</h5>
+                        <Autocomplete
+                            options={this.state.selectOptionLayanan}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionLayananEdit.find(v => v.label === this.state.dataForm.kategoriLayanan)}
+                            onChange={(a,content) => {
+                                this.handleChangeLayanan(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Layanan" name="kategoriLayanan" onChange={this.handleChange} margin="normal" />}/>
+                        <div className={"total-biaya"} style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                            <p>Total Biaya : </p>
+                            <p>Rp. <span>{this.state.dataForm.ongkosKirim}</span></p>
+                            <p>Estimasi : </p>
+                            <p><span>{this.state.dataForm.estimasi}</span> Hari</p>
+                        </div>
+                        <div align="right">
+                            <Button variant="contained" color="primary" style={{marginRight: '5px'}} onClick={this.sendDataFormEdit}>Insert</Button>
+                            <Button variant="outlined" color="primary" style={{marginLeft: '5px'}} onClick={this.modalToggleEdit}>Cancel</Button>
+                        </div>
+                    </div>
+                </form>
             </Fragment>
+            // <Fragment>
+            //     <div>
+            //         <h5>Data Pengirim</h5>
+            //         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm && this.state.dataForm.idTransaksi}/>
+            //         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
+            //     </div>
+            // </Fragment>
         )
     }
 
