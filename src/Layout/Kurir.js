@@ -17,16 +17,15 @@ class TableData extends React.Component {
     constructor() {
         super();
         let dataForm = {
-            idKurir: "",
             namaKurir: "",
             noTelpKurir: "",
             file: ""
         }
         this.state = {
-            modal: false,
-            modalEdit: false,
             dataTable: [],
             column: [],
+            modal: false,
+            modalEdit: false,
             dataForm: dataForm
         }
         this.toggle = this.toggle.bind(this)
@@ -62,6 +61,7 @@ class TableData extends React.Component {
         const res = await axios.get("http://localhost:3333/api/kurir", {
             headers: {'Content-Type': 'application/json'}
         })
+
         let img = [];
         for (let i = 0; i < res.data.length; i++) {
             const dataImage = await axios.get("http://localhost:3333/api/kurir/getImage/" + res.data[i].idKurir, {
@@ -69,7 +69,7 @@ class TableData extends React.Component {
             })
             img.push(dataImage.data)
         }
-        console.log(img)
+
         const data = res.data
         const dataTable = data.map((content, index) => ({
             idKurir: content.idKurir,
@@ -81,14 +81,12 @@ class TableData extends React.Component {
         return dataTable
     }
 
-
     componentDidMount() {
         axios.get("http://localhost:3333/api/kurir")
             .then(res => {
                 this.setState({dataTable: res.data})
-                console.log(res)
+                // console.log(res)
             })
-        this.getDataKurir()
 
         this.getDataKurir().then(res => {
             this.setState({dataTable: res})
@@ -104,14 +102,76 @@ class TableData extends React.Component {
         })
     }
 
+
+
     //post mapping tambah data
-    sendDataFormInsert(e) {
+    sendDataFormInsert = (e) => {
+
+        const formData = new FormData();
+        const json = JSON.stringify({
+            "namaKurir": this.state.dataForm.namaKurir,
+            "noTelpKurir": this.state.dataForm.noTelpKurir
+        });
+
+        const blobDoc = new Blob([json], {
+            type: "application/json"
+        });
+
+        formData.append("file", this.state.dataForm.file)
+        formData.append("kurir", blobDoc)
+
+        const config = {
+            headers: {
+                "content-type": "multipart/mixed",
+            }
+        }
+
+        axios.post("http://localhost:3333/api/kurir/upload", formData, config)
+            .then(res => console.log(res))
+
+        this.getDataKurir().then(res => {
+
+            this.setState({dataTable:res})
+            console.log(this.state.dataTable)
+            // this.state.column = [
+            //     // {title: 'id', field: 'id'},
+            //     {title: 'Id Kurir', field: 'idKurir'},
+            //     {title: 'Nama Kurir', field: 'namaKurir'},
+            //     {title: 'No Telp Kurir', field: 'noTelpKurir'},
+            //     {title: 'File', field: 'image'}
+            // ]
+
+        })
+
         this.toggle(e)
+        console.log(this.state.dataTable)
+
     }
 
     //post mapping edit data
     sendDataEditForm(e) {
         this.modalToggleEdit(e)
+    }
+
+    //handleChange input modal form
+    handleChange= (e) =>{
+        const {name, value} = e.target;
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                [name]: value
+            }
+        }));
+    }
+
+    handleFileChange = (e) => {
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                file: e.target.files[0]
+            }
+        }));
+        //this.setState({[e.target.name]: e.target.files[0]})
     }
 
     //isi form data kurir
@@ -126,7 +186,7 @@ class TableData extends React.Component {
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
                                    name="noTelpKurir"/>
                         <Label>Upload Picture : </Label>
-                        <Input type="file" name="file" id="file"/>
+                        <Input type="file" name="file" id="file" onChange={this.handleFileChange}/>
 
                         <div align="right">
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
