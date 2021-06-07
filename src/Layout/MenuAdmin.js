@@ -351,6 +351,13 @@ class MenuAdmin extends Component {
 
     //post mapping tambah data
     sendDataFormInsert(e) {
+        console.log(this.state.dataForm)
+        const config = {
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
+        axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config).then(res => console.log(res))
         this.modalToggleInsert(e)
     }
 
