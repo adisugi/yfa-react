@@ -73,7 +73,7 @@ class MenuAdmin extends Component {
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
         this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
-        this.sendDataEditForm = this.sendDataEditForm.bind(this)
+        this.sendDataFormEdit = this.sendDataFormEdit.bind(this)
         this.selectDataRow = this.selectDataRow.bind(this)
     }
 
@@ -91,23 +91,8 @@ class MenuAdmin extends Component {
     //buka tutup modal insert data
     modalToggleInsert(e) {
         this.setState({modalInsert : !this.state.modalInsert})
-
-        //reset data on add
-        this.setState({
-            dataForm : this.state.initialDataForm,
-            display : 'none'
-        })
-
-        //setting kasar informasi user login
-        this.setState(prevState =>({
-            dataForm : {
-                ...prevState.dataForm,
-                email: 'admin',
-                statusDelivery: 'Undelivered',
-                penerimaPaket: 'penerima',
-                fotoPenerima: 'penerima.jpg'
-            }
-        }));
+        this.reset()
+        console.log(this.state.dataForm)
     }
 
     //buka tutup modal edit data
@@ -411,6 +396,26 @@ class MenuAdmin extends Component {
     sendDataFormEdit(e) {
         console.log(this.state.dataForm)
         this.modalToggleEdit(e)
+    }
+
+    //reset form
+    reset() {
+        //reset data on add
+        this.setState({
+            dataForm : this.state.initialDataForm,
+            display : 'none'
+        })
+
+        //setting kasar informasi user login
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                email: 'admin',
+                statusDelivery: 'Undelivered',
+                penerimaPaket: 'penerima',
+                fotoPenerima: 'penerima.jpg'
+            }
+        }));
     }
 
     //isi form insert
