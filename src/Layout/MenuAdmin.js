@@ -7,9 +7,20 @@ import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
 import '../Style/MenuAdmin.scss'
 import axios from "axios";
-import {Button, CardHeader, CircularProgress, TextField} from "@material-ui/core";
+import {
+    Button, CardActionArea,
+    CardHeader,
+    CardMedia,
+    CircularProgress,
+    FormControl,
+    InputLabel,
+    Select,
+    TextField
+} from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loading from "../Components/Loading";
+import IconButton from "@material-ui/core/IconButton";
+import {PhotoCamera} from "@material-ui/icons";
 
 class MenuAdmin extends Component {
     constructor() {
@@ -57,9 +68,10 @@ class MenuAdmin extends Component {
             selectOptionCityName: [],
             selectOptionCityNamePenerima: [],
             selectOptionLayanan: [],
-            //tampung all data kota dan layanan
+            //tampung all data kota, layanan, kurir
             selectOptionCity : [],
             selectOptionLayananEdit: [],
+            selectOptionKurir: [],
 
             //persiapan request cost
             cityId: "",
@@ -68,7 +80,9 @@ class MenuAdmin extends Component {
             //manipulasi tampilan request layanan
             setDetail: false,
             display: 'none',
-            loadDisplay : 'none'
+            loadDisplay : 'none',
+            imageUplod : '',
+            displayImage : 'none'
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -80,7 +94,9 @@ class MenuAdmin extends Component {
     //action edit data pada tabel
     selectDataRow (data, modal) {
         this.state.dataForm = data
+        this.state.displayImage = 'none'
         if (modal === "Edit") {
+            console.log(this.state.dataForm)
             this.modalToggleEdit()
         } else {
             // this.modalToggleDelete()
@@ -188,12 +204,27 @@ class MenuAdmin extends Component {
         }))
         this.setState({selectOptionCity : dataCity})
     }
+    //data layanan
     setLayananEdit() {
         const kategoriLayanan = ["REG", "YES", "OKE", "CTC", "CTCYES"].map(layanan => ({
             'label' : layanan
         }))
         this.setState({selectOptionLayananEdit : kategoriLayanan})
     }
+
+    //request data kurir
+    async getKurir() {
+        const res = await axios.get("http://localhost:3333/api/kurir", {
+            headers : {'Content-Type' : 'application/json'}
+        })
+        const kurir = res.data.map(ponse => ({
+            "value" : ponse.idKurir,
+            "label" : ponse.namaKurir
+        }))
+        this.setState({selectOptionKurir : kurir})
+    }
+
+
 
     //mounting
     componentDidMount() {
@@ -238,6 +269,8 @@ class MenuAdmin extends Component {
 
         //set state all data layanan
         this.setLayananEdit();
+
+        this.getKurir();
     }
 
     //handleChange input modal form
@@ -372,6 +405,21 @@ class MenuAdmin extends Component {
                 setDetail : true
             }));
         }
+    }
+
+    //handleChangePreview
+    handleChangePreview(e) {
+        let url = URL.createObjectURL(e.target.files[0]);
+        this.setState({
+            imageUplod : url,
+            displayImage : 'block'
+        })
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                image: e.target.files[0],
+            },
+        }));
     }
 
     //post mapping tambah data
@@ -575,7 +623,7 @@ class MenuAdmin extends Component {
                             Cek Layanan
                         </Button>
                     </div>
-                    <div style={{paddingTop: '20px'}}>
+                    <div style={{paddingTop: '30px'}}>
                         <h5>Data Layanan</h5>
                         <Autocomplete
                             options={this.state.selectOptionLayanan}
@@ -592,10 +640,58 @@ class MenuAdmin extends Component {
                             <p>Estimasi : </p>
                             <p><span>{this.state.dataForm.estimasi}</span> Hari</p>
                         </div>
-                        <div align="right">
-                            <Button variant="contained" color="primary" style={{marginRight: '5px'}} onClick={this.sendDataFormEdit}>Insert</Button>
-                            <Button variant="outlined" color="primary" style={{marginLeft: '5px'}} onClick={this.modalToggleEdit}>Cancel</Button>
+                    </div>
+                    <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                        <h5>Detail Transaksi</h5>
+                        <Autocomplete
+                            options={this.state.selectOptionKurir}
+                            getOptionLabel={option => option.label}
+                            defaultValue={this.state.selectOptionKurir.find(v => v.label === this.state.dataForm.namaKurir)}
+                            onChange={(a,content) => {
+                                this.handleChangeLayanan(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Kurir" name="namaKurir" onChange={this.handleChange} margin="normal" />}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Penerima Paket" name="penerimaPaket" value={this.state.dataForm && this.state.dataForm.penerimaPaket}/>
+                        <FormControl style={{width : '100%'}}>
+                            <InputLabel htmlFor="age-native-simple">Status</InputLabel>
+                            <Select
+                                native
+                                value={this.state.dataForm && this.state.dataForm.statusDelivery}
+                                onChange={this.handleChange}
+                                inputProps={{
+                                    name: 'statusDelivery',
+                                    id: 'age-native-simple',
+                                }}>
+                                <option value={1}>Undelivered</option>
+                                <option value={2}>Delivered</option>
+                            </Select>
+                        </FormControl>
+                        <div style={{marginTop: '20px'}}>
+                            <input accept="image/*" style={{display : 'none'}}
+                                   id="icon-button-file" type="file" name='fotoPenerima'
+                                   onChange={this.handleChangePreview.bind(this)}/>
+                            <label htmlFor="icon-button-file">
+                                <IconButton color="primary" aria-label="upload picture" component="span">
+                                    <PhotoCamera />
+                                </IconButton>
+                                <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
+                            </label>
+                            <CardActionArea style={{display: this.state.displayImage}}>
+                                <CardMedia
+                                    component="img"
+                                    alt="Foto Penerima"
+                                    height="50%"
+                                    image={this.state.imageUplod}
+                                    title="Foto Penerima"
+                                />
+                            </CardActionArea>
                         </div>
+                    </div>
+
+                    <div align="right">
+                        <Button variant="contained" color="primary" style={{marginRight: '5px'}} onClick={this.sendDataFormEdit}>Insert</Button>
+                        <Button variant="outlined" color="primary" style={{marginLeft: '5px'}} onClick={this.modalToggleEdit}>Cancel</Button>
                     </div>
                 </form>
             </Fragment>
