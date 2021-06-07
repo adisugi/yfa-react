@@ -69,7 +69,7 @@ class MenuAdmin extends Component {
             this.modalToggleEdit()
         } else {
             // this.modalToggleDelete()
-            console.log("Hapus")
+            // console.log("Hapus")
         }
     }
 
@@ -212,7 +212,6 @@ class MenuAdmin extends Component {
 
         //set state data provinsi
         this.getProvinceOption()
-
     }
 
     //handleChange input modal form
@@ -224,7 +223,7 @@ class MenuAdmin extends Component {
                 [name]: value
             }
         }));
-        console.log(this.state)
+        // console.log(this.state)
     }
 
     //handleChange input modal form (pilih provinsi pengirim dan request kota sesuai provinsi)
@@ -351,13 +350,43 @@ class MenuAdmin extends Component {
 
     //post mapping tambah data
     sendDataFormInsert(e) {
-        console.log(this.state.dataForm)
         const config = {
             headers: {
                 'content-type': 'application/json'
             }
         }
         axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config).then(res => console.log(res))
+        //set state data transaksi
+        this.getDataTransaksi().then(res => {
+            this.setState({ dataTable:res })
+            this.setState({ column: [
+                    // {title: 'id', field: 'id'},
+                    {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
+                    {title: 'No. Resi', field: 'resi'},
+                    {title: 'User Name', field: 'firstName'},
+                    {title: 'Nama Barang', field: 'namaBarang'},
+                    {title: 'Berat Barang (gram)', field: 'beratBarang'},
+                    {title: 'Pengirim', field: 'namaPengirim'},
+                    {title: 'Provinsi Pengirim', field: 'provinceName'},
+                    {title: 'Kota Pengirim', field: 'cityName'},
+                    {title: 'Alamat Pengirim', field: 'alamatPengirim'},
+                    {title: 'Telp. Pengirim', field: 'telpPengirim'},
+                    {title: 'Kode Pos Pengirim', field: 'kodePosPengirim'},
+                    {title: 'Penerima', field: 'namaPenerima'},
+                    {title: 'Provinsi Penerima', field: 'provinceNamePenerima'},
+                    {title: 'Kota Penerima', field: 'cityNamePenerima'},
+                    {title: 'Alamat Penerima', field: 'alamatPenerima'},
+                    {title: 'Telp. Penerima', field: 'telpPenerima'},
+                    {title: 'Kode Pos Penerima', field: 'kodePosPenerima'},
+                    {title: 'Layanan', field: 'kategoriLayanan'},
+                    {title: 'Ongkir (Rp)', field: 'ongkosKirim'},
+                    {title: 'Estimasi (Hari)', field: 'estimasi'},
+                    {title: 'Nama Kurir', field: 'namaKurir'},
+                    {title: 'Penerima Paket', field: 'penerimaPaket'},
+                    {title: 'Status', field: 'statusDelivery'},
+                    {title: 'Foto Penerima', field: 'image'}
+                ]})
+        })
         this.modalToggleInsert(e)
     }
 
