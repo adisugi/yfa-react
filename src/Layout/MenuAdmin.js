@@ -349,44 +349,20 @@ class MenuAdmin extends Component {
     }
 
     //post mapping tambah data
-    sendDataFormInsert(e) {
+    async sendDataFormInsert(e) {
         const config = {
             headers: {
                 'content-type': 'application/json'
             }
         }
-        axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config).then(res => console.log(res))
-        //set state data transaksi
-        this.getDataTransaksi().then(res => {
-            this.setState({ dataTable:res })
-            this.setState({ column: [
-                    // {title: 'id', field: 'id'},
-                    {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
-                    {title: 'No. Resi', field: 'resi'},
-                    {title: 'User Name', field: 'firstName'},
-                    {title: 'Nama Barang', field: 'namaBarang'},
-                    {title: 'Berat Barang (gram)', field: 'beratBarang'},
-                    {title: 'Pengirim', field: 'namaPengirim'},
-                    {title: 'Provinsi Pengirim', field: 'provinceName'},
-                    {title: 'Kota Pengirim', field: 'cityName'},
-                    {title: 'Alamat Pengirim', field: 'alamatPengirim'},
-                    {title: 'Telp. Pengirim', field: 'telpPengirim'},
-                    {title: 'Kode Pos Pengirim', field: 'kodePosPengirim'},
-                    {title: 'Penerima', field: 'namaPenerima'},
-                    {title: 'Provinsi Penerima', field: 'provinceNamePenerima'},
-                    {title: 'Kota Penerima', field: 'cityNamePenerima'},
-                    {title: 'Alamat Penerima', field: 'alamatPenerima'},
-                    {title: 'Telp. Penerima', field: 'telpPenerima'},
-                    {title: 'Kode Pos Penerima', field: 'kodePosPenerima'},
-                    {title: 'Layanan', field: 'kategoriLayanan'},
-                    {title: 'Ongkir (Rp)', field: 'ongkosKirim'},
-                    {title: 'Estimasi (Hari)', field: 'estimasi'},
-                    {title: 'Nama Kurir', field: 'namaKurir'},
-                    {title: 'Penerima Paket', field: 'penerimaPaket'},
-                    {title: 'Status', field: 'statusDelivery'},
-                    {title: 'Foto Penerima', field: 'image'}
-                ]})
-        })
+        await axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config)
+            .then(res => {
+                // const dataUpdate = this.state.dataTable.concat(res.data)
+                // this.setState({ dataTable:dataUpdate })
+                this.getDataTransaksi().then(response => {
+                    this.setState({ dataTable:response })
+                })
+            })
         this.modalToggleInsert(e)
     }
 
