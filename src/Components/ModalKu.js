@@ -43,7 +43,7 @@ function ModalKu(props) {
     const modalBodyInsert=(
         <Card className={styles.modalBody}>
             <div className={styles.modalHeader}>
-                <h3>Form Transaksi</h3>
+                <h3>{props.namaModalInsert}</h3>
             </div>
             <CardContent className={styles.modalCardBody}>
                 {props.isiFormInsert}
@@ -54,7 +54,7 @@ function ModalKu(props) {
     const modalBodyEdit=(
         <Card className={styles.modalBody}>
             <div style={{textAlign: 'center', backgroundColor: '#133671', padding: '10px 0', color: '#fff'}}>
-                <h3>Form Transaksi</h3>
+                <h3>{props.namaModalEdit}</h3>
             </div>
             <CardContent className={styles.modalCardBody}>
                 {props.isiFormEdit}

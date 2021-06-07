@@ -476,6 +476,8 @@ class MenuAdmin extends Component {
                        title={"Menu Admin"}/>
                 <main>
                     <ModalKu headerColor={'#133671'}
+                             namaModalInsert={"Form Transaksi"}
+                             namaModalEdit={"Edit Transaksi"}
                              formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
