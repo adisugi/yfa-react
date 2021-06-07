@@ -7,32 +7,53 @@ import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
 import '../Style/MenuAdmin.scss'
 import axios from "axios";
-import {Button, TextField} from "@material-ui/core";
+import {Button, CardHeader, CircularProgress, TextField} from "@material-ui/core";
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {optional} from "glamor";
-
+import Loading from "../Components/Loading";
 
 class MenuAdmin extends Component {
     constructor() {
         super();
         let dataForm = {
-            idTransaksi: "",
+            namaPengirim: "",
+            telpPengirim: "",
             provinceName: "",
             cityName: "",
-            resi: "",
+            alamatPengirim: "",
+            kodePosPengirim: "",
+            namaPenerima: "",
+            telpPenerima: "",
+            provinceNamePenerima: "",
+            cityNamePenerima: "",
+            alamatPenerima: "",
+            kodePosPenerima: "",
+            namaBarang: "",
+            jumlahBarang: "",
+            beratBarang: "",
+            kategoriLayanan: "",
+            ongkosKirim: "",
+            estimasi: "",
+            email: "",
+            statusDelivery: '',
+            penerimaPaket: '',
+            fotoPenerima: '',
         }
         this.state = {
             dataTable:[],
             column:[],
             modalInsert : false,
             modalEdit: false,
+            initialDataForm: dataForm,
             dataForm : dataForm,
             selectOptionProvince: [],
             selectOptionCityName: [],
             cityId: "",
-            selectOptionProvincePenerima: [],
             selectOptionCityNamePenerima: [],
-            cityIdPenerima: ""
+            cityIdPenerima: "",
+            selectOptionLayanan: [],
+            setDetail: false,
+            display: 'none',
+            loadDisplay : 'none'
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -55,6 +76,23 @@ class MenuAdmin extends Component {
     //buka tutup modal insert data
     modalToggleInsert(e) {
         this.setState({modalInsert : !this.state.modalInsert})
+
+        //reset data on add
+        this.setState({
+            dataForm : this.state.initialDataForm,
+            display : 'none'
+        })
+
+        //setting kasar informasi user login
+        this.setState(prevState =>({
+            dataForm : {
+                ...prevState.dataForm,
+                email: 'admin',
+                statusDelivery: 'Undelivered',
+                penerimaPaket: 'penerima',
+                fotoPenerima: 'penerima.jpg'
+            }
+        }));
     }
 
     //buka tutup modal edit data
@@ -118,6 +156,26 @@ class MenuAdmin extends Component {
         this.setState({selectOptionProvince : option})
     }
 
+    //request data cost
+    async getCost () {
+        this.setState({
+            loadDisplay : 'block'
+        })
+        const res = await axios.get("http://localhost:3333/api/cost/" + this.state.cityId + "/" + this.state.cityIdPenerima + "/" + this.state.dataForm.beratBarang, {
+            headers: {'Content-Type': 'application/json'}
+        })
+        const options = res.data.map(cost => ({
+            "value": cost.cost[0].value,
+            "label": cost.service,
+            "title": cost.cost[0].etd
+        }))
+        this.setState({
+            selectOptionLayanan : options,
+            display: 'block',
+            loadDisplay : 'none'
+        })
+    }
+
     //mounting
     componentDidMount() {
         //set state data transaksi
@@ -169,8 +227,8 @@ class MenuAdmin extends Component {
         console.log(this.state)
     }
 
-    //handleChange input modal form (pilih provinsi penerima dan request kota sesuai provinsi)
-    async handleChangeProvinsiPenerima (content) {
+    //handleChange input modal form (pilih provinsi pengirim dan request kota sesuai provinsi)
+    async handleChangeProvinsiPengirim (content) {
         if (content == null) {
             this.setState(prevState =>({
                 dataForm : {
@@ -198,8 +256,8 @@ class MenuAdmin extends Component {
         }
     }
 
-    //handle change input modal form (pilih kota penerima dan simpan id kota penerima)
-    handleChangeKotaPenerima (content) {
+    //handle change input modal form (pilih kota pengirim dan simpan id kota pengirim)
+    handleChangeKotaPengirim (content) {
         if (content == null) {
             this.setState(prevState =>({
                 dataForm : {
@@ -214,6 +272,79 @@ class MenuAdmin extends Component {
                     cityName: content.label
                 },
                 cityId : content.value
+            }));
+        }
+    }
+
+    //handleChange input modal form (pilih provinsi penerima dan request kota sesuai provinsi)
+    async handleChangeProvinsiPenerima (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    provinceNamePenerima: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    provinceNamePenerima: content.label
+                }
+
+            }));
+
+            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value, {
+                headers : {'Content-Type' : 'application/json'}
+            })
+            const cityNamePenerima = dataKota.data.map(data => ({
+                "value": data.city_id,
+                "label": data.type + " " + data.city_name
+            }))
+            this.setState({selectOptionCityNamePenerima : cityNamePenerima})
+        }
+    }
+
+    //handle change input modal form (pilih kota penerima dan simpan id kota penerima)
+    handleChangeKotaPenerima (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityNamePenerima: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityNamePenerima: content.label
+                },
+                cityIdPenerima : content.value
+            }));
+        }
+    }
+
+    //handle change input modal form (pilih layanan dan simpan value, label, tittle ke state)
+    handleChangeLayanan (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    kategoriLayanan: "",
+                    ongkosKirim: "",
+                    estimasi: "",
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    kategoriLayanan: content.label,
+                    ongkosKirim: content.value,
+                    estimasi: content.title,
+                },
+                setDetail : true
             }));
         }
     }
@@ -233,33 +364,90 @@ class MenuAdmin extends Component {
         return (
             <Fragment>
                 <form>
-                    <div>
-                        <h3>Form Transaksi</h3>
+                    <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
+                        <h5>Data Pengirim</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPengirim" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPengirim" />
+                        <Autocomplete
+                            options={this.state.selectOptionProvince}
+                            getOptionLabel={option => option.label}
+                            onChange={(a,content) => {
+                                this.handleChangeProvinsiPengirim(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Provinsi Pengirim" name="provinceName" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="hidden" value={this.state.dataForm.provinceName}/>
+                        <Autocomplete
+                            options={this.state.selectOptionCityName}
+                            getOptionLabel={option => option.label}
+                            onChange={(a,content) => {
+                                this.handleChangeKotaPengirim(content)
+                            }}
+                            blurOnSelect
+                            renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="hidden" value={this.state.dataForm.cityName}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPengirim" />
                     </div>
-                    <div>
-                        <h4>Data Pengirim</h4>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" />
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" />
+                    <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                        <h5>Data Penerima</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPenerima" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPenerima" />
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
                             onChange={(a,content) => {
                                 this.handleChangeProvinsiPenerima(content)
-                                // console.log(this.state.dataForm)
                             }}
                             blurOnSelect
-                            renderInput={(params) => <TextField {...params} label="Provinsi Penerima" name="provinceName" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="text" value={this.state.dataForm.provinceName}/>
+                            renderInput={(params) => <TextField {...params} label="Provinsi Penerima" name="provinceNamePenerima" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="hidden" value={this.state.dataForm.provinceNamePenerima}/>
                         <Autocomplete
-                            options={this.state.selectOptionCityName}
-                            noOptionsText={"Provinsi Penerima Kosong"}
+                            options={this.state.selectOptionCityNamePenerima}
                             getOptionLabel={option => option.label}
                             onChange={(a,content) => {
                                 this.handleChangeKotaPenerima(content)
                             }}
                             blurOnSelect
-                            renderInput={(params) => <TextField {...params} label="Kota Penerima" name="cityName" onChange={this.handleChange} margin="normal" />}/>
-                        <input type="text" value={this.state.dataForm.cityName}/>
+                            renderInput={(params) => <TextField {...params} label="Kota Tujuan" name="cityNamePenerima" onChange={this.handleChange} margin="normal" />}/>
+                        <input type="hidden" value={this.state.dataForm.cityNamePenerima}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPenerima" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPenerima" />
+                    </div>
+
+                    {this.tabLayanan}
+                    <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                        <h5>Data Barang</h5>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Barang" name="namaBarang" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Jumlah Barang" name="jumlahBarang" />
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Total Berat Barang (gram)" name="beratBarang" />
+                    </div>
+                    <Button variant="outlined" color="primary"
+                            onClick={this.getCost.bind(this)}>
+                        Cek Ongkir
+                    </Button>
+                    <div style={{display:this.state.display}}>
+                        <div style={{paddingTop: '20px'}}>
+                            <h5>Data Layanan</h5>
+                            <Autocomplete
+                                options={this.state.selectOptionLayanan}
+                                getOptionLabel={option => option.label}
+                                onChange={(a,content) => {
+                                    this.handleChangeLayanan(content)
+                                }}
+                                blurOnSelect
+                                renderInput={(params) => <TextField {...params} label="Layanan" name="kategoriLayanan" onChange={this.handleChange} margin="normal" />}/>
+                            <div className={"total-biaya"} style={{paddingTop: '20px', paddingBottom: '25px'}}>
+                                <p>Total Biaya : </p>
+                                <p>Rp. <span>{this.state.setDetail? this.state.dataForm.ongkosKirim : 0}</span></p>
+                                <p>Estimasi : </p>
+                                <p><span>{this.state.setDetail? this.state.dataForm.estimasi : "-"}</span> Hari</p>
+                            </div>
+                            <div align="right">
+                                <Button variant="contained" color="primary" style={{marginRight: '5px'}} onClick={this.sendDataFormInsert}>Insert</Button>
+                                <Button variant="outlined" color="primary" style={{marginLeft: '5px'}} onClick={this.modalToggleInsert}>Cancel</Button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </Fragment>
@@ -271,10 +459,10 @@ class MenuAdmin extends Component {
         return (
             <Fragment>
                 <div>
-                    <h3>Edit</h3>
+                    <h5>Data Pengirim</h5>
+                    <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm&&this.state.dataForm.idTransaksi}/>
+                    <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
                 </div>
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm&&this.state.dataForm.idTransaksi}/>
-                <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
             </Fragment>
         )
     }
@@ -287,15 +475,16 @@ class MenuAdmin extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                        title={"Menu Admin"}/>
                 <main>
-                    <ModalKu formData={this.state.dataForm}
+                    <ModalKu headerColor={'#133671'}
+                             formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
                              modalInsert={this.state.modalInsert}
                              modalEdit={this.state.modalEdit}
                              togglesInsert={this.modalToggleInsert}
                              togglesEdit={this.modalToggleEdit}
-                             saveDataInsert={this.sendDataFormInsert}
-                             saveDataEdit={this.sendDataEditForm}/>
+                             // saveDataInsert={this.sendDataFormInsert} saveDataEdit={this.sendDataEditForm}
+                             />
                     <Table title={"Data Transaksi"}
                            color={"rgba(30, 171, 255, 1)"}
                            data={this.state.dataTable}
@@ -306,7 +495,7 @@ class MenuAdmin extends Component {
                            export={false}
                            actionAdd={this.modalToggleInsert}
                            actionEdit={this.selectDataRow}/>
-
+                    <Loading display={this.state.loadDisplay}/>
                 </main>
                 <Footer />
             </Fragment>
