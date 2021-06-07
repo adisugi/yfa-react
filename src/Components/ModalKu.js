@@ -58,10 +58,6 @@ function ModalKu(props) {
             </div>
             <CardContent className={styles.modalCardBody}>
                 {props.isiFormEdit}
-                <div align="right">
-                    <Button color="primary" onClick={props.saveDataEdit}>Editar</Button>
-                    <Button onClick={props.togglesEdit}>Cancelar</Button>
-                </div>
             </CardContent>
         </Card>
     )
