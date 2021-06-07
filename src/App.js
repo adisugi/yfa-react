@@ -3,6 +3,7 @@ import DropOff from "./Layout/DropOff";
 import Lacak from './Layout/Lacak'
 import Layanan from "./Layout/Layanan";
 import AboutUs from "./Layout/AboutUs";
+import TableData from "./Layout/Kurir";
 
 import MenuAdmin from "./Layout/MenuAdmin";
 import React, {Fragment} from 'react'
@@ -16,6 +17,8 @@ function App() {
         <Route path="/layanan" component={Layanan}/>
         <Route path="/about-us" component={AboutUs}/>
         <Route path="/admin/transaksi" component={MenuAdmin}/>
+        <Route path="/kurir" component={TableData}/>
+
     </Fragment>
   );
 }
