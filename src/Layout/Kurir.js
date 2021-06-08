@@ -10,7 +10,9 @@ import {
 import bg from "../img/2.jpg";
 import {Table} from "../Components/Table";
 import ModalKu from "../Components/ModalKu";
-import {TextField} from "@material-ui/core";
+import {CardActionArea, CardMedia, TextField} from "@material-ui/core";
+import IconButton from "@material-ui/core/IconButton";
+import {PhotoCamera} from "@material-ui/icons";
 
 
 class TableData extends React.Component {
@@ -26,20 +28,26 @@ class TableData extends React.Component {
             column: [],
             modal: false,
             modalEdit: false,
-            dataForm: dataForm
+            id: 0,
+            dataForm: dataForm,
+            imageUplod : '',
+            displayImage : 'none'
         }
         this.toggle = this.toggle.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
         this.selectDataRow = this.selectDataRow.bind(this)
         this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
         this.sendDataEditForm = this.sendDataEditForm.bind(this)
+        this.toggleDelete = this.toggleDelete.bind(this)
 
     }
 
     //action edit data pada tabel
     selectDataRow(data, modal) {
         this.state.dataForm = data
+        this.state.displayImage = "none"
         if (modal === "Edit") {
+            // console.log(this.state.dataForm)
             this.modalToggleEdit()
         } else {
             // this.modalToggleDelete()
@@ -55,6 +63,15 @@ class TableData extends React.Component {
 
     modalToggleEdit(e) {
         this.setState({modalEdit: !this.state.modalEdit})
+    }
+
+    toggleDelete(rowData) {
+        this.state.id = rowData.idKurir
+        console.log(rowData)
+        axios.delete(`http://localhost:3333/api/kurir/${this.state.id}`)
+            .then(res => {
+                console.log('Deleted Successfully.');
+            })
     }
 
     async getDataKurir() {
@@ -102,11 +119,8 @@ class TableData extends React.Component {
         })
     }
 
-
-
     //post mapping tambah data
     sendDataFormInsert = (e) => {
-
         const formData = new FormData();
         const json = JSON.stringify({
             "namaKurir": this.state.dataForm.namaKurir,
@@ -127,21 +141,11 @@ class TableData extends React.Component {
         }
 
         axios.post("http://localhost:3333/api/kurir/upload", formData, config)
-            .then(res => console.log(res))
-
-        this.getDataKurir().then(res => {
-
-            this.setState({dataTable:res})
-            console.log(this.state.dataTable)
-            // this.state.column = [
-            //     // {title: 'id', field: 'id'},
-            //     {title: 'Id Kurir', field: 'idKurir'},
-            //     {title: 'Nama Kurir', field: 'namaKurir'},
-            //     {title: 'No Telp Kurir', field: 'noTelpKurir'},
-            //     {title: 'File', field: 'image'}
-            // ]
-
-        })
+            .then(res => {
+                this.getDataKurir().then(response => {
+                    this.setState({ dataTable:response })
+                })
+            })
 
         this.toggle(e)
         console.log(this.state.dataTable)
@@ -149,30 +153,60 @@ class TableData extends React.Component {
     }
 
     //post mapping edit data
-    sendDataEditForm(e) {
+    sendDataEditForm = (e) => {
+        const formData = new FormData();
+        const json = JSON.stringify({
+            "idKurir": this.state.dataForm.idKurir,
+            "namaKurir": this.state.dataForm.namaKurir,
+            "noTelpKurir": this.state.dataForm.noTelpKurir
+        });
+
+        const blobDoc = new Blob([json], { type: "application/json"
+        });
+
+        formData.append("file", this.state.dataForm.file)
+        formData.append("kurir", blobDoc)
+
+        const config = { headers: { "content-type": "multipart/mixed",}}
+
+        axios.post("http://localhost:3333/api/kurir/upload", formData, config)
+            .then(res => {
+                this.getDataKurir().then(response => {
+                    this.setState({ dataTable:response })
+                })
+            })
+
         this.modalToggleEdit(e)
+        console.log(this.state.dataTable)
     }
 
     //handleChange input modal form
-    handleChange= (e) =>{
+    handleChange = (e) => {
         const {name, value} = e.target;
-        this.setState(prevState =>({
-            dataForm : {
+        this.setState(prevState => ({
+            dataForm: {
                 ...prevState.dataForm,
                 [name]: value
             }
         }));
     }
 
+    //handleFileChange input file
     handleFileChange = (e) => {
-        this.setState(prevState =>({
-            dataForm : {
+        let url = URL.createObjectURL(e.target.files[0]);
+        this.setState({
+            imageUplod : url,
+            displayImage : 'block'
+        })
+        this.setState(prevState => ({
+            dataForm: {
                 ...prevState.dataForm,
                 file: e.target.files[0]
             }
         }));
         //this.setState({[e.target.name]: e.target.files[0]})
     }
+
 
     //isi form data kurir
     contentForm() {
@@ -185,8 +219,29 @@ class TableData extends React.Component {
                                    name="namaKurir"/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
                                    name="noTelpKurir"/>
-                        <Label>Upload Picture : </Label>
-                        <Input type="file" name="file" id="file" onChange={this.handleFileChange}/>
+                        {/*<Label>Upload Picture : </Label>*/}
+                        {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
+
+                        <div style={{marginTop: '20px'}}>
+                            <input accept="image/*" style={{display : 'none'}}
+                                   id="icon-button-file" type="file" name='file'
+                                   onChange={this.handleFileChange.bind(this)}/>
+                            <label htmlFor="icon-button-file">
+                                <IconButton color="primary" aria-label="upload picture" component="span">
+                                    <PhotoCamera />
+                                </IconButton>
+                                <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
+                            </label>
+                            <CardActionArea style={{display: this.state.displayImage}}>
+                                <CardMedia
+                                    component="img"
+                                    alt="Foto Kurir"
+                                    height="50%"
+                                    image={this.state.imageUplod}
+                                    title="Foto Kurir"
+                                />
+                            </CardActionArea>
+                        </div>
 
                         <div align="right">
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
@@ -207,18 +262,40 @@ class TableData extends React.Component {
                 <form>
                     <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
                         <h5>Data Pengirim</h5>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
-                                   name="namaKurir"/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
-                                   name="noTelpKurir"/>
-                        <Label>Upload Picture : </Label>
-                        <Input type="file" name="file" id="file"/>
 
-                        <div align="right">
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
+                                   name="namaKurir" value={this.state.dataForm && this.state.dataForm.namaKurir}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
+                                   name="noTelpKurir" value={this.state.dataForm && this.state.dataForm.noTelpKurir}/>
+                        {/*<Label>Upload Picture : </Label>*/}
+                        {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
+
+                        <div style={{marginTop: '20px'}}>
+                            <input accept="image/*" style={{display : 'none'}}
+                                   id="icon-button-file" type="file" name='file'
+                                   onChange={this.handleFileChange.bind(this)}/>
+                            <label htmlFor="icon-button-file">
+                                <IconButton color="primary" aria-label="upload picture" component="span">
+                                    <PhotoCamera />
+                                </IconButton>
+                                <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
+                            </label>
+                            <CardActionArea style={{display: this.state.displayImage}}>
+                                <CardMedia
+                                    component="img"
+                                    alt="Foto Kurir"
+                                    height="50%"
+                                    image={this.state.imageUplod}
+                                    title="Foto Kurir"
+                                />
+                            </CardActionArea>
+                        </div>
+
+                        <div align="right" style={{marginTop:"20px"}}>
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
-                                    onClick={this.sendDataFormEdit}>Edit</Button>
+                                    onClick={this.sendDataEditForm}>Insert</Button>
                             <Button variant="outlined" color="primary" style={{marginLeft: '5px'}}
-                                    onClick={this.modalToggleEdit}>Cancel</Button>
+                                    onClick={this.toggle}>Cancel</Button>
                         </div>
                     </div>
                 </form>
@@ -256,6 +333,7 @@ class TableData extends React.Component {
                            export={false}
                            actionAdd={this.toggle}
                            actionEdit={this.selectDataRow}
+                           actionDelete={this.toggleDelete}
                     />
                 </main>
                 <Footer/>

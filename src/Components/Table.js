@@ -50,7 +50,7 @@ export const Table = (props) => {
                             tooltip: 'Delete Data',
                             iconProps: {className: "delete"},
                             // eslint-disable-next-line no-restricted-globals
-                            onClick: (event, rowData) => confirm("You want to delete " + rowData.id),
+                            onClick: (event, rowData) => {if(window.confirm('Are you sure to delete this record?')){ props.actionDelete(rowData)}},
                         }
                     ]}/>
             </Container>
