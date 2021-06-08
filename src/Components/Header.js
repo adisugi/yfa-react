@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, Nav, Dropdown, Collapse, Container } from 'bootstrap-4-react';
+import { Navbar, Nav, Dropdown, Container } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoxOpen, faSearch, faShippingFast, faInfoCircle, faUsers, faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import '../Style/Header.scss'

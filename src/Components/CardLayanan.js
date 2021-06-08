@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react'
-import {Card, Container} from 'bootstrap-4-react'
+import React from 'react'
+import {Card} from 'bootstrap-4-react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStopwatch, faDolly} from "@fortawesome/free-solid-svg-icons";
 import bgCard from '../img/3.jpg'

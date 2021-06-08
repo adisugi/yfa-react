@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {Modal, TextField, Button, Card, CardHeader, CardContent} from '@material-ui/core';
+import React from 'react';
+import {Modal, Card, CardContent} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import Backdrop from '@material-ui/core/Backdrop';
 import Zoom from '@material-ui/core/Zoom';

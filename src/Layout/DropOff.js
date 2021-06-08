@@ -8,12 +8,10 @@ import {
     CardBody,
     CardTitle,
     Col,
-    Container, CustomInput,
+    Container,
     Form,
     FormGroup,
-    FormText,
     Input,
-    Label,
     Row
 } from "reactstrap";
 
