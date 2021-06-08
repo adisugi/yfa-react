@@ -207,7 +207,6 @@ class TableData extends React.Component {
         //this.setState({[e.target.name]: e.target.files[0]})
     }
 
-
     //isi form data kurir
     contentForm() {
         return (
@@ -302,7 +301,6 @@ class TableData extends React.Component {
             </Fragment>
         )
     }
-
 
     render() {
         return (
