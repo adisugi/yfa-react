@@ -4,26 +4,35 @@ import { Navbar, Nav, Dropdown, Collapse, Container } from 'bootstrap-4-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBoxOpen, faSearch, faShippingFast, faInfoCircle, faUsers, faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import '../Style/Header.scss'
-import glamorous from "glamorous";
+// import glamorous from "glamorous";
+import {makeStyles} from "@material-ui/core";
 
 
 const Header = (props) => {
+
+    const useStyles = makeStyles((theme) => ({
+        root: {
+            backgroundColor: props.bgNav,
+            [theme.breakpoints.up(992)]: {
+                backgroundColor: 'rgba(0,0,0,.5)'
+            }
+        },
+    }))
+
+    const styles = useStyles();
     const [slide, setSlide] = React.useState(0);
-
-    const mediaQuery = {
-        mobile: '@media (min-width: 992px)'
-    }
-    const NavbarYFA = glamorous.div({
-        backgroundColor: props.bgNav,
-        [mediaQuery.mobile] : {
-            backgroundColor: 'rgba(0,0,0,.5)'
-        }
-    })
-
-
+    // const mediaQuery = {
+    //     mobile: '@media (min-width: 992px)'
+    // }
+    // const NavbarYFA = glamorous.div({
+    //     backgroundColor: props.bgNav,
+    //     [mediaQuery.mobile] : {
+    //         backgroundColor: 'rgba(0,0,0,.5)'
+    //     }
+    // })
 
     return(
-        <NavbarYFA className='navbar navbar-expand-lg'>
+        <Navbar className={`${styles.root} navbar navbar-expand-lg`}>
             <Container className="navbar-container">
                 <Navbar.Brand className='font-putih' href="#">
                     LOGO
@@ -92,7 +101,7 @@ const Header = (props) => {
                     </Navbar.Nav>
                 </div>
             </Container>
-        </NavbarYFA>
+        </Navbar>
     );
 
 }

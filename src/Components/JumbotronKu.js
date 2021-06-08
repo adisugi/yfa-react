@@ -22,6 +22,17 @@ const JumbotronKu = (props) => {
                 backgroundImage: props.jumboAfter,
                 position: 'absolute',
                 top: '0'
+            },
+            [theme.breakpoints.up(992)]: {
+                marginTop: '0',
+                minHeight: '400px'
+            },
+            [theme.breakpoints.up(384)] : {
+                backgroundPositionY: '-20px',
+                backgroundPositionX: '0'
+            },
+            [theme.breakpoints.down(300)] : {
+                backgroundPositionX: '-50px'
             }
         }
     }))
