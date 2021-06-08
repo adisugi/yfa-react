@@ -1,10 +1,11 @@
 import React from 'react'
 import {Jumbotron, Container, Display4} from "bootstrap-4-react";
-import glamorous from "glamorous";
+import {makeStyles} from "@material-ui/core";
 import '../Style/Jumbotron.css'
 
-const Jumbo = (props) => {
-    const Jumbo = glamorous.div({
+const JumbotronKu = (props) => {
+    const useStyle = makeStyles((theme) => ({
+        jumbo : {
             background : `url(${props.image})`,
             backgroundSize: 'cover',
             display: 'flex',
@@ -22,16 +23,19 @@ const Jumbo = (props) => {
                 position: 'absolute',
                 top: '0'
             }
-    })
+        }
+    }))
+
+    const styles = useStyle()
 
     return (
-        <Jumbo className="jumbotron jumbotron-fluid" fluid>
+        <Jumbotron className={`${styles.jumbo} jumbotron jumbotron-fluid`} fluid>
             <Container className="container">
                 <h1><Display4>{props.title}</Display4></h1>
                 <p>This is a modified jumbotron that occupies the entire horizontal space of its parent.</p>
             </Container>
-        </Jumbo>
+        </Jumbotron>
     )
 }
 
-export default Jumbo;
+export default JumbotronKu

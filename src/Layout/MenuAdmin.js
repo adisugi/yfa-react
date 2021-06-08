@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import Header from "../Components/Header";
-import Jumbo from "../Components/Jumbo";
+import JumbotronKu from "../Components/JumbotronKu";
 import Footer from "../Components/Footer";
 import {Table} from "../Components/Table"
 import ModalKu from "../Components/ModalKu"
@@ -820,9 +820,9 @@ class MenuAdmin extends Component {
         return (
             <Fragment>
                 <Header bgNav={"#1EABFF"}/>
-                <Jumbo image={bg}
-                       jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
-                       title={"Menu Admin"}/>
+                <JumbotronKu image={bg}
+                             jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
+                             title={"Menu Admin"}/>
                 <main>
                     <ModalKu headerColor={'#133671'}
                              namaModalInsert={"Form Transaksi"}

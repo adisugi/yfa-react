@@ -19,7 +19,7 @@ import {
 
 import Select from 'react-select'
 import Header from "../Components/Header";
-import Jumbo from "../Components/Jumbo";
+import JumbotronKu from "../Components/JumbotronKu";
 import Footer from "../Components/Footer";
 import bg from "../img/1.jpg"
 
@@ -216,9 +216,9 @@ class DropOff extends Component {
         return (
             <Fragment>
                 <Header bgNav={"#133671"}/>
-                <Jumbo image={bg}
-                       jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
-                       title={'Drop Off'}/>
+                <JumbotronKu image={bg}
+                             jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
+                             title={'Drop Off'}/>
                 <main>
                     <Container fluid style={{paddingLeft:"50px",paddingRight:"50px"}}>
                         <Row>

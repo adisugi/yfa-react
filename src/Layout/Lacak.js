@@ -2,10 +2,9 @@ import React, {Component, Fragment} from 'react';
 import {Container} from "bootstrap-4-react/lib/components/layout";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash, faFilePdf, faFileExcel} from "@fortawesome/free-solid-svg-icons";
-import ReactTable from 'react-table'
 import Header from "../Components/Header";
-import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
+import JumbotronKu from "../Components/JumbotronKu";
 import Loading from "../Components/Loading";
 import bg from "../img/2.jpg";
 import bgLacak from "../img/lacak.jpg"
@@ -72,8 +71,6 @@ var displayTarif = {display: 'none'}
 // }
 
 class Lacak extends Component {
-    // const [active, setActive] = React.useState(types[0]);
-
     constructor() {
         super(1);
         this.handleClickNavigasi = this.handleClickNavigasi.bind(this)
@@ -137,9 +134,9 @@ class Lacak extends Component {
         return (
             <Fragment>
                 <Header bgNav={"#1EABFF"}/>
-                <Jumbo image={bg}
-                       jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
-                       title={'Lacak'}/>
+                <JumbotronKu image={bg}
+                             jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
+                             title={'Lacak'}/>
                 <main>
                     <Container>
                         {/* navigasi */}
