@@ -20,6 +20,7 @@ import {
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loading from "../Components/Loading";
 import IconButton from "@material-ui/core/IconButton";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {PhotoCamera} from "@material-ui/icons";
 
 class MenuAdmin extends Component {
@@ -48,6 +49,7 @@ class MenuAdmin extends Component {
             statusDelivery: '',
             penerimaPaket: '',
             fotoPenerima: '',
+            idKurir: ''
         }
         this.state = {
             dataTable:[],
@@ -56,6 +58,7 @@ class MenuAdmin extends Component {
             //toggle modal
             modalInsert : false,
             modalEdit: false,
+            modalDelete: false,
 
             //reset form
             initialDataForm: dataForm,
@@ -86,21 +89,22 @@ class MenuAdmin extends Component {
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
+        this.modalToggleDelete = this.modalToggleDelete.bind(this)
         this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
         this.sendDataFormEdit = this.sendDataFormEdit.bind(this)
+        this.dataFormDelete = this.dataFormDelete.bind(this)
         this.selectDataRow = this.selectDataRow.bind(this)
     }
 
-    //action edit data pada tabel
+    //action edit dan delete data pada tabel
     selectDataRow (data, modal) {
         this.state.dataForm = data
         this.state.displayImage = 'none'
         if (modal === "Edit") {
-            console.log(this.state.dataForm)
             this.modalToggleEdit()
-        } else {
-            // this.modalToggleDelete()
-            // console.log("Hapus")
+        } else if (modal === 'Delete') {
+            console.log(this.state.dataForm.idTransaksi)
+            this.modalToggleDelete()
         }
     }
 
@@ -108,12 +112,18 @@ class MenuAdmin extends Component {
     modalToggleInsert(e) {
         this.setState({modalInsert : !this.state.modalInsert})
         this.reset()
-        console.log(this.state.dataForm)
     }
 
     //buka tutup modal edit data
     modalToggleEdit(e) {
         this.setState({modalEdit : !this.state.modalEdit})
+    }
+
+    //buka tutup modal delete
+    modalToggleDelete(e) {
+        this.setState({
+            modalDelete : !this.state.modalDelete
+        })
     }
 
     //request data transaksi dan gambar
@@ -131,6 +141,9 @@ class MenuAdmin extends Component {
         const data = res.data
         const dataTable = data.map((content, index) => ({
             idTransaksi: content.idTransaksi,
+            idPenerima: content.idPenerima,
+            idPengirim: content.idPengirim,
+            idKurir: content.idKurir,
             image: <img src={"data:image/*;base64," + img[index]} alt="foto penerima" style={{width:"100px", borderRadius:"5px"}} />,
             tanggalTransaksi: content.tanggalTransaksi,
             resi: content.resi,
@@ -223,8 +236,6 @@ class MenuAdmin extends Component {
         }))
         this.setState({selectOptionKurir : kurir})
     }
-
-
 
     //mounting
     componentDidMount() {
@@ -426,6 +437,7 @@ class MenuAdmin extends Component {
                 },
             }));
         }
+        console.log(this.state.dataForm)
     }
 
     //handleChangePreview
@@ -464,7 +476,72 @@ class MenuAdmin extends Component {
     //post mapping edit data
     sendDataFormEdit(e) {
         console.log(this.state.dataForm)
+        const formData = new FormData();
+        const json = JSON.stringify({
+            "alamatPenerima": this.state.dataForm.alamatPenerima,
+            "alamatPengirim": this.state.dataForm.alamatPengirim,
+            "beratBarang": this.state.dataForm.beratBarang,
+            "cityName": this.state.dataForm.cityName,
+            "cityNamePenerima": this.state.dataForm.cityNamePenerima,
+            "estimasi": this.state.dataForm.estimasi,
+            "email" : "admin",
+            "idKurir": this.state.dataForm.idKurir,
+            "idTransaksi": this.state.dataForm.idTransaksi,
+            "idPengirim": this.state.dataForm.idPengirim,
+            "idPenerima": this.state.dataForm.idPenerima,
+            "jumlahBarang": this.state.dataForm.jumlahBarang,
+            "kategoriLayanan": this.state.dataForm.kategoriLayanan,
+            "kodePosPenerima": this.state.dataForm.kodePosPenerima,
+            "kodePosPengirim": this.state.dataForm.kodePosPengirim,
+            "namaBarang": this.state.dataForm.namaBarang,
+            "namaKurir": this.state.dataForm.namaKurir,
+            "namaPenerima": this.state.dataForm.namaPenerima,
+            "namaPengirim": this.state.dataForm.namaPengirim,
+            "ongkosKirim": this.state.dataForm.ongkosKirim,
+            "penerimaPaket": this.state.dataForm.penerimaPaket,
+            "provinceName": this.state.dataForm.provinceName,
+            "provinceNamePenerima": this.state.dataForm.provinceNamePenerima,
+            "statusDelivery": this.state.dataForm.statusDelivery,
+            "tanggalTransaksi": this.state.dataForm.tanggalTransaksi,
+            "telpPenerima": this.state.dataForm.telpPenerima,
+            "telpPengirim": this.state.dataForm.telpPengirim
+        })
+
+        const blob = new Blob([json], {
+            type: "application/json"
+        })
+
+        formData.append("foto", this.state.dataForm.image)
+        formData.append("transaksi", blob)
+        const config = {
+            headers: {
+                "content-type": "multipart/mixed",
+            }
+        }
+
+        axios.post("http://localhost:3333/api/transaksi/admin", formData, config)
+            .then(res => {
+                this.getDataTransaksi().then(response => {
+                    this.setState({ dataTable:response })
+            })
+        })
+
+        // "fotoPenerima": File {name: "R2df1752f0c2cd444d33cd6b1d798d4a9.jpg", lastModified: 1618734546600, lastModifiedDate: Sun Apr 18 2021 15:29:06 GMT+0700 (Western Indonesia Time), webkitRelativePath: "", size: 365422, …}
+        console.log(json)
         this.modalToggleEdit(e)
+    }
+
+    //delete mapping
+    dataFormDelete(e) {
+        const id = this.state.dataForm.idTransaksi
+        axios.delete(`http://localhost:3333/api/transaksi/${id}`)
+            .then(res => {
+                this.getDataTransaksi().then(response => {
+                    this.setState({ dataTable:response })
+                })
+                console.log('Deleted Successfully.');
+        })
+        this.modalToggleDelete(e)
     }
 
     //reset form
@@ -716,13 +793,26 @@ class MenuAdmin extends Component {
                     </div>
                 </form>
             </Fragment>
-            // <Fragment>
-            //     <div>
-            //         <h5>Data Pengirim</h5>
-            //         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Id" name="idTransaksi" value={this.state.dataForm && this.state.dataForm.idTransaksi}/>
-            //         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Resi" name="resi" value={this.state.dataForm&&this.state.dataForm.resi}/>
-            //     </div>
-            // </Fragment>
+        )
+    }
+
+    //isi form edit
+    contentFormDelete () {
+        return (
+            <Fragment>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                    <HighlightOffIcon style={{color: '#e23d28', fontSize: '100'}}/>
+                </div>
+                <div style={{margin: '20px', textAlign: 'center'}}>
+                    <h4>Yakin?</h4>
+                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Data ini akan hilang saat menekan tombol "Delete"</p>
+                    <p style={{margin: '5px', color: 'rgba(0,0,0,.5)'}}>Tekan "Cancel" untuk membatalkan</p>
+                </div>
+                <div align="center">
+                    <Button style={{marginRight: '5px', background: '#e23d28', color: '#fff'}} onClick={this.dataFormDelete}>Delete</Button>
+                    <Button style={{marginLeft: '5px', border: '1px solid #e23d28', color: '#e23d28'}} onClick={this.modalToggleDelete}>Cancel</Button>
+                </div>
+            </Fragment>
         )
     }
 
@@ -740,10 +830,13 @@ class MenuAdmin extends Component {
                              formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
+                             isiFormDelete={this.contentFormDelete()}
                              modalInsert={this.state.modalInsert}
                              modalEdit={this.state.modalEdit}
+                             modalDelete={this.state.modalDelete}
                              togglesInsert={this.modalToggleInsert}
                              togglesEdit={this.modalToggleEdit}
+                             togglesDelete={this.modalToggleDelete}
                              // saveDataInsert={this.sendDataFormInsert} saveDataEdit={this.sendDataEditForm}
                              />
                     <Table title={"Data Transaksi"}
@@ -755,7 +848,8 @@ class MenuAdmin extends Component {
                            filter={false}
                            export={false}
                            actionAdd={this.modalToggleInsert}
-                           actionEdit={this.selectDataRow}/>
+                           actionEdit={this.selectDataRow}
+                           actionDelete={this.selectDataRow}/>
                     <Loading display={this.state.loadDisplay}/>
                 </main>
                 <Footer />

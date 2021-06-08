@@ -19,7 +19,7 @@ function ModalKu(props) {
         },
         modalBody: {
             position: 'relative',
-            width: 400,
+            width: 450,
             backgroundColor: theme.palette.background.paper,
             borderRadius: '5px',
             boxShadow: theme.shadows[5],
@@ -35,6 +35,26 @@ function ModalKu(props) {
         },
         iconos:{
             cursor: 'pointer'
+        },
+        modalBodyDelete: {
+            position: 'relative',
+            width: 500,
+            backgroundColor: theme.palette.background.paper,
+            borderRadius: '5px',
+            boxShadow: theme.shadows[5],
+            // padding: theme.spacing(2, 4, 3),
+        },
+        modalCardBodyDelete: {
+            overflowY: 'scroll',
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+            padding: '50px 0',
+            height: '100%',
+            '&::-webkit-scrollbar' : {
+                display: 'none'
+            },
+            margin: '0 20px',
         }
     }));
 
@@ -58,6 +78,14 @@ function ModalKu(props) {
             </div>
             <CardContent className={styles.modalCardBody}>
                 {props.isiFormEdit}
+            </CardContent>
+        </Card>
+    )
+
+    const modalBodyDelete=(
+        <Card className={styles.modalBodyDelete}>
+            <CardContent className={styles.modalCardBodyDelete}>
+                {props.isiFormDelete}
             </CardContent>
         </Card>
     )
@@ -93,6 +121,23 @@ function ModalKu(props) {
                     {modalBodyEdit}
                 </Zoom>
             </Modal>
+
+            {/* modal delete */}
+            <Modal
+                className={styles.modal}
+                open={props.modalDelete}
+                onClose={props.togglesDelete}
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+                disableScrollLock={true}>
+                <Zoom in={props.modalDelete}>
+                    {modalBodyDelete}
+                </Zoom>
+            </Modal>
+
+
         </div>
     )
 }

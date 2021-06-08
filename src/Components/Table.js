@@ -51,8 +51,9 @@ export const Table = (props) => {
                             iconProps: {className: "delete"},
                             // eslint-disable-next-line no-restricted-globals
                             onClick: (event, rowData) => {
-                                if(window.confirm('Are you sure to delete this record?'))
-                                { props.actionDelete(rowData)}},
+                                // if(window.confirm('Are you sure to delete this record?'))
+                                props.actionDelete(rowData, "Delete")
+                            },
                         }
                     ]}/>
             </Container>
