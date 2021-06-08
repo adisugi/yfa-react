@@ -4,9 +4,7 @@ import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import axios from "axios";
 
-import {
-    Button, Label, Input
-} from 'reactstrap';
+import {Button} from 'reactstrap';
 import bg from "../img/2.jpg";
 import {Table} from "../Components/Table";
 import ModalKu from "../Components/ModalKu";
@@ -55,16 +53,19 @@ class TableData extends React.Component {
         }
     }
 
+    //modal insert
     toggle(sesuatu) {
         this.setState({
             modal: !this.state.modal
         });
     }
 
+    //modal edit
     modalToggleEdit(e) {
         this.setState({modalEdit: !this.state.modalEdit})
     }
 
+    //modal delete
     toggleDelete(rowData) {
         this.state.id = rowData.idKurir
         console.log(rowData)
@@ -74,6 +75,7 @@ class TableData extends React.Component {
             })
     }
 
+    //ngambil data di tabel
     async getDataKurir() {
         const res = await axios.get("http://localhost:3333/api/kurir", {
             headers: {'Content-Type': 'application/json'}
@@ -98,13 +100,8 @@ class TableData extends React.Component {
         return dataTable
     }
 
+    //awal web dijalanin
     componentDidMount() {
-        axios.get("http://localhost:3333/api/kurir")
-            .then(res => {
-                this.setState({dataTable: res.data})
-                // console.log(res)
-            })
-
         this.getDataKurir().then(res => {
             this.setState({dataTable: res})
             this.setState({
