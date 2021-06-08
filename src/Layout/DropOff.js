@@ -38,6 +38,7 @@ class DropOff extends Component {
             selectOptionsKota: [],
             selectOptionsKotaPenerima: [],
             selectOptionLayanan:[],
+
             province_id: "",
             provinceName: "",
             provinceIdPenerima: "",
@@ -49,11 +50,27 @@ class DropOff extends Component {
             ongkir: "",
             estimasi: "",
             layanan: "",
+
+            email: "bella@gmail.com",
+            statusDelivery:"Undelivered",
+            fotoPenerima:"penerima.jpg",
+            penerimaPaket:"penerima",
+
+            namaPengirim:"",
+            telpPengirim:"",
+            alamatPengirim:"",
+            kodePosPengirim:"",
+            namaPenerima:"",
+            telpPenerima:"",
+            alamatPenerima:"",
+            kodePosPenerima:"",
+            namaBarang:"",
+            jumlahBarang:"",
+
             setDetail: false,
             displayDetail: 'none'
         }
     }
-
 
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
@@ -63,7 +80,6 @@ class DropOff extends Component {
         this.setState({[e.target.name]: e.target.value})
         berat = e.target.value
     }
-
 
     async getOptions() {
         const res = await axios.get('http://localhost:3333/api/provinsi', {
@@ -76,7 +92,6 @@ class DropOff extends Component {
         }))
         this.setState({selectOptions: options})
     }
-
 
     async handleChangeSelectProvince(e) {
         this.setState({
@@ -95,7 +110,6 @@ class DropOff extends Component {
         }))
         this.setState({selectOptionsKota: options})
     }
-
 
     async handleChangeSelectProvincePenerima(e) {
         this.setState({
@@ -130,7 +144,6 @@ class DropOff extends Component {
         })
     }
 
-
     handleChangeSelectKota(e) {
         this.setState({
             city_id: e.value,
@@ -138,7 +151,6 @@ class DropOff extends Component {
         })
         cityId = e.value
     }
-
 
     handleChangeSelectKotaPenerima(e) {
         this.setState({
@@ -157,47 +169,47 @@ class DropOff extends Component {
         })
     }
 
-
     componentDidMount() {
         this.getOptions()
     }
 
+
     onSubmit = (e) => {
-        const formData = new FormData();
-        const json = JSON.stringify({
+        const formData = {
             "namaPengirim": this.state.namaPengirim,
             "telpPengirim": this.state.telpPengirim,
-            "province": this.state.province,
-            "city_name": this.state.city_name,
+            "provinceName": this.state.provinceName,
+            "cityName": this.state.city_name,
             "alamatPengirim": this.state.alamatPengirim,
             "kodePosPengirim": this.state.kodePosPengirim,
 
             "namaPenerima": this.state.namaPenerima,
             "telpPenerima": this.state.telpPenerima,
-            "provincepenerima": this.state.provincepenerima,
-            "city_namepenerima": this.state.city_namepenerima,
+            "provinceNamePenerima": this.state.provinceNamePenerima,
+            "cityNamePenerima": this.state.city_namepenerima,
             "alamatPenerima": this.state.alamatPenerima,
             "kodePosPenerima": this.state.kodePosPenerima,
 
             "namaBarang": this.state.namaBarang,
             "jumlahBarang": this.state.jumlahBarang,
-            "kategoriBeratBarang": this.state.kategoriBeratBarang,
+            "beratBarang": this.state.beratBarang,
 
-            "layanan": this.state.layanan
-        });
-        const blobDoc = new Blob([json], {
-            type: "application/json"
-        });
+            "kategoriLayanan": this.state.layanan,
+            "ongkosKirim":this.state.ongkir,
+            "estimasi":this.state.estimasi,
 
-        const config = {
-            headers: {
-                "content-type": "multipart/mixed",
-            }
-        }
-        axios.post("http://localhost:3333/api/kotaRaja", formData, config)
+            "email":this.state.email,
+            "statusDelivery":this.state.statusDelivery,
+            "fotoPenerima":this.state.fotoPenerima,
+            "penerimaPaket":this.state.penerimaPaket
+
+        };
+
+        console.log(formData)
+
+        axios.post("http://localhost:3333/api/transaksi", formData)
             .then(res => console.log(res.data))
     }
-
 
     render() {
         return (
@@ -267,7 +279,7 @@ class DropOff extends Component {
                                             <Input id="idPenerima" name="idPenerima" type="hidden"/>
                                             <FormGroup>
                                                 <NamaLabel name="Nama Penerima :"/>
-                                                <Input type="text" name="namePenerima" id="namaPenerima"
+                                                <Input type="text" name="namaPenerima" id="namaPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
@@ -385,7 +397,6 @@ class DropOff extends Component {
                             </Col>
                         </Row>
                     </Container>
-
                 </main>
                 <Footer/>
 

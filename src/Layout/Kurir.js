@@ -3,7 +3,6 @@ import Header from "../Components/Header";
 import Jumbo from "../Components/Jumbo";
 import Footer from "../Components/Footer";
 import axios from "axios";
-
 import {Button} from 'reactstrap';
 import bg from "../img/2.jpg";
 import {Table} from "../Components/Table";
@@ -11,7 +10,6 @@ import ModalKu from "../Components/ModalKu";
 import {CardActionArea, CardMedia, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import {PhotoCamera} from "@material-ui/icons";
-
 
 class TableData extends React.Component {
     constructor() {
