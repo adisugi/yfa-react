@@ -407,6 +407,27 @@ class MenuAdmin extends Component {
         }
     }
 
+    //handle change input modal form (pilih kurir)
+    handleChangeKurir (content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    idKurir: "",
+                    namaKurir: "",
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    idKurir: content.value,
+                    namaKurir: content.label,
+                },
+            }));
+        }
+    }
+
     //handleChangePreview
     handleChangePreview(e) {
         let url = URL.createObjectURL(e.target.files[0]);
@@ -648,7 +669,7 @@ class MenuAdmin extends Component {
                             getOptionLabel={option => option.label}
                             defaultValue={this.state.selectOptionKurir.find(v => v.label === this.state.dataForm.namaKurir)}
                             onChange={(a,content) => {
-                                this.handleChangeLayanan(content)
+                                this.handleChangeKurir(content)
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kurir" name="namaKurir" onChange={this.handleChange} margin="normal" />}/>
@@ -663,8 +684,8 @@ class MenuAdmin extends Component {
                                     name: 'statusDelivery',
                                     id: 'age-native-simple',
                                 }}>
-                                <option value={1}>Undelivered</option>
-                                <option value={2}>Delivered</option>
+                                <option value={'Undelivered'}>Undelivered</option>
+                                <option value={'Delivered'}>Delivered</option>
                             </Select>
                         </FormControl>
                         <div style={{marginTop: '20px'}}>
