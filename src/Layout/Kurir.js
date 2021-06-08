@@ -69,6 +69,9 @@ class TableData extends React.Component {
         console.log(rowData)
         axios.delete(`http://localhost:3333/api/kurir/${this.state.id}`)
             .then(res => {
+                this.getDataKurir().then(response => {
+                    this.setState({ dataTable:response })
+                })
                 console.log('Deleted Successfully.');
             })
     }

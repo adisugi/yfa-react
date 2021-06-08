@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
+import '../Style/DropOff.css';
 
 import {
     Button,
@@ -219,11 +220,11 @@ class DropOff extends Component {
                        jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
                        title={'Drop Off'}/>
                 <main>
-                    <Container fluid>
+                    <Container fluid style={{paddingLeft:"50px",paddingRight:"50px"}}>
                         <Row>
                             <Col md="6">
                                 <Card className="main-card mb-3">
-                                    <CardBody>
+                                    <CardBody className="bgcolumn">
                                         <CardTitle><h5>Informasi Pengirim</h5></CardTitle>
                                         <Form>
                                             <Input id="idPengirim" name="idPengirim" type="hidden"/>
@@ -273,7 +274,7 @@ class DropOff extends Component {
                             </Col>
                             <Col md="6">
                                 <Card className="main-card mb-3">
-                                    <CardBody>
+                                    <CardBody className="bgcolumn">
                                         <CardTitle><h5>Informasi Penerima</h5></CardTitle>
                                         <Form>
                                             <Input id="idPenerima" name="idPenerima" type="hidden"/>
