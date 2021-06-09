@@ -157,6 +157,7 @@ table {
 /* form input */
 .container-form {
     margin-top: 40px;
+    border-radius: 5px;
 }
 
 .form-cek-tarif, .input-data-lacak input, .col-form {
@@ -164,14 +165,32 @@ table {
 }
 
 .form-cek-tarif .container {
-    padding-right: 0;
-    padding-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
+
+@media (min-width: 992px) {
+    .form-cek-tarif .container {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+}
+
 
 @media (min-width: 768px) {
     .form-cek-tarif .container {
         max-width: 900px !important;
     }
+
+    .form-cek-tarif .input-data-lacak {
+        display: flex;
+    }
+    .form-cek-tarif .MuiAutocomplete-root.MuiAutocomplete-hasClearIcon.MuiAutocomplete-hasPopupIcon,
+    .form-cek-tarif .MuiFormControl-root.MuiTextField-root {
+        margin: 10px;
+    }
+
 }
 
 .asal-paket, .tujuan-paket, .berat-paket {
@@ -313,7 +332,9 @@ table {
 .cari-layanan {
     width: 80px;
     height: 30px;
-    line-height: 17px;
+    line-height: 16px;
+    background-color: rgba(30,171,255,1);
+    border: none;
 }
 
 @media (min-width: 768px) {
@@ -324,4 +345,20 @@ table {
     .cari-layanan {
         width: 100px;
     }
+}
+
+/* table cek tarif */
+.table-ongkir {
+    margin-top: 50px;
+    padding-right: 15px;
+    /*display: none;*/
+}
+
+tbody>tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.biru {
+    color: rgba(30, 171, 255, 1);
+    font-weight: bold;
 }

@@ -11,8 +11,10 @@ import bgLacak from "../img/lacak.jpg"
 import '../Style/Lacak.css';
 import styled from "styled-components";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios, { AxiosResponse, AxiosError } from "axios";
+import axios from "axios";
 import AlertKu from "../Components/AlertKu";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import {TextField, withStyles} from "@material-ui/core";
 
 const types = ['lacak', 'tarif']
 const Button = styled.div`
@@ -76,16 +78,22 @@ class Lacak extends Component {
         super();
         this.handleClickNavigasi = this.handleClickNavigasi.bind(this)
         this.handleChangeInput = this.handleChangeInput.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.handleDeleteResi = this.handleDeleteResi.bind(this)
         this.getDataResi = this.getDataResi.bind(this)
         this.getReport = this.getReport.bind(this)
+        this.getTarif = this.getTarif.bind(this)
         this.state = {
             active : types[0],
             loading : false,
             display: 'block',
             displayTable: 'block',
+            displayTableTarif: 'none',
             displayLoading : 'none',
-            data: []
+            data: [],
+            dataForm: [],
+            dataTransaksi: [],
+            dataTarif : []
         }
     }
 
@@ -121,7 +129,6 @@ class Lacak extends Component {
 
         await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
-                console.log(res)
                 this.setState({
                     data: res.data,
                     loading: true,
@@ -131,11 +138,7 @@ class Lacak extends Component {
                 // console.log(this.state.data)
             })
             .catch(error => {
-                return (
-                    <div>
-                        <AlertKu />
-                    </div>
-                )
+                return <div> <AlertKu /> </div>
             }
         )
     }
@@ -153,6 +156,86 @@ class Lacak extends Component {
             document.body.appendChild(link)
             link.click()
         })
+    }
+
+    async getCity() {
+        const city = await axios.get("http://localhost:3333/api/kotaRaja", {
+            headers : {'Content-Type' : 'application/json'}
+        })
+        const dataCity = city.data.map(res => ({
+            "value" : res.city_id,
+            "label": res.type + " " + res.city_name + ", " + res.province
+        }))
+        this.setState({selectOptionCity : dataCity})
+    }
+
+    async getTarif() {
+        const id = this.state.dataForm.cityPengirimId
+        const idPenerima = this.state.dataForm.cityPenerimaId
+        const berat = this.state.dataForm.beratBarang
+        const res = await axios.get("http://localhost:3333/api/cost/" + id + "/" + idPenerima + "/" + berat, {
+            headers : {"Content-Type" : "application/json"}
+        })
+        const dataCost = res.data.map(cost => ({
+            "ongkir" : cost.cost[0].value,
+            "layanan" : cost.service,
+            "estimasi" : cost.cost[0].etd,
+            "berat" : berat
+        }))
+        this.setState({
+            dataTarif : dataCost,
+            displayTableTarif : 'block'
+        })
+    }
+
+    handleChangeCityPengirim(content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityPengirimId: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityPengirimId: content.value
+                },
+            }));
+        }
+    }
+
+    handleChangeCityPenerima(content) {
+        if (content == null) {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityPenerimaId: ""
+                }
+            }));
+        } else {
+            this.setState(prevState =>({
+                dataForm : {
+                    ...prevState.dataForm,
+                    cityPenerimaId: content.value
+                },
+            }));
+        }
+    }
+
+    handleChange(e) {
+        const {name, value} = e.target
+        this.setState((prevState => ({
+            dataForm : {
+                ...prevState.dataForm,
+                [name] : value
+            }
+        })))
+    }
+
+    componentDidMount() {
+        this.getCity()
     }
 
     render () {
@@ -179,7 +262,7 @@ class Lacak extends Component {
                         </div>
 
                         {/* content */}
-                        <div className="container container-form">
+                        <div className="container container-form" style={this.state.active === types[1] ? {boxShadow: 'rgb(221 221 221) 0px 2px 12px 2px'} : {boxShadow: ""}}>
                             {/* lacak paket */}
                             <div className="form-lacak-paket" style={displayLacak}>
                                 {/* lacak resi */}
@@ -275,34 +358,63 @@ class Lacak extends Component {
                             <div className="form-cek-tarif" style={displayTarif}>
                                 <div className="container container-col-form">
                                     <div className="col-form">
-                                        <div className="row input-data-lacak">
-                                            <div className="col-md-4 text-naik asal-paket">
-                                                <div style={{position: "relative"}}>
-                                                    <input className="asal" title="asal" id="asal" type="text"/>
-                                                    <span data-placeholder="Dari"></span>
-                                                    {/*<div id="kotaList"></div>*/}
-                                                    {/*<input type="hidden" id="asalHidden" />*/}
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 text-naik tujuan-paket">
-                                                <div style={{position: "relative"}}>
-                                                    <input id="tujuan" type="text" />
-                                                    <span data-placeholder="Ke"></span>
-                                                    {/*<div id="kotaList2"></div>*/}
-                                                    {/*<input type="hidden" id="tujuanHidden"/>*/}
-                                                </div>
-                                            </div>
-                                            <div className="col-md-4 text-naik berat-paket">
-                                                <div style={{position: "relative"}} className="div-berat">
-                                                    <input id="berat" type="text"/>
-                                                    <span data-placeholder="Berat (kg)"></span>
-                                                    <i className="fa fa-plus-circle" title="cetak pdf"></i>
-                                                    <i className="fa fa-minus-circle" title="cetak excel"></i>
-                                                </div>
-                                            </div>
+                                        <div className="input-data-lacak">
+                                            <Autocomplete
+                                                style={{width: '100%'}}
+                                                options={this.state.selectOptionCity}
+                                                getOptionLabel={option => option.label}
+                                                onChange={(e,content) => {
+                                                    this.handleChangeCityPengirim(content)
+                                                }}
+                                                blurOnSelect
+                                                renderInput={(params) =>
+                                                    <TextField {...params} label="Dari" name="asal" onChange={this.handleChange} margin="normal" />}/>
+                                            <Autocomplete
+                                                style={{width: '100%'}}
+                                                options={this.state.selectOptionCity}
+                                                getOptionLabel={option => option.label}
+                                                onChange={(a,content) => {
+                                                    this.handleChangeCityPenerima(content)
+                                                }}
+                                                blurOnSelect
+                                                renderInput={(params) => <TextField {...params} label="Ke" name="tujuan" onChange={this.handleChange} margin="normal" />}/>
+                                            <TextField style={{width: '100%'}} onChange={this.handleChange} label="Berat Barang (gram)" name="beratBarang" />
                                         </div>
                                         <div className="btn-cek-tarif">
-                                            <button className="btn btn-primary cari-layanan">Cari</button>
+                                            <button className="btn btn-primary cari-layanan" onClick={this.getTarif}>Cari</button>
+                                        </div>
+                                        <div className="table-ongkir" style={{display: this.state.displayTableTarif}}>
+                                            <div className="table-responsive">
+                                                <table className="table">
+                                                    <thead>
+                                                    <tr>
+                                                        <th scope="col">Layanan</th>
+                                                        <th scope="col">Berat</th>
+                                                        <th scope="col">Estimasi</th>
+                                                        <th scope="col">Biaya Kirim</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody className="table-cek-tarif">
+                                                        {this.state.dataTarif.map(cost => (
+                                                            <tr>
+                                                                <td>
+                                                                    {cost.layanan}
+                                                                </td>
+                                                                <td>
+                                                                    {cost.berat} Kg
+                                                                </td>
+                                                                <td>
+                                                                    {cost.estimasi} Hari
+                                                                </td>
+                                                                <td className="biru">
+                                                                    Rp.{cost.ongkir}
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
 
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {Navbar, Nav, Dropdown, Container} from 'bootstrap-4-react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
@@ -12,9 +11,8 @@ import {
     faChevronDown
 } from '@fortawesome/free-solid-svg-icons'
 import '../Style/Header.scss'
-// import glamorous from "glamorous";
 import {makeStyles} from "@material-ui/core";
-
+import {Link} from 'react-router-dom'
 
 const Header = (props) => {
 
@@ -42,9 +40,11 @@ const Header = (props) => {
     return (
         <Navbar className={`${styles.root} navbar navbar-expand-lg`}>
             <Container className="navbar-container">
-                <Navbar.Brand className='font-putih' href="#">
-                    LOGO
-                </Navbar.Brand>
+                <Link to="/">
+                    <Navbar.Brand className='font-putih'>
+                        LOGO
+                    </Navbar.Brand>
+                </Link>
                 <div className="nav-burger"
                      style={{width: '50px', height: "50px", background: "fff"}}
                      onClick={(e) => setSlide(!slide)}>
