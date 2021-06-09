@@ -78,8 +78,7 @@ class Lacak extends Component {
         this.handleChangeInput = this.handleChangeInput.bind(this)
         this.handleDeleteResi = this.handleDeleteResi.bind(this)
         this.getDataResi = this.getDataResi.bind(this)
-        this.getPDF = this.getPDF.bind(this)
-        this.getExcel = this.getExcel.bind(this)
+        this.getReport = this.getReport.bind(this)
         this.state = {
             active : types[0],
             loading : false,
@@ -137,10 +136,11 @@ class Lacak extends Component {
                         <AlertKu />
                     </div>
                 )
-            })
+            }
+        )
     }
 
-    async getPDF(extensi) {
+    async getReport(extensi) {
         axios({
             url : `http://localhost:3333/report/${this.state.data.resi}.${extensi}`,
             method : 'GET',
@@ -150,21 +150,6 @@ class Lacak extends Component {
             const link = document.createElement("a")
             link.href = url
             link.setAttribute('download', `${this.state.data.resi}.${extensi}`)
-            document.body.appendChild(link)
-            link.click()
-        })
-    }
-
-    async getExcel() {
-        axios({
-            url : `http://localhost:3333/report/${this.state.data.resi}.xlsx`,
-            method : 'GET',
-            responseType : 'blob'
-        }).then((res) => {
-            const url = window.URL.createObjectURL(new Blob([res.data]))
-            const link = document.createElement("a")
-            link.href = url
-            link.setAttribute('download', `${this.state.data.resi}.xlsx`)
             document.body.appendChild(link)
             link.click()
         })
@@ -264,14 +249,14 @@ class Lacak extends Component {
                                                 <td className="col-print">
                                                     <div className="wadah-cetak">
                                                         <Tooltip title="pdf">
-                                                            <div className="pdf" onClick={this.getPDF('pdf')}>
+                                                            <div className="pdf" onClick={()=>this.getReport('pdf')}>
                                                                 <i className="fas fa-file-pdf print">
                                                                     <FontAwesomeIcon icon={faFilePdf}/>
                                                                 </i>
                                                             </div>
                                                         </Tooltip>
                                                         <Tooltip title="excel">
-                                                            <div className="excel" onClick={this.getExcel}>
+                                                            <div className="excel" onClick={()=>this.getReport("xlsx")}>
                                                                 <i className="fas fa-file-excel print">
                                                                     <FontAwesomeIcon icon={faFileExcel}/>
                                                                 </i>
