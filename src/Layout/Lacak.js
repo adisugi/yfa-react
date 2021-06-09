@@ -11,7 +11,8 @@ import bgLacak from "../img/lacak.jpg"
 import '../Style/Lacak.css';
 import styled from "styled-components";
 import Tooltip from "@material-ui/core/Tooltip";
-import axios from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import AlertKu from "../Components/AlertKu";
 
 const types = ['lacak', 'tarif']
 const Button = styled.div`
@@ -91,7 +92,6 @@ class Lacak extends Component {
         this.setState({
             active: type
         })
-
         if (type === types[0]) {
             displayLacak = {display: 'block'}
             displayTarif = {display: 'none'}
@@ -114,19 +114,32 @@ class Lacak extends Component {
     }
 
     getDataResi = async (resi) => {
-        this.setState({
-            displayLoading: 'block'
-        })
+        // this.setState({
+        //     displayLoading: 'block'
+        // })
 
         await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
-                this.setState({
+                console.log(res)
+                if (res.status === "200") {
+                    this.setState({
                         data: res.data,
                         loading: true,
                         display: 'none',
                         displayTable: 'block',
                     })
+                } else {
+                    console.log("halo")
+                }
+
                 // console.log(this.state.data)
+            })
+            .catch(error => {
+                return (
+                    <div>
+                        <AlertKu />
+                    </div>
+                )
             })
     }
 
@@ -145,7 +158,7 @@ class Lacak extends Component {
                                 {types.map(type => (
                                     <ButtonToggle
                                         key={type}
-                                        active={this.state.active === type}
+                                        active={this.state.active  === type}
                                         onClick={() => this.handleClickNavigasi(type)}>
                                         {type}
                                     </ButtonToggle>

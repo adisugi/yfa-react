@@ -1,0 +1,58 @@
+/* alert */
+.row-alert {
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  z-index: 10;
+  transform: scale(0);
+  animation: alertku 2s linear;
+  &-content {
+    width: 200px;
+    height: 45px;
+    border-radius: 7px;
+    background: rgba(255,255,255,.5);
+    border: 1px solid #133671;
+    padding: 0;
+    line-height: 45px;
+    text-align: center;
+    color: #133671;
+    font-size: 13px;
+    margin: auto;
+    &-emot {
+      margin-right: 10px;
+      display: inline-block;
+      .fa-frown {
+        font-size: 20px;
+        color: #133671;
+      }
+    }
+    &-massage {
+
+    }
+  }
+}
+
+@keyframes alertku {
+  0% {
+    transform: scale(0);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  40% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1);
+  }
+  60% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+
+}
