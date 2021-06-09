@@ -125,6 +125,12 @@ table {
 }
 
 /* print resi */
+.wadah-cetak {
+    display: flex;
+    width: 50px;
+    justify-content: space-between;
+}
+
 .print {
     font-size: 20px;
     color: #133671;
@@ -133,10 +139,6 @@ table {
 
 .print:hover {
     color: rgba(30, 171, 255, 1);
-}
-
-.fa-file-excel {
-    margin-left: 5px;
 }
 
 
