@@ -1,0 +1,105 @@
+.container {
+  justify-content: center;
+}
+
+.row {
+  padding-top: 30px;
+}
+
+.bodynya {
+  margin: 0px;
+  padding: 50px 0;
+  background-color: rgba(19, 54, 113, 1);
+  background-image: url("../img/utama.png");
+  background-size: contain;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .7);
+  font-family: sans-serif;
+  width: 100%;
+}
+
+.containersatu {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+
+}
+
+.containersatu .box {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  background: #a21318;
+  margin: 20px;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 10px;
+
+}
+
+.containersatu .box .imgBox {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.containersatu .box .imgBox img {
+  max-width: 100%;
+  transition: transform 2s;
+}
+
+.containersatu .box:hover .imgBox img {
+  transform: scale(1.2);
+}
+
+.containersatu .box .details {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, .8);
+  transform: scaleY(0);
+  transition: transform .5s;
+}
+
+.containersatu .box:hover .details {
+  transform: scaleY(1);
+}
+
+.containersatu .box .details .content {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  padding: 15px;
+  color: #fff;
+}
+
+.containersatu .box .details .content h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 15px;
+  color: #ff0;
+}
+
+.containersatu .box .details .content p {
+  margin: 10px 0 0;
+  padding: 0;
+  font-size: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,8 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Navbar, Nav, Dropdown, Container } from 'bootstrap-4-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBoxOpen, faSearch, faShippingFast, faInfoCircle, faUsers, faBars, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import {Link} from 'react-router-dom';
+import {Navbar, Nav, Dropdown, Container} from 'bootstrap-4-react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {
+    faBoxOpen,
+    faSearch,
+    faShippingFast,
+    faInfoCircle,
+    faUsers,
+    faBars,
+    faChevronDown
+} from '@fortawesome/free-solid-svg-icons'
 import '../Style/Header.scss'
 // import glamorous from "glamorous";
 import {makeStyles} from "@material-ui/core";
@@ -31,7 +39,7 @@ const Header = (props) => {
     //     }
     // })
 
-    return(
+    return (
         <Navbar className={`${styles.root} navbar navbar-expand-lg`}>
             <Container className="navbar-container">
                 <Navbar.Brand className='font-putih' href="#">
@@ -44,7 +52,7 @@ const Header = (props) => {
                                      icon={faBars}
                                      style={{marginTop: "16px", fontSize: "18px"}}/>
                 </div>
-                <div navbar className={`navbar-container navbar-mobile ${slide? 'slide' : ''}`}>
+                <div navbar className={`navbar-container navbar-mobile ${slide ? 'slide' : ''}`}>
                     {/* style={collapse?{position: 'absolute'}:{display:"block"}} */}
                     {/* style={slide?{transform: 'translateX(0)'}:{transform:"translateX(100%)"}} */}
                     <Navbar.Nav className='font-putih' mr="auto">
@@ -52,7 +60,7 @@ const Header = (props) => {
                             <Nav.Item className="nav-item-center nav-item-background">
                                 <div className="flex-center cursor">
                                     <FontAwesomeIcon className="icon-center"
-                                                     icon={faBoxOpen} />
+                                                     icon={faBoxOpen}/>
                                     <Nav.Link className='font-putih'>DropOff</Nav.Link>
                                 </div>
                             </Nav.Item>
@@ -61,7 +69,7 @@ const Header = (props) => {
                             <Nav.Item className="nav-item-center nav-item-background">
                                 <div className="flex-center cursor">
                                     <FontAwesomeIcon className="icon-center"
-                                                     icon={faSearch} />
+                                                     icon={faSearch}/>
                                     <Nav.Link className='font-putih'>Lacak</Nav.Link>
                                 </div>
                             </Nav.Item>
@@ -70,15 +78,15 @@ const Header = (props) => {
                             <Nav.Item className="nav-item-center nav-item-background">
                                 <div className="flex-center cursor">
                                     <FontAwesomeIcon className="icon-center"
-                                                     icon={faShippingFast} />
+                                                     icon={faShippingFast}/>
                                     <Nav.Link className='font-putih'>Layanan</Nav.Link>
                                 </div>
                             </Nav.Item>
                         </Link>
-                        <Nav.Item dropdown className = "drop-down-menu nav-item-center nav-item-background">
+                        <Nav.Item dropdown className="drop-down-menu nav-item-center nav-item-background">
                             <div className="flex-center cursor">
                                 <FontAwesomeIcon className="icon-center"
-                                                 icon={faInfoCircle} />
+                                                 icon={faInfoCircle}/>
                                 <Nav.Link className='font-putih'>Informasi</Nav.Link>
                                 <FontAwesomeIcon className="icon-center margin-left-minus chevron-down"
                                                  icon={faChevronDown}/>
@@ -86,14 +94,17 @@ const Header = (props) => {
                             <div className="drop-down-item drop-down-item-open font-putih">
                                 <Dropdown.Item style={{textAlign: 'center'}}>FAQ</Dropdown.Item>
                                 <Dropdown.Item style={{textAlign: 'center'}}>Panduan</Dropdown.Item>
-                                <Dropdown.Item style={{textAlign: 'center'}}>Larangan</Dropdown.Item>
+                                <Link to="/informasi/larangan">
+                                    <Dropdown.Item style={{textAlign: 'center'}}>Larangan</Dropdown.Item>
+                                </Link>
+
                             </div>
                         </Nav.Item>
                         <Link to="/about-us">
                             <Nav.Item className="nav-item-center nav-item-background">
                                 <div className="flex-center cursor">
                                     <FontAwesomeIcon className="icon-center"
-                                                     icon={faUsers} />
+                                                     icon={faUsers}/>
                                     <Nav.Link className='font-putih'>About Us</Nav.Link>
                                 </div>
                             </Nav.Item>

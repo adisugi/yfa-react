@@ -9,6 +9,7 @@ import MenuAdmin from "./Layout/MenuAdmin";
 import React, {Fragment} from 'react'
 import {Route} from 'react-router-dom'
 import MenuUser from "./Layout/MenuUser";
+import Larangan from "./Layout/Larangan";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/admin/transaksi" component={MenuAdmin}/>
         <Route path="/kurir" component={TableData}/>
         <Route path="/user/transaksi" component={MenuUser}/>
+        <Route path="/informasi/larangan" component={Larangan}/>
 
     </Fragment>
   );
