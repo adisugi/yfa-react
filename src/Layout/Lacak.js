@@ -140,16 +140,16 @@ class Lacak extends Component {
             })
     }
 
-    async getPDF() {
+    async getPDF(extensi) {
         axios({
-            url : `http://localhost:3333/report/${this.state.data.resi}.pdf`,
+            url : `http://localhost:3333/report/${this.state.data.resi}.${extensi}`,
             method : 'GET',
             responseType : 'blob'
         }).then((res) => {
             const url = window.URL.createObjectURL(new Blob([res.data]))
             const link = document.createElement("a")
             link.href = url
-            link.setAttribute('download', `${this.state.data.resi}.pdf`)
+            link.setAttribute('download', `${this.state.data.resi}.${extensi}`)
             document.body.appendChild(link)
             link.click()
         })
@@ -264,7 +264,7 @@ class Lacak extends Component {
                                                 <td className="col-print">
                                                     <div className="wadah-cetak">
                                                         <Tooltip title="pdf">
-                                                            <div className="pdf" onClick={this.getPDF}>
+                                                            <div className="pdf" onClick={this.getPDF('pdf')}>
                                                                 <i className="fas fa-file-pdf print">
                                                                     <FontAwesomeIcon icon={faFilePdf}/>
                                                                 </i>
