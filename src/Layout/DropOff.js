@@ -1,6 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import '../Style/DropOff.css';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {
     Button,
@@ -20,9 +21,21 @@ import Header from "../Components/Header";
 import JumbotronKu from "../Components/JumbotronKu";
 import Footer from "../Components/Footer";
 import bg from "../img/1.jpg"
+import {
+    faBalanceScaleRight,
+    faCity, faEnvelopeSquare, faFileSignature,
+    faMap,
+    faMapMarked, faMapMarkerAlt,
+    faPhone,
+    faPhoneAlt,
+    faSearchLocation, faSortAmountUp, faTaxi,
+    faUserEdit
+} from "@fortawesome/free-solid-svg-icons";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import ModalKu from "../Components/ModalKu";
 
 function NamaLabel(props) {
-    return <label>{props.name}</label>;
+    return <label style={{fontWeight:"bold"}}>{props.name}</label>;
 }
 
 var cityId
@@ -36,7 +49,7 @@ class DropOff extends Component {
             selectOptions: [],
             selectOptionsKota: [],
             selectOptionsKotaPenerima: [],
-            selectOptionLayanan:[],
+            selectOptionLayanan: [],
 
             province_id: "",
             provinceName: "",
@@ -51,20 +64,20 @@ class DropOff extends Component {
             layanan: "",
 
             email: "bella@gmail.com",
-            statusDelivery:"Undelivered",
-            fotoPenerima:"penerima.jpg",
-            penerimaPaket:"penerima",
+            statusDelivery: "Undelivered",
+            fotoPenerima: "penerima.jpg",
+            penerimaPaket: "penerima",
 
-            namaPengirim:"",
-            telpPengirim:"",
-            alamatPengirim:"",
-            kodePosPengirim:"",
-            namaPenerima:"",
-            telpPenerima:"",
-            alamatPenerima:"",
-            kodePosPenerima:"",
-            namaBarang:"",
-            jumlahBarang:"",
+            namaPengirim: "",
+            telpPengirim: "",
+            alamatPengirim: "",
+            kodePosPengirim: "",
+            namaPenerima: "",
+            telpPenerima: "",
+            alamatPenerima: "",
+            kodePosPenerima: "",
+            namaBarang: "",
+            jumlahBarang: "",
 
             setDetail: false,
             displayDetail: 'none'
@@ -138,7 +151,7 @@ class DropOff extends Component {
             "title": d.cost[0].etd
         }))
         this.setState({
-            selectOptionLayanan : options,
+            selectOptionLayanan: options,
             displayDetail: 'block'
         })
     }
@@ -172,7 +185,6 @@ class DropOff extends Component {
         this.getOptions()
     }
 
-
     onSubmit = (e) => {
         const formData = {
             "namaPengirim": this.state.namaPengirim,
@@ -194,13 +206,13 @@ class DropOff extends Component {
             "beratBarang": this.state.beratBarang,
 
             "kategoriLayanan": this.state.layanan,
-            "ongkosKirim":this.state.ongkir,
-            "estimasi":this.state.estimasi,
+            "ongkosKirim": this.state.ongkir,
+            "estimasi": this.state.estimasi,
 
-            "email":this.state.email,
-            "statusDelivery":this.state.statusDelivery,
-            "fotoPenerima":this.state.fotoPenerima,
-            "penerimaPaket":this.state.penerimaPaket
+            "email": this.state.email,
+            "statusDelivery": this.state.statusDelivery,
+            "fotoPenerima": this.state.fotoPenerima,
+            "penerimaPaket": this.state.penerimaPaket
 
         };
 
@@ -208,6 +220,34 @@ class DropOff extends Component {
 
         axios.post("http://localhost:3333/api/transaksi", formData)
             .then(res => console.log(res.data))
+
+        this.toggleSuccess.bind(this)
+    }
+
+    //modal success
+    toggleSuccess(e) {
+        this.setState({
+            modalSuccess : !this.state.modalSuccess
+        })
+    }
+
+    //isi form success
+    contentFormSuccess () {
+        return (
+            <Fragment>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                    <HighlightOffIcon style={{color: '#e23d28', fontSize: '100'}}/>
+                </div>
+                <div style={{margin: '20px', textAlign: 'center'}}>
+                    <h4>Yakin?</h4>
+                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Selamat Anda Berhasil Order</p>
+                </div>
+                <div align="center">
+                    <Button style={{marginRight: '5px', background:'#006A4E', color: '#ffffff'}} href="#/user/transaksi"
+                            onClick={this.toggleSuccess.bind(this)}>Oke</Button>
+                </div>
+            </Fragment>
+        )
     }
 
     render() {
@@ -218,26 +258,29 @@ class DropOff extends Component {
                              jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
                              title={'Drop Off'}/>
                 <main>
-                    <Container fluid style={{paddingLeft:"50px",paddingRight:"50px"}}>
+                    <Container fluid style={{paddingLeft: "50px", paddingRight: "50px"}}>
                         <Row>
                             <Col md="6">
                                 <Card className="main-card mb-3">
                                     <CardBody className="bgcolumn">
-                                        <CardTitle><h5>Informasi Pengirim</h5></CardTitle>
+                                        <CardTitle><h5 style={{fontWeight:"bold"}}>Informasi Pengirim</h5></CardTitle>
                                         <Form>
                                             <Input id="idPengirim" name="idPengirim" type="hidden"/>
                                             <FormGroup>
-                                                <NamaLabel name="Nama Pengirim :"/>
+                                                <FontAwesomeIcon icon={faUserEdit}/>
+                                                <NamaLabel name="  Nama Pengirim :" />
                                                 <Input type="text" name="namaPengirim" id="namaPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
-                                                <NamaLabel name="No Telp :"/>
+                                                <FontAwesomeIcon icon={faPhoneAlt}/>
+                                                <NamaLabel name="  No Telp :"/>
                                                 <Input type="tel" name="telpPengirim" id="telpPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
-                                                <NamaLabel name="Provinsi :"/>
+                                                <FontAwesomeIcon icon={faSearchLocation}/>
+                                                <NamaLabel name="  Provinsi :"/>
                                                 <Select type="select" name="province_id" id="province"
                                                         placeholder="Pilih Provinsi"
                                                         options={this.state.selectOptions}
@@ -246,6 +289,7 @@ class DropOff extends Component {
                                                        value={this.state.provinceName}/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faCity}/>
                                                 <NamaLabel name="Kota Asal :"/>
                                                 <Select name="city_id" id="city_name"
                                                         placeholder="Pilih Kota"
@@ -257,11 +301,13 @@ class DropOff extends Component {
                                                        value={this.state.city_id}/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faMapMarkerAlt}/>
                                                 <NamaLabel name="Alamat :"/>
                                                 <Input type="text" name="alamatPengirim" id="alamatPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
                                                 <Input type="text" name="kodePosPengirim" id="kodePosPengirim"
                                                        onChange={this.handleChange} required/>
@@ -273,30 +319,35 @@ class DropOff extends Component {
                             <Col md="6">
                                 <Card className="main-card mb-3">
                                     <CardBody className="bgcolumn">
-                                        <CardTitle><h5>Informasi Penerima</h5></CardTitle>
+                                        <CardTitle><h5 style={{fontWeight:"bold"}}>Informasi Penerima</h5></CardTitle>
                                         <Form>
                                             <Input id="idPenerima" name="idPenerima" type="hidden"/>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faUserEdit}/>
                                                 <NamaLabel name="Nama Penerima :"/>
                                                 <Input type="text" name="namaPenerima" id="namaPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="No Telp :"/>
                                                 <Input type="tel" name="telpPenerima" id="telpPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faSearchLocation}/>
                                                 <NamaLabel name="Provinsi :"/>
                                                 <Select name="province_id" id="provincepenerima"
                                                         placeholder="Pilih Provinsi"
                                                         options={this.state.selectOptions}
                                                         onChange={this.handleChangeSelectProvincePenerima.bind(this)}
                                                         required/>
-                                                <Input type="hidden" id="provinceNamePenerima" name="provinceNamePenerima"
+                                                <Input type="hidden" id="provinceNamePenerima"
+                                                       name="provinceNamePenerima"
                                                        value={this.state.provinceNamePenerima}/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faCity}/>
                                                 <NamaLabel name="Kota Tujuan :"/>
                                                 <Select name="city_id" id="city_name"
                                                         placeholder="Pilih Kota"
@@ -309,11 +360,13 @@ class DropOff extends Component {
                                                        value={this.state.city_idpenerima}/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faMapMarkerAlt}/>
                                                 <NamaLabel name="Alamat :"/>
                                                 <Input type="text" name="alamatPenerima" id="alamatPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
                                                 <Input type="text" name="kodePosPenerima" id="kodePosPenerima"
                                                        onChange={this.handleChange} required/>
@@ -324,21 +377,24 @@ class DropOff extends Component {
                             </Col>
                             <Col md="12">
                                 <Card className="main-card mb-3">
-                                    <CardBody>
-                                        <CardTitle><h5>Informasi Barang</h5></CardTitle>
+                                    <CardBody className="bgcolumn">
+                                        <CardTitle><h5 style={{fontWeight:"bold"}}>Informasi Barang</h5></CardTitle>
                                         <Form>
                                             <Input id="idBarang" name="idBarang" type="hidden"/>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faFileSignature}/>
                                                 <NamaLabel name="Nama Barang :"/>
                                                 <Input type="text" name="namaBarang" id="namaBarang"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faSortAmountUp}/>
                                                 <NamaLabel name="Jumlah Barang :"/>
                                                 <Input type="text" name="jumlahBarang" id="jumlahBarang"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faBalanceScaleRight}/>
                                                 <NamaLabel name="Total Berat Barang (gram) :"/>
                                                 <Input type="number" name="beratBarang" id="kategoriBeratBarang"
                                                        onChange={this.handleChangeBerat} required/>
@@ -354,25 +410,33 @@ class DropOff extends Component {
                             </Col>
                             <Col md="12" style={{display: this.state.displayDetail}}>
                                 <Card className="main-card mb-3">
-                                    <CardBody>
+                                    <CardBody className="bgcolumn">
                                         <CardTitle><h5>Total Harga</h5></CardTitle>
                                         <Form>
                                             <Input id="idtotalBiaya" name="idtotalBiaya" type="hidden"/>
                                             <FormGroup>
+                                                <FontAwesomeIcon icon={faTaxi}/>
                                                 <NamaLabel name="Pilih Layanan :"/>
                                                 <Select type="select" name="layanan_id" id="layanan"
                                                         placeholder="Pilih Layanan"
                                                         options={this.state.selectOptionLayanan}
                                                         onChange={this.handleChangeSelectLayanan.bind(this)} required/>
-                                                <Input type="hidden" id="kategoriLayanan" name="kategoriLayanan" value={this.state.setDetail? this.state.layanan : ""}/>
+                                                <Input type="hidden" id="kategoriLayanan" name="kategoriLayanan"
+                                                       value={this.state.setDetail ? this.state.layanan : ""}/>
                                             </FormGroup>
                                             <FormGroup className="ongkirajadeh">
                                                 <NamaLabel name="Total Biaya Kirim :"/>
-                                                <p>Rp. <span id="ongkosKirimSpan">{this.state.setDetail? this.state.ongkir : 0}</span></p>
+                                                <p>Rp. <span
+                                                    id="ongkosKirimSpan">{this.state.setDetail ? this.state.ongkir : 0}</span>
+                                                </p>
                                                 <NamaLabel name="Estimasi : "/>
-                                                <p><span id="waktuKirim">{this.state.setDetail? this.state.estimasi : "-"}</span> Hari</p>
-                                                <Input type="hidden" id="ongkosKirim" name="ongkosKirim" value={this.state.ongkir}/>
-                                                <Input type="hidden" id="estimasi" name="estimasi" value={this.state.estimasi}/>
+                                                <p><span
+                                                    id="waktuKirim">{this.state.setDetail ? this.state.estimasi : "-"}</span> Hari
+                                                </p>
+                                                <Input type="hidden" id="ongkosKirim" name="ongkosKirim"
+                                                       value={this.state.ongkir}/>
+                                                <Input type="hidden" id="estimasi" name="estimasi"
+                                                       value={this.state.estimasi}/>
                                                 <Input type="hidden" id="statusDelivery" name="statusDelivery"
                                                        value="Undelivered"/>
                                                 <Input type="hidden" id="penerimaPaket" name="penerimaPaket"
@@ -396,6 +460,11 @@ class DropOff extends Component {
                             </Col>
                         </Row>
                     </Container>
+                    <ModalKu headerColor={'#133671'}
+                             isiFormAlert={this.contentFormSuccess()}
+                             modalAlert={this.state.modalSuccess}
+                             togglesAlert={this.toggleSuccess}
+                    />
                 </main>
                 <Footer/>
 

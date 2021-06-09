@@ -10,6 +10,7 @@ import ModalKu from "../Components/ModalKu";
 import {CardActionArea, CardMedia, TextField} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import {PhotoCamera} from "@material-ui/icons";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 class TableData extends React.Component {
     constructor() {
@@ -24,6 +25,7 @@ class TableData extends React.Component {
             column: [],
             modal: false,
             modalEdit: false,
+            modalDelete:false,
             id: 0,
             dataForm: dataForm,
             imageUplod : '',
@@ -35,6 +37,7 @@ class TableData extends React.Component {
         this.sendDataFormInsert = this.sendDataFormInsert.bind(this)
         this.sendDataEditForm = this.sendDataEditForm.bind(this)
         this.toggleDelete = this.toggleDelete.bind(this)
+        this.dataFormDelete = this.dataFormDelete.bind(this)
 
     }
 
@@ -46,7 +49,7 @@ class TableData extends React.Component {
             // console.log(this.state.dataForm)
             this.modalToggleEdit()
         } else {
-            // this.modalToggleDelete()
+            this.toggleDelete()
             console.log("Hapus")
         }
     }
@@ -64,16 +67,25 @@ class TableData extends React.Component {
     }
 
     //modal delete
-    toggleDelete(rowData) {
-        this.state.id = rowData.idKurir
+    toggleDelete(e) {
+        this.setState({
+            modalDelete : !this.state.modalDelete
+        })
+    }
+
+    //delete mapping
+    dataFormDelete(rowData){
+        const id = this.state.dataForm.idKurir
         console.log(rowData)
-        axios.delete(`http://localhost:3333/api/kurir/${this.state.id}`)
+        axios.delete(`http://localhost:3333/api/kurir/${id}`)
             .then(res => {
                 this.getDataKurir().then(response => {
                     this.setState({ dataTable:response })
                 })
                 console.log('Deleted Successfully.');
             })
+        //memanggil modal delete
+        this.toggleDelete(rowData)
     }
 
     //ngambil data di tabel
@@ -300,6 +312,26 @@ class TableData extends React.Component {
         )
     }
 
+    //isi form delete
+    contentFormDelete () {
+        return (
+            <Fragment>
+                <div style={{width: '100%', textAlign: 'center'}}>
+                    <HighlightOffIcon style={{color: '#e23d28', fontSize: '100'}}/>
+                </div>
+                <div style={{margin: '20px', textAlign: 'center'}}>
+                    <h4>Yakin?</h4>
+                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Data ini akan hilang saat menekan tombol "Delete"</p>
+                    <p style={{margin: '5px', color: 'rgba(0,0,0,.5)'}}>Tekan "Cancel" untuk membatalkan</p>
+                </div>
+                <div align="center">
+                    <Button style={{marginRight: '5px', background: '#e23d28', color: '#fff'}} onClick={this.dataFormDelete}>Delete</Button>
+                    <Button style={{marginLeft: '5px', background:'#fff' ,border: '1px solid #e23d28', color: '#e23d28'}} onClick={this.toggleDelete}>Cancel</Button>
+                </div>
+            </Fragment>
+        )
+    }
+
     render() {
         return (
             <Fragment>
@@ -314,10 +346,13 @@ class TableData extends React.Component {
                              formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
+                             isiFormAlert={this.contentFormDelete()}
                              modalInsert={this.state.modal}
                              modalEdit={this.state.modalEdit}
+                             modalAlert={this.state.modalDelete}
                              togglesInsert={this.toggle}
                              togglesEdit={this.modalToggleEdit}
+                             togglesAlert={this.toggleDelete}
                     />
                     <Table title={"Data Kurir"}
                            color={"rgba(30, 171, 255, 1)"}
@@ -329,7 +364,7 @@ class TableData extends React.Component {
                            export={false}
                            actionAdd={this.toggle}
                            actionEdit={this.selectDataRow}
-                           actionDelete={this.toggleDelete}
+                           actionDelete={this.selectDataRow}
                     />
                 </main>
                 <Footer/>

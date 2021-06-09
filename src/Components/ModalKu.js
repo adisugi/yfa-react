@@ -36,7 +36,7 @@ function ModalKu(props) {
         iconos:{
             cursor: 'pointer'
         },
-        modalBodyDelete: {
+        modalBodyAlert: {
             position: 'relative',
             width: 500,
             backgroundColor: theme.palette.background.paper,
@@ -44,7 +44,7 @@ function ModalKu(props) {
             boxShadow: theme.shadows[5],
             // padding: theme.spacing(2, 4, 3),
         },
-        modalCardBodyDelete: {
+        modalCardBodyAlert: {
             overflowY: 'scroll',
             display: 'flex',
             alignItems: 'center',
@@ -82,13 +82,15 @@ function ModalKu(props) {
         </Card>
     )
 
-    const modalBodyDelete=(
-        <Card className={styles.modalBodyDelete}>
-            <CardContent className={styles.modalCardBodyDelete}>
-                {props.isiFormDelete}
+    //modal delete dan success
+    const modalBodyAlert=(
+        <Card className={styles.modalBodyAlert}>
+            <CardContent className={styles.modalCardBodyAlert}>
+                {props.isiFormAlert}
             </CardContent>
         </Card>
     )
+
 
     return (
         <div>
@@ -122,21 +124,20 @@ function ModalKu(props) {
                 </Zoom>
             </Modal>
 
-            {/* modal delete */}
+            {/* modal delete dan succes */}
             <Modal
                 className={styles.modal}
-                open={props.modalDelete}
-                onClose={props.togglesDelete}
+                open={props.modalAlert}
+                onClose={props.togglesAlert}
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
                 }}
                 disableScrollLock={true}>
-                <Zoom in={props.modalDelete}>
-                    {modalBodyDelete}
+                <Zoom in={props.modalAlert}>
+                    {modalBodyAlert}
                 </Zoom>
             </Modal>
-
 
         </div>
     )

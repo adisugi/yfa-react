@@ -794,7 +794,7 @@ class MenuAdmin extends Component {
         )
     }
 
-    //isi form edit
+    //isi form delete
     contentFormDelete () {
         return (
             <Fragment>
@@ -828,13 +828,13 @@ class MenuAdmin extends Component {
                              formData={this.state.dataForm}
                              isiFormInsert={this.contentForm()}
                              isiFormEdit={this.contentFormEdit()}
-                             isiFormDelete={this.contentFormDelete()}
+                             isiFormAlert={this.contentFormDelete()}
                              modalInsert={this.state.modalInsert}
                              modalEdit={this.state.modalEdit}
-                             modalDelete={this.state.modalDelete}
+                             modalAlert={this.state.modalDelete}
                              togglesInsert={this.modalToggleInsert}
                              togglesEdit={this.modalToggleEdit}
-                             togglesDelete={this.modalToggleDelete}
+                             togglesAlert={this.modalToggleDelete}
                              // saveDataInsert={this.sendDataFormInsert} saveDataEdit={this.sendDataEditForm}
                              />
                     <Table title={"Data Transaksi"}
