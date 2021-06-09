@@ -31,8 +31,8 @@ import {
     faSearchLocation, faSortAmountUp, faTaxi,
     faUserEdit
 } from "@fortawesome/free-solid-svg-icons";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import ModalKu from "../Components/ModalKu";
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 function NamaLabel(props) {
     return <label style={{fontWeight:"bold"}}>{props.name}</label>;
@@ -80,8 +80,10 @@ class DropOff extends Component {
             jumlahBarang: "",
 
             setDetail: false,
+            modalSuccess:false,
             displayDetail: 'none'
         }
+        this.toggleSuccess = this.toggleSuccess.bind(this)
     }
 
     handleChange = (e) => {
@@ -219,9 +221,11 @@ class DropOff extends Component {
         console.log(formData)
 
         axios.post("http://localhost:3333/api/transaksi", formData)
-            .then(res => console.log(res.data))
+            .then(res => {
+                console.log(res.data)
+                this.toggleSuccess()
+            })
 
-        this.toggleSuccess.bind(this)
     }
 
     //modal success
@@ -236,15 +240,14 @@ class DropOff extends Component {
         return (
             <Fragment>
                 <div style={{width: '100%', textAlign: 'center'}}>
-                    <HighlightOffIcon style={{color: '#e23d28', fontSize: '100'}}/>
+                    <CheckCircleOutlineIcon style={{color: '#006A4E', fontSize: '100'}}/>
                 </div>
                 <div style={{margin: '20px', textAlign: 'center'}}>
-                    <h4>Yakin?</h4>
                     <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Selamat Anda Berhasil Order</p>
                 </div>
                 <div align="center">
                     <Button style={{marginRight: '5px', background:'#006A4E', color: '#ffffff'}} href="#/user/transaksi"
-                            onClick={this.toggleSuccess.bind(this)}>Oke</Button>
+                            onClick={this.toggleSuccess}>Oke</Button>
                 </div>
             </Fragment>
         )
@@ -449,22 +452,18 @@ class DropOff extends Component {
                                                 <i className="pe-7s-science btn-icon-wrapper"> </i>
                                                 Order
                                             </Button>
-                                            <Button className="mb-2 mr-2 btn-icon" color="danger" id="btn-reset"
-                                                    type="button" onClick={this.onSubmit}>
-                                                <i className="pe-7s-science btn-icon-wrapper"> </i>
-                                                Close
-                                            </Button>
                                         </Form>
                                     </CardBody>
                                 </Card>
                             </Col>
                         </Row>
+                        <ModalKu headerColor={'#133671'}
+                                 isiFormAlert={this.contentFormSuccess()}
+                                 modalAlert={this.state.modalSuccess}
+                                 togglesAlert={this.toggleSuccess}
+                        />
                     </Container>
-                    <ModalKu headerColor={'#133671'}
-                             isiFormAlert={this.contentFormSuccess()}
-                             modalAlert={this.state.modalSuccess}
-                             togglesAlert={this.toggleSuccess}
-                    />
+
                 </main>
                 <Footer/>
 
