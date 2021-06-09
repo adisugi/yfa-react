@@ -73,7 +73,7 @@ var displayTarif = {display: 'none'}
 
 class Lacak extends Component {
     constructor() {
-        super(1);
+        super();
         this.handleClickNavigasi = this.handleClickNavigasi.bind(this)
         this.handleChangeInput = this.handleChangeInput.bind(this)
         this.handleDeleteResi = this.handleDeleteResi.bind(this)
@@ -114,24 +114,19 @@ class Lacak extends Component {
     }
 
     getDataResi = async (resi) => {
-        // this.setState({
-        //     displayLoading: 'block'
-        // })
+        this.setState({
+            displayLoading: 'block'
+        })
 
         await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
                 console.log(res)
-                if (res.status === "200") {
-                    this.setState({
-                        data: res.data,
-                        loading: true,
-                        display: 'none',
-                        displayTable: 'block',
-                    })
-                } else {
-                    console.log("halo")
-                }
-
+                this.setState({
+                    data: res.data,
+                    loading: true,
+                    display: 'none',
+                    displayTable: 'block',
+                })
                 // console.log(this.state.data)
             })
             .catch(error => {
