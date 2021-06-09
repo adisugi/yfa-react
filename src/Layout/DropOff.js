@@ -2,6 +2,7 @@ import React, {Component, Fragment} from 'react';
 import axios from "axios";
 import '../Style/DropOff.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {makeStyles} from "@material-ui/core";
 
 import {
     Button,
@@ -35,7 +36,7 @@ import ModalKu from "../Components/ModalKu";
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 function NamaLabel(props) {
-    return <label style={{fontWeight:"bold"}}>{props.name}</label>;
+    return <label style={{fontWeight:"bold", marginLeft:"10px"}}>{props.name}</label>;
 }
 
 var cityId
@@ -271,13 +272,13 @@ class DropOff extends Component {
                                             <Input id="idPengirim" name="idPengirim" type="hidden"/>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faUserEdit}/>
-                                                <NamaLabel name="  Nama Pengirim :" />
+                                                <NamaLabel name="Nama Pengirim :"/>
                                                 <Input type="text" name="namaPengirim" id="namaPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
-                                                <NamaLabel name="  No Telp :"/>
+                                                <NamaLabel name="  No Telp :" />
                                                 <Input type="tel" name="telpPengirim" id="telpPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
