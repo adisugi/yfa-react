@@ -27,7 +27,7 @@ class Larangan extends Component {
                 <Header bgNav={"#133671"}/>
                 <JumbotronKu image={bg}
                              jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
-                             title={'Drop Off'}/>
+                             title={'Larangan'}/>
                 <main>
                     <Container class="container">
                         <Row class="row">

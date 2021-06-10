@@ -11,6 +11,7 @@ import {Route, Redirect} from 'react-router-dom'
 import MenuUser from "./Layout/MenuUser";
 import Larangan from "./Layout/Larangan";
 import Home from "./Layout/Home";
+import Panduan from "./Layout/Panduan";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/kurir" component={TableData}/>
         <Route path="/user/transaksi" component={MenuUser}/>
         <Route path="/informasi/larangan" component={Larangan}/>
+        <Route path="/informasi/panduan" component={Panduan}/>
         <Route exact path="/" render={() => (
             <Redirect to="/home" />
         )} />

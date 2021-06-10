@@ -44,7 +44,8 @@ class TableData extends React.Component {
     //action edit data pada tabel
     selectDataRow(data, modal) {
         this.state.dataForm = data
-        this.state.displayImage = "none"
+        // this.state.displayImage = "none"
+        this.state.imageUplod = data.image.props.src
         if (modal === "Edit") {
             // console.log(this.state.dataForm)
             this.modalToggleEdit()
@@ -304,7 +305,7 @@ class TableData extends React.Component {
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
                                     onClick={this.sendDataEditForm}>Insert</Button>
                             <Button variant="outlined" color="primary" style={{marginLeft: '5px'}}
-                                    onClick={this.toggle}>Cancel</Button>
+                                    onClick={this.modalToggleEdit}>Cancel</Button>
                         </div>
                     </div>
                 </form>

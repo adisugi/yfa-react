@@ -93,7 +93,9 @@ const Header = (props) => {
                             </div>
                             <div className="drop-down-item drop-down-item-open font-putih">
                                 <Dropdown.Item style={{textAlign: 'center'}}>FAQ</Dropdown.Item>
-                                <Dropdown.Item style={{textAlign: 'center'}}>Panduan</Dropdown.Item>
+                                <Link to="/informasi/panduan">
+                                    <Dropdown.Item style={{textAlign: 'center'}}>Panduan</Dropdown.Item>
+                                </Link>
                                 <Link to="/informasi/larangan">
                                     <Dropdown.Item style={{textAlign: 'center'}}>Larangan</Dropdown.Item>
                                 </Link>
