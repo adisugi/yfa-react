@@ -97,8 +97,8 @@ class MenuAdmin extends Component {
     //action edit dan delete data pada tabel
     selectDataRow (data, modal) {
         this.state.dataForm = data
-        this.state.displayImage = 'none'
-        console.log(data)
+        // this.state.displayImage = 'none'
+        this.state.imageUplod = data.image.props.src
         if (modal === "Edit") {
             this.modalToggleEdit()
         } else if (modal === 'Delete') {
@@ -782,6 +782,7 @@ class MenuAdmin extends Component {
                                 />
                             </CardActionArea>
                         </div>
+
                     </div>
 
                     <div align="right">
