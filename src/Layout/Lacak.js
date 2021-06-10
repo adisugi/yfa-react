@@ -87,9 +87,10 @@ class Lacak extends Component {
             active : types[0],
             loading : false,
             display: 'block',
-            displayTable: 'block',
+            displayTable: 'none',
             displayTableTarif: 'none',
             displayLoading : 'none',
+            isAlert : false,
             data: [],
             dataForm: [],
             dataTransaksi: [],
@@ -124,26 +125,34 @@ class Lacak extends Component {
 
     getDataResi = async (resi) => {
         this.setState({
-            displayLoading: 'block'
+            displayLoading: 'block',
+            isAlert : false
         })
 
         await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
             .then(res => {
                 this.setState({
                     data: res.data,
-                    loading: true,
                     display: 'none',
                     displayTable: 'block',
+                    displayLoading: "none"
                 })
                 // console.log(this.state.data)
             })
             .catch(error => {
-                return <div> <AlertKu /> </div>
+                this.setState({
+                    displayLoading: "none",
+                    isAlert : true
+                })
+                console.log("wah error")
             }
         )
     }
 
     async getReport(extensi) {
+        this.setState({
+            displayLoading: 'block'
+        })
         axios({
             url : `http://localhost:3333/report/${this.state.data.resi}.${extensi}`,
             method : 'GET',
@@ -155,6 +164,9 @@ class Lacak extends Component {
             link.setAttribute('download', `${this.state.data.resi}.${extensi}`)
             document.body.appendChild(link)
             link.click()
+            this.setState({
+                displayLoading : 'none'
+            })
         })
     }
 
@@ -173,6 +185,7 @@ class Lacak extends Component {
         const id = this.state.dataForm.cityPengirimId
         const idPenerima = this.state.dataForm.cityPenerimaId
         const berat = this.state.dataForm.beratBarang
+        this.setState({displayLoading : "block"})
         const res = await axios.get("http://localhost:3333/api/cost/" + id + "/" + idPenerima + "/" + berat, {
             headers : {"Content-Type" : "application/json"}
         })
@@ -184,7 +197,8 @@ class Lacak extends Component {
         }))
         this.setState({
             dataTarif : dataCost,
-            displayTableTarif : 'block'
+            displayTableTarif : 'block',
+            displayLoading : 'none'
         })
     }
 
@@ -289,7 +303,7 @@ class Lacak extends Component {
                                 </div>
 
                                 {/* tabel resi */}
-                                {this.state.loading? <div className="table-resi" style={{display : this.state.displayTable}}>
+                                <div className="table-resi" style={{display : this.state.displayTable}}>
                                     <div className="table-responsive">
                                         <table className="table table-1">
                                             <thead>
@@ -351,7 +365,7 @@ class Lacak extends Component {
                                             </tbody>
                                         </table>
                                     </div>
-                                </div> : <Loading display={this.state.displayLoading}/>}
+                                </div>
                             </div>
 
                             {/* cek tarif */}
@@ -425,7 +439,10 @@ class Lacak extends Component {
                     </Container>
 
                     {/* modal loading*/}
-                    <Loading />
+                    <Loading display={this.state.displayLoading}/>
+
+                    {/* alert error */}
+                    <AlertKu isAlert={this.state.isAlert}/>
                 </main>
                 <Footer />
 

@@ -4,9 +4,9 @@ import {faFrown} from "@fortawesome/free-solid-svg-icons";
 
 import '../Style/AlertKu.scss'
 
-const AlertKu = () => {
+const AlertKu = (props) => {
     return (
-        <div class="row-alert">
+        <div class={`row-alert ${props.isAlert? 'muncul' : ''}`}>
             <div class="row-alert-content">
                 <span class="row-alert-content-emot">
                     <FontAwesomeIcon className="fa-frown" icon={faFrown}/>

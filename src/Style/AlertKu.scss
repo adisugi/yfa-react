@@ -5,17 +5,16 @@
   top: 50%;
   z-index: 10;
   transform: scale(0);
-  animation: alertku 2s linear;
   &-content {
     width: 200px;
     height: 45px;
     border-radius: 7px;
     background: rgba(255,255,255,.5);
-    border: 1px solid #133671;
+    border: 1px solid #e23d28;
     padding: 0;
     line-height: 45px;
     text-align: center;
-    color: #133671;
+    color: #e23d28;
     font-size: 13px;
     margin: auto;
     &-emot {
@@ -23,7 +22,7 @@
       display: inline-block;
       .fa-frown {
         font-size: 20px;
-        color: #133671;
+        color: #e23d28;
       }
     }
     &-massage {
@@ -51,8 +50,17 @@
   70% {
     transform: scale(1);
   }
+  80% {
+    transform: scale(1);
+  }
+  90% {
+    transform: scale(1);
+  }
   100% {
     transform: scale(0);
   }
+}
 
+.muncul {
+  animation: alertku 2s linear;
 }
