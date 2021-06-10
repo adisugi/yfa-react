@@ -98,10 +98,10 @@ class MenuAdmin extends Component {
     selectDataRow (data, modal) {
         this.state.dataForm = data
         this.state.displayImage = 'none'
+        console.log(data)
         if (modal === "Edit") {
             this.modalToggleEdit()
         } else if (modal === 'Delete') {
-            console.log(this.state.dataForm.idTransaksi)
             this.modalToggleDelete()
         }
     }
@@ -435,12 +435,13 @@ class MenuAdmin extends Component {
                 },
             }));
         }
-        console.log(this.state.dataForm)
     }
 
     //handleChangePreview
     handleChangePreview(e) {
         let url = URL.createObjectURL(e.target.files[0]);
+        // console.log(e.target.files[0])
+        // console.log(url)
         this.setState({
             imageUplod : url,
             displayImage : 'block'
@@ -473,7 +474,6 @@ class MenuAdmin extends Component {
 
     //post mapping edit data
     sendDataFormEdit(e) {
-        console.log(this.state.dataForm)
         const formData = new FormData();
         const json = JSON.stringify({
             "alamatPenerima": this.state.dataForm.alamatPenerima,
@@ -525,7 +525,6 @@ class MenuAdmin extends Component {
         })
 
         // "fotoPenerima": File {name: "R2df1752f0c2cd444d33cd6b1d798d4a9.jpg", lastModified: 1618734546600, lastModifiedDate: Sun Apr 18 2021 15:29:06 GMT+0700 (Western Indonesia Time), webkitRelativePath: "", size: 365422, …}
-        console.log(json)
         this.modalToggleEdit(e)
     }
 
