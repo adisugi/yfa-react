@@ -8,11 +8,13 @@ const AlertKu = (props) => {
     return (
         <div class={`row-alert ${props.isAlert? 'muncul' : ''}`}>
             <div class="row-alert-content">
-                <span class="row-alert-content-emot">
+                <div class="row-alert-content-emot">
                     <FontAwesomeIcon className="fa-frown" icon={faFrown}/>
                     {/*<i class="fa fa-frown"></i>*/}
-                </span>
-                <span class="row-alert-content-massage">Resi tidak ditemukan</span>
+                </div>
+                <div class="row-alert-content-massage">
+                    <div>{props.alertMessage}</div>
+                </div>
             </div>
         </div>
     )

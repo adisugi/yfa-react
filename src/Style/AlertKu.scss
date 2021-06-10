@@ -6,12 +6,13 @@
   z-index: 10;
   transform: scale(0);
   &-content {
+    display: flex;
+    padding: 20px;
     width: 200px;
-    height: 45px;
+    min-height: 45px;
     border-radius: 7px;
     background: rgba(255,255,255,.5);
     border: 1px solid #e23d28;
-    padding: 0;
     line-height: 45px;
     text-align: center;
     color: #e23d28;
@@ -26,7 +27,9 @@
       }
     }
     &-massage {
-
+      line-height: 15px;
+      display: flex;
+      align-items: center;
     }
   }
 }

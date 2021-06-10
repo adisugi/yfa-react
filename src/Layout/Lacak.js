@@ -91,10 +91,11 @@ class Lacak extends Component {
             displayTableTarif: 'none',
             displayLoading : 'none',
             isAlert : false,
+            alertMessage: "",
             data: [],
             dataForm: [],
             dataTransaksi: [],
-            dataTarif : []
+            dataTarif : [],
         }
     }
 
@@ -142,9 +143,9 @@ class Lacak extends Component {
             .catch(error => {
                 this.setState({
                     displayLoading: "none",
+                    alertMessage: "Resi tidak ditemukan",
                     isAlert : true
                 })
-                console.log("wah error")
             }
         )
     }
@@ -181,25 +182,34 @@ class Lacak extends Component {
         this.setState({selectOptionCity : dataCity})
     }
 
-    async getTarif() {
-        const id = this.state.dataForm.cityPengirimId
-        const idPenerima = this.state.dataForm.cityPenerimaId
-        const berat = this.state.dataForm.beratBarang
-        this.setState({displayLoading : "block"})
-        const res = await axios.get("http://localhost:3333/api/cost/" + id + "/" + idPenerima + "/" + berat, {
-            headers : {"Content-Type" : "application/json"}
-        })
-        const dataCost = res.data.map(cost => ({
-            "ongkir" : cost.cost[0].value,
-            "layanan" : cost.service,
-            "estimasi" : cost.cost[0].etd,
-            "berat" : berat
-        }))
+    getTarif = (id, idPenerima, berat) => {
         this.setState({
-            dataTarif : dataCost,
-            displayTableTarif : 'block',
-            displayLoading : 'none'
+            displayLoading: 'block',
+            isAlert : false
         })
+        axios.get("http://localhost:3333/api/cost/" + id + "/" + idPenerima + "/" + berat)
+            .then(res => {
+                const dataCost = res.data.map(cost => ({
+                    "ongkir" : cost.cost[0].value,
+                    "layanan" : cost.service,
+                    "estimasi" : cost.cost[0].etd,
+                    "berat" : berat
+                }))
+                this.setState({
+                    dataTarif : dataCost,
+                    displayTableTarif : 'block',
+                    displayLoading : 'none',
+                    isAlert: false
+                })
+            })
+            .catch(error => {
+                this.setState({
+                    displayLoading: "none",
+                    alertMessage: "Input tidak valid (tidak boleh kosong, maksimal berat 30 kg, minimal berat 1 gram",
+                    isAlert : true
+                })
+            }
+        )
     }
 
     handleChangeCityPengirim(content) {
@@ -395,7 +405,10 @@ class Lacak extends Component {
                                             <TextField style={{width: '100%'}} onChange={this.handleChange} label="Berat Barang (gram)" name="beratBarang" />
                                         </div>
                                         <div className="btn-cek-tarif">
-                                            <button className="btn btn-primary cari-layanan" onClick={this.getTarif}>Cari</button>
+                                            <button className="btn btn-primary cari-layanan"
+                                                    onClick={()=>this.getTarif(this.state.dataForm.cityPengirimId,
+                                                                               this.state.dataForm.cityPenerimaId,
+                                                                               this.state.dataForm.beratBarang)}>Cari</button>
                                         </div>
                                         <div className="table-ongkir" style={{display: this.state.displayTableTarif}}>
                                             <div className="table-responsive">
@@ -442,7 +455,8 @@ class Lacak extends Component {
                     <Loading display={this.state.displayLoading}/>
 
                     {/* alert error */}
-                    <AlertKu isAlert={this.state.isAlert}/>
+                    <AlertKu isAlert={this.state.isAlert}
+                             alertMessage={this.state.alertMessage}/>
                 </main>
                 <Footer />
 
