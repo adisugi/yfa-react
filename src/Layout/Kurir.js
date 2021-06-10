@@ -28,8 +28,7 @@ class TableData extends React.Component {
             modalDelete:false,
             id: 0,
             dataForm: dataForm,
-            imageUplod : '',
-            displayImage : 'none'
+            imageUplod : ''
         }
         this.toggle = this.toggle.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -206,8 +205,7 @@ class TableData extends React.Component {
     handleFileChange = (e) => {
         let url = URL.createObjectURL(e.target.files[0]);
         this.setState({
-            imageUplod : url,
-            displayImage : 'block'
+            imageUplod : url
         })
         this.setState(prevState => ({
             dataForm: {
@@ -242,7 +240,7 @@ class TableData extends React.Component {
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
-                            <CardActionArea style={{display: this.state.displayImage}}>
+                            <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Foto Kurir"
@@ -290,7 +288,7 @@ class TableData extends React.Component {
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
-                            <CardActionArea style={{display: this.state.displayImage}}>
+                            <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Foto Kurir"

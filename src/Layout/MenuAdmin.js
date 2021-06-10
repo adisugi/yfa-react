@@ -82,8 +82,7 @@ class MenuAdmin extends Component {
             setDetail: false,
             display: 'none',
             loadDisplay : 'none',
-            imageUplod : '',
-            displayImage : 'none'
+            imageUplod : ''
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -95,11 +94,16 @@ class MenuAdmin extends Component {
     }
 
     //action edit dan delete data pada tabel
-    selectDataRow (data, modal) {
-        this.state.dataForm = data
+    async selectDataRow (data, modal) {
+        await this.setState({
+            dataForm : data,
+            imageUplod : data.image.props.src
+        })
+        // this.state.dataForm = data
         // this.state.displayImage = 'none'
-        this.state.imageUplod = data.image.props.src
+        // this.state.imageUplod = data.image.props.src
         if (modal === "Edit") {
+
             this.modalToggleEdit()
         } else if (modal === 'Delete') {
             this.modalToggleDelete()
@@ -443,8 +447,7 @@ class MenuAdmin extends Component {
         // console.log(e.target.files[0])
         // console.log(url)
         this.setState({
-            imageUplod : url,
-            displayImage : 'block'
+            imageUplod : url
         })
         this.setState(prevState =>({
             dataForm : {
@@ -772,7 +775,7 @@ class MenuAdmin extends Component {
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
-                            <CardActionArea style={{display: this.state.displayImage}}>
+                            <CardActionArea>
                                 <CardMedia
                                     component="img"
                                     alt="Foto Penerima"
