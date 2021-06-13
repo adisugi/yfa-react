@@ -42,15 +42,19 @@ const Header = (props) => {
             <Container className="navbar-container">
                 <Link to="/">
                     <Navbar.Brand className='font-putih'>
-                        LOGO
+                        YFA
                     </Navbar.Brand>
                 </Link>
                 <div className="nav-burger"
-                     style={{width: '50px', height: "50px", background: "fff"}}
                      onClick={(e) => setSlide(!slide)}>
-                    <FontAwesomeIcon className="font-putih"
-                                     icon={faBars}
-                                     style={{marginTop: "16px", fontSize: "18px"}}/>
+                    <div className={`nav-burger-span ${slide? 'silang' : ""}`}>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    {/*<FontAwesomeIcon className="font-putih"*/}
+                    {/*                 icon={faBars}*/}
+                    {/*                 style={{marginTop: "16px", fontSize: "18px"}}/>*/}
                 </div>
                 <div navbar className={`navbar-container navbar-mobile ${slide ? 'slide' : ''}`}>
                     {/* style={collapse?{position: 'absolute'}:{display:"block"}} */}

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../Style/Footer.css'
+import logo from '../img/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fab } from '@fortawesome/free-brands-svg-icons'
@@ -11,7 +12,7 @@ const Footer = () => {
         <div className="footer-container">
             <div className="skew-box">
                 <div className="logo">
-
+                    <img src={logo} alt="logo"/>
                 </div>
                 <div className="alamat-kantor">
                     <p className="kantor">Kantor Pusat</p>
