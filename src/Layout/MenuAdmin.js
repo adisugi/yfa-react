@@ -464,6 +464,9 @@ class MenuAdmin extends Component {
 
     //post mapping tambah data
     async sendDataFormInsert(e) {
+        this.setState({
+            loadDisplay : 'block'
+        })
         const config = {
             headers: {
                 'content-type': 'application/json'
@@ -474,7 +477,10 @@ class MenuAdmin extends Component {
                 // const dataUpdate = this.state.dataTable.concat(res.data)
                 // this.setState({ dataTable:dataUpdate })
                 this.getDataTransaksi().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({
+                        dataTable: response,
+                        loadDisplay: 'none'
+                    })
                 })
             })
         this.modalToggleInsert(e)
@@ -519,6 +525,11 @@ class MenuAdmin extends Component {
 
         formData.append("foto", this.state.dataForm.image)
         formData.append("transaksi", blob)
+
+        this.setState({
+            loadDisplay : 'block'
+        })
+
         const config = {
             headers: {
                 "content-type": "multipart/mixed",
@@ -528,7 +539,10 @@ class MenuAdmin extends Component {
         axios.post("http://localhost:3333/api/transaksi/admin", formData, config)
             .then(res => {
                 this.getDataTransaksi().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({
+                        dataTable:response,
+                        loadDisplay: 'none'
+                    })
             })
         })
 
@@ -538,11 +552,19 @@ class MenuAdmin extends Component {
 
     //delete mapping
     dataFormDelete(e) {
+
+        this.setState({
+            loadDisplay : 'block'
+        })
+
         const id = this.state.dataForm.idTransaksi
         axios.delete(`http://localhost:3333/api/transaksi/${id}`)
             .then(res => {
                 this.getDataTransaksi().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({
+                        dataTable : response,
+                        loadDisplay : 'none'
+                    })
                 })
                 console.log('Deleted Successfully.');
         })
@@ -833,7 +855,6 @@ class MenuAdmin extends Component {
         document.body.appendChild(link)
         link.click()
     }
-
     tabelKurir () {
         this.setState({
             tabelTransaksi : false,
