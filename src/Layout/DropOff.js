@@ -65,9 +65,6 @@ class DropOff extends Component {
             layanan: "",
 
             email: "bella@gmail.com",
-            statusDelivery: "Undelivered",
-            fotoPenerima: "penerima.jpg",
-            penerimaPaket: "penerima",
 
             namaPengirim: "",
             telpPengirim: "",
@@ -437,16 +434,6 @@ class DropOff extends Component {
                                                 <p><span
                                                     id="waktuKirim">{this.state.setDetail ? this.state.estimasi : "-"}</span> Hari
                                                 </p>
-                                                <Input type="hidden" id="ongkosKirim" name="ongkosKirim"
-                                                       value={this.state.ongkir}/>
-                                                <Input type="hidden" id="estimasi" name="estimasi"
-                                                       value={this.state.estimasi}/>
-                                                <Input type="hidden" id="statusDelivery" name="statusDelivery"
-                                                       value="Undelivered"/>
-                                                <Input type="hidden" id="penerimaPaket" name="penerimaPaket"
-                                                       value="penerima"/>
-                                                <Input type="hidden" id="fotoPenerima" name="fotoPenerima"
-                                                       value="penerima.jpg"/>
                                             </FormGroup>
                                             <Button className="mb-2 mr-2 btn-icon" color="info" id="btn-save-utama"
                                                     type="button" onClick={this.onSubmit}>
