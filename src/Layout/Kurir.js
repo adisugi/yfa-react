@@ -29,7 +29,7 @@ class TableData extends React.Component {
             //ganti tabel
             tabelTransaksi : false,
             tabelKurir : true,
-
+            hiddenFoto :"none",
             id: 0,
             dataForm: dataForm,
             imageUplod: ''
@@ -61,7 +61,8 @@ class TableData extends React.Component {
     //modal insert
     toggle(sesuatu) {
         this.setState({
-            modal: !this.state.modal
+            modal: !this.state.modal,
+            hiddenFoto: "none"
         });
     }
 
@@ -210,7 +211,9 @@ class TableData extends React.Component {
     handleFileChange = (e) => {
         let url = URL.createObjectURL(e.target.files[0]);
         this.setState({
-            imageUplod: url
+            imageUplod: url,
+            hiddenFoto:"block"
+
         })
         this.setState(prevState => ({
             dataForm: {
@@ -232,9 +235,6 @@ class TableData extends React.Component {
                                    name="namaKurir"/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
                                    name="noTelpKurir"/>
-                        {/*<Label>Upload Picture : </Label>*/}
-                        {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
-
                         <div style={{marginTop: '20px'}}>
                             <input accept="image/*" style={{display: 'none'}}
                                    id="icon-button-file" type="file" name='file'
@@ -245,7 +245,7 @@ class TableData extends React.Component {
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
-                            <CardActionArea>
+                            <CardActionArea style={{display:this.state.hiddenFoto}}>
                                 <CardMedia
                                     component="img"
                                     alt="Foto Kurir"
@@ -256,7 +256,7 @@ class TableData extends React.Component {
                             </CardActionArea>
                         </div>
 
-                        <div align="right">
+                        <div align="right" style={{paddingTop:"15px"}}>
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
                                     onClick={this.sendDataFormInsert}>Insert</Button>
                             <Button variant="outlined" color="primary" style={{marginLeft: '5px'}}
