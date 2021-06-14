@@ -788,8 +788,10 @@ class MenuAdmin extends Component {
                                     name: 'statusDelivery',
                                     id: 'age-native-simple',
                                 }}>
-                                <option value={'Undelivered'}>Undelivered</option>
-                                <option value={'Delivered'}>Delivered</option>
+                                <option value={'Menunggu Pembayaran'}>Menunggu Pembayaran</option>
+                                <option value={'Sedang diproses'}>Sedang diproses</option>
+                                <option value={'Terkirim'}>Terkirim</option>
+                                <option value={'Gagal Terkirim'}>Gagal Terkirim</option>
                             </Select>
                         </FormControl>
                         <div style={{marginTop: '20px'}}>
