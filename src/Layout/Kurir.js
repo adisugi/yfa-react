@@ -25,10 +25,14 @@ class TableData extends React.Component {
             column: [],
             modal: false,
             modalEdit: false,
-            modalDelete:false,
+            modalDelete: false,
+            //ganti tabel
+            tabelTransaksi : false,
+            tabelKurir : true,
+
             id: 0,
             dataForm: dataForm,
-            imageUplod : ''
+            imageUplod: ''
         }
         this.toggle = this.toggle.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -69,18 +73,18 @@ class TableData extends React.Component {
     //modal delete
     toggleDelete(e) {
         this.setState({
-            modalDelete : !this.state.modalDelete
+            modalDelete: !this.state.modalDelete
         })
     }
 
     //delete mapping
-    dataFormDelete(rowData){
+    dataFormDelete(rowData) {
         const id = this.state.dataForm.idKurir
         console.log(rowData)
         axios.delete(`http://localhost:3333/api/kurir/${id}`)
             .then(res => {
                 this.getDataKurir().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({dataTable: response})
                 })
                 console.log('Deleted Successfully.');
             })
@@ -153,7 +157,7 @@ class TableData extends React.Component {
         axios.post("http://localhost:3333/api/kurir/upload", formData, config)
             .then(res => {
                 this.getDataKurir().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({dataTable: response})
                 })
             })
 
@@ -171,18 +175,19 @@ class TableData extends React.Component {
             "noTelpKurir": this.state.dataForm.noTelpKurir
         });
 
-        const blobDoc = new Blob([json], { type: "application/json"
+        const blobDoc = new Blob([json], {
+            type: "application/json"
         });
 
         formData.append("file", this.state.dataForm.file)
         formData.append("kurir", blobDoc)
 
-        const config = { headers: { "content-type": "multipart/mixed",}}
+        const config = {headers: {"content-type": "multipart/mixed",}}
 
         axios.post("http://localhost:3333/api/kurir/upload", formData, config)
             .then(res => {
                 this.getDataKurir().then(response => {
-                    this.setState({ dataTable:response })
+                    this.setState({dataTable: response})
                 })
             })
 
@@ -205,7 +210,7 @@ class TableData extends React.Component {
     handleFileChange = (e) => {
         let url = URL.createObjectURL(e.target.files[0]);
         this.setState({
-            imageUplod : url
+            imageUplod: url
         })
         this.setState(prevState => ({
             dataForm: {
@@ -231,12 +236,12 @@ class TableData extends React.Component {
                         {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
 
                         <div style={{marginTop: '20px'}}>
-                            <input accept="image/*" style={{display : 'none'}}
+                            <input accept="image/*" style={{display: 'none'}}
                                    id="icon-button-file" type="file" name='file'
                                    onChange={this.handleFileChange.bind(this)}/>
                             <label htmlFor="icon-button-file">
                                 <IconButton color="primary" aria-label="upload picture" component="span">
-                                    <PhotoCamera />
+                                    <PhotoCamera/>
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
@@ -279,12 +284,12 @@ class TableData extends React.Component {
                         {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
 
                         <div style={{marginTop: '20px'}}>
-                            <input accept="image/*" style={{display : 'none'}}
+                            <input accept="image/*" style={{display: 'none'}}
                                    id="icon-button-file" type="file" name='file'
                                    onChange={this.handleFileChange.bind(this)}/>
                             <label htmlFor="icon-button-file">
                                 <IconButton color="primary" aria-label="upload picture" component="span">
-                                    <PhotoCamera />
+                                    <PhotoCamera/>
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
@@ -299,7 +304,7 @@ class TableData extends React.Component {
                             </CardActionArea>
                         </div>
 
-                        <div align="right" style={{marginTop:"20px"}}>
+                        <div align="right" style={{marginTop: "20px"}}>
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
                                     onClick={this.sendDataEditForm}>Insert</Button>
                             <Button variant="outlined" color="primary" style={{marginLeft: '5px'}}
@@ -312,7 +317,7 @@ class TableData extends React.Component {
     }
 
     //isi form delete
-    contentFormDelete () {
+    contentFormDelete() {
         return (
             <Fragment>
                 <div style={{width: '100%', textAlign: 'center'}}>
@@ -320,15 +325,41 @@ class TableData extends React.Component {
                 </div>
                 <div style={{margin: '20px', textAlign: 'center'}}>
                     <h4>Yakin?</h4>
-                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Data ini akan hilang saat menekan tombol "Delete"</p>
+                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Data ini akan hilang saat menekan tombol
+                        "Delete"</p>
                     <p style={{margin: '5px', color: 'rgba(0,0,0,.5)'}}>Tekan "Cancel" untuk membatalkan</p>
                 </div>
                 <div align="center">
-                    <Button style={{marginRight: '5px', background: '#e23d28', color: '#fff'}} onClick={this.dataFormDelete}>Delete</Button>
-                    <Button style={{marginLeft: '5px', background:'#fff' ,border: '1px solid #e23d28', color: '#e23d28'}} onClick={this.toggleDelete}>Cancel</Button>
+                    <Button style={{marginRight: '5px', background: '#e23d28', color: '#fff'}}
+                            onClick={this.dataFormDelete}>Delete</Button>
+                    <Button
+                        style={{marginLeft: '5px', background: '#fff', border: '1px solid #e23d28', color: '#e23d28'}}
+                        onClick={this.toggleDelete}>Cancel</Button>
                 </div>
             </Fragment>
         )
+    }
+
+    //pindah table
+    tabelTransaksi () {
+        this.setState({
+            tabelTransaksi : true,
+            tabelKurir : false
+        })
+        const link = document.createElement("a")
+        link.href = "/#/admin/transaksi"
+        document.body.appendChild(link)
+        link.click()
+    }
+    tabelKurir () {
+        this.setState({
+            tabelTransaksi : false,
+            tabelKurir : true
+        })
+        const link = document.createElement("a")
+        link.href = "/#/kurir"
+        document.body.appendChild(link)
+        link.click()
     }
 
     render() {
@@ -339,32 +370,64 @@ class TableData extends React.Component {
                              jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                              title={"Kurir YFA Express"}/>
                 <main>
-                    <ModalKu headerColor={'#133671'}
-                             namaModalInsert={"Form Kurir"}
-                             namaModalEdit={"Edit Kurir"}
-                             formData={this.state.dataForm}
-                             isiFormInsert={this.contentForm()}
-                             isiFormEdit={this.contentFormEdit()}
-                             isiFormAlert={this.contentFormDelete()}
-                             modalInsert={this.state.modal}
-                             modalEdit={this.state.modalEdit}
-                             modalAlert={this.state.modalDelete}
-                             togglesInsert={this.toggle}
-                             togglesEdit={this.modalToggleEdit}
-                             togglesAlert={this.toggleDelete}
-                    />
-                    <Table title={"Data Kurir"}
-                           color={"rgba(30, 171, 255, 1)"}
-                           data={this.state.dataTable}
-                           column={this.state.column}
-                           search={true}
-                           paging={true}
-                           filter={false}
-                           export={false}
-                           actionAdd={this.toggle}
-                           actionEdit={this.selectDataRow}
-                           actionDelete={this.selectDataRow}
-                    />
+                    <div style={{marginBottom: '70px'}}>
+
+                        <div className="pilih">
+                            <div className="pilih-tabel-transaksi" onClick={this.tabelTransaksi.bind(this)}>
+                                <div
+                                    className={`pilih-tabel-transaksi-desc ${this.state.tabelTransaksi ? 'font-biru' : ''}`}>
+                                    <div className="title">
+                                        Transaksi
+                                    </div>
+                                    <div className="deskripsi">
+                                        Data drop off user
+                                    </div>
+                                    <div className={`garis ${this.state.tabelTransaksi ? 'bg-biru' : ''}`}></div>
+                                </div>
+                                <div className="pilih-tabel-transaksi-image-tabel"></div>
+                            </div>
+                            <div className="pilih-tabel-kurir" onClick={this.tabelKurir.bind(this)}>
+                                <div className={`pilih-tabel-kurir-desc ${this.state.tabelKurir ? 'font-biru' : ''}`}>
+                                    <div className="title">
+                                        Kurir
+                                    </div>
+                                    <div className="deskripsi">
+                                        Data kurir YFA
+                                    </div>
+                                    <div className={`garis ${this.state.tabelKurir ? 'bg-biru' : ''}`}></div>
+                                </div>
+                                <div className="pilih-tabel-kurir-image-tabel"></div>
+                            </div>
+                        </div>
+
+
+                        <ModalKu headerColor={'#133671'}
+                                 namaModalInsert={"Form Kurir"}
+                                 namaModalEdit={"Edit Kurir"}
+                                 formData={this.state.dataForm}
+                                 isiFormInsert={this.contentForm()}
+                                 isiFormEdit={this.contentFormEdit()}
+                                 isiFormAlert={this.contentFormDelete()}
+                                 modalInsert={this.state.modal}
+                                 modalEdit={this.state.modalEdit}
+                                 modalAlert={this.state.modalDelete}
+                                 togglesInsert={this.toggle}
+                                 togglesEdit={this.modalToggleEdit}
+                                 togglesAlert={this.toggleDelete}
+                        />
+                        <Table title={"Data Kurir"}
+                               color={"rgba(30, 171, 255, 1)"}
+                               data={this.state.dataTable}
+                               column={this.state.column}
+                               search={true}
+                               paging={true}
+                               filter={false}
+                               export={false}
+                               actionAdd={this.toggle}
+                               actionEdit={this.selectDataRow}
+                               actionDelete={this.selectDataRow}
+                        />
+                    </div>
                 </main>
                 <Footer/>
 
