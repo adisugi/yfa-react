@@ -1,7 +1,4 @@
-//.MuiTableCell-paddingNone>div>button:last-child {
-//  display: none;
-//}
-
+//pilih tabel
 .pilih {
   width: 100%;
   display: flex;
@@ -83,9 +80,79 @@
   background: rgba(30,171,255,1);
 }
 
+@media (max-width: 600px) {
+  .pilih {
+    &-tabel-transaksi {
+      min-width: 150px;
+      &-desc {
+        width: 80%;
+        .title {
+          font-size: 14px;
+        }
+        .deskripsi {
+          display: none;
+        }
+      }
+      &-image-tabel {
+        width: 30%;
+      }
+    }
+    &-tabel-kurir {
+      min-width: 150px;
+      &-desc {
+        width: 80%;
+        .title {
+          font-size: 14px;
+        }
+        .deskripsi {
+         display: none;
+        }
+      }
+      &-image-tabel {
+        width: 30%;
+      }
+    }
+  }
+}
+
+@media (max-width: 330px) {
+  .pilih {
+    &-tabel-transaksi {
+      min-width: 100px;
+      &-desc {
+        width: 50%;
+        .title {
+          font-size: 12px;
+        }
+        .deskripsi {
+          display: none;
+        }
+      }
+      &-image-tabel {
+        display: none;
+      }
+    }
+    &-tabel-kurir {
+      min-width: 100px;
+      &-desc {
+        width: 50%;
+        .title {
+          font-size: 12px;
+        }
+        .deskripsi {
+          display: none;
+        }
+      }
+      &-image-tabel {
+        display: none;
+      }
+    }
+  }
+}
 
 
 
+//isi page
 .MuiFormControl-root.MuiTextField-root.MuiFormControl-marginNormal.MuiFormControl-fullWidth {
   margin-bottom: 0;
   margin-top: 0;
