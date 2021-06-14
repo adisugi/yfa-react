@@ -3,13 +3,11 @@ import "../Style/larangan.css";
 import larangan1 from "../img/larangan1.jpg";
 import larangan2 from "../img/larangan2.jpg";
 import larangan3 from "../img/larangan3.jpg";
-import larangan4 from "../img/larangan4.jpg";
 import larangan5 from "../img/larangan5.jpg";
 import larangan6 from "../img/larangan6.jpg";
 import larangan7 from "../img/larangan7.jpg";
 import larangan8 from "../img/larangan8.jpg";
 import larangan9 from "../img/larangan9.jpg";
-import larangan10 from "../img/larangan10.jpg";
 
 import {
     Container, Row
