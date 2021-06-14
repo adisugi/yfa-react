@@ -7,18 +7,19 @@ import pandu5 from "../img/pandu5.jpg";
 import pandu6 from "../img/pandu6.jpg";
 import Header from "../Components/Header";
 import JumbotronKu from "../Components/JumbotronKu";
-import bg from "../img/1.jpg";
+import bg from "../img/2.jpg";
 import {Container, Row,Col} from "reactstrap";
 import Footer from "../Components/Footer";
 import "../Style/panduan.css";
+import "../Style/Font.css";
 
 class Panduan extends Component {
     render() {
         return (
             <Fragment>
-                <Header bgNav={"#133671"}/>
+                <Header bgNav={"#1EABFF"}/>
                 <JumbotronKu image={bg}
-                             jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
+                             jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                              title={'Panduan'}/>
                 <main>
                     <Container className="lebar" style={{display: "flex", flexWrap: "wrap", justifyContent:"center"}}>
@@ -26,7 +27,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Cara Penempelan Label Pengiriman</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Cara Penempelan Label Pengiriman</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>
@@ -52,7 +53,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Cara Packing Barang Besar dan Panjang</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Cara Packing Barang Besar dan Panjang</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>
@@ -80,7 +81,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Cara Packing Barang Elektronik</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Cara Packing Barang Elektronik</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>
@@ -107,7 +108,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Cara Packing Untuk Barang Cairan dan Pecah Belah</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Cara Packing Untuk Barang Cairan dan Pecah Belah</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>
@@ -136,7 +137,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Cara Penempelan Lakban</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Cara Penempelan Lakban</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>
@@ -161,7 +162,7 @@ class Panduan extends Component {
                             <Col className="bungkus bg" style={{display: "flex", width: "100%"}}>
                                 <div>
                                     <div className="kolomatas">
-                                        <h5 className="text-center" style={{fontWeight:"Bold"}}>Informasi Ukuran Paket</h5>
+                                        <h5 className="text-center" style={{fontWeight:"Bold", fontFamily:"Kaushan Script", fontSize:"22.5px"}}>Informasi Ukuran Paket</h5>
                                     </div>
                                     <div className="kolombawah">
                                         <p>

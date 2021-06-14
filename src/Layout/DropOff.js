@@ -244,7 +244,7 @@ class DropOff extends Component {
                     <CheckCircleOutlineIcon style={{color: '#006A4E', fontSize: '100'}}/>
                 </div>
                 <div style={{margin: '20px', textAlign: 'center'}}>
-                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Selamat Anda Berhasil Order</p>
+                    <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Anda Berhasil Order, Silahkan Drop Off Barang Anda ke Kantor YFA Express Terdekat</p>
                 </div>
                 <div align="center">
                     <Button style={{marginRight: '5px', background:'#006A4E', color: '#ffffff'}} href="#/user/transaksi"

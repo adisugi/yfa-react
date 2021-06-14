@@ -15,16 +15,16 @@ import {
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import JumbotronKu from "../Components/JumbotronKu";
-import bg from "../img/1.jpg";
+import bg from "../img/2.jpg";
 
 
 class Larangan extends Component {
     render() {
         return (
             <Fragment>
-                <Header bgNav={"#133671"}/>
+                <Header bgNav={"#1EABFF"}/>
                 <JumbotronKu image={bg}
-                             jumboAfter={'linear-gradient(to right, rgba(30,171,255,1), rgba(30,171,255,0) 70%)'}
+                             jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                              title={'Larangan'}/>
                 <main>
                     <Container class="container">
@@ -37,12 +37,12 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Organs</h2>
-                                                <p>Variuos goods that can harm health,
-                                                    like animal bones or other limbs,
-                                                    animal organs, unproccesed animal skins,
-                                                    and animal bones without or before safely
-                                                    process</p>
+                                                <h2>Organ</h2>
+                                                <p>Berbagai barang yang dapat membahayakan kesehatan,
+                                                    seperti tulang hewan atau anggota badan lainnya,
+                                                    organ hewan, kulit binatang yang belum diproses,
+                                                    dan tulang hewan tanpa atau sebelum diproses
+                                                    dengan aman.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -53,9 +53,9 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Firearms</h2>
-                                                <p>All kinds of ammunitions, firearms,
-                                                    bullets, grenades, bombs, etc</p>
+                                                <h2>Senjata Api</h2>
+                                                <p>Bahan mudah meledak seperti bahan peledak
+                                                    & detonator, mesiu, petasan, dll.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -66,12 +66,11 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Chemical</h2>
-                                                <p>All kinds of corrosive materials like
-                                                    sulfuric acid, hydrochloric acid,
-                                                    nitric acid, organic solvents, pesticide,
-                                                    hydrogen peroxide, and other hazardous
-                                                    chemicals</p>
+                                                <h2>Bahan Kimia</h2>
+                                                <p>Semua jenis bahan korosif seperti
+                                                    asam sulfat, asam klorida, asam nitrat,
+                                                    pelarut organik, pestisida, hidrogen
+                                                    peroksida, dan bahan kimia berbahaya lainnya.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -82,12 +81,11 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Drugs</h2>
-                                                <p>All kinds of narcotic drugs like, opium
-                                                    (including flowers, sprout and opium
-                                                    leaf), morn, cocaine, heroin, marijuana,
-                                                    methamphetamine, ephedrine, and other
-                                                    related products</p>
+                                                <h2>Narkoba</h2>
+                                                <p>Semua jenis obat-obatan narkotika seperti opium
+                                                    (termasuk bunga, tunas dan daun opium), morn, kokain,
+                                                    heroin, ganja, shabu, efedrin, dan produk-produk terkait
+                                                    lainnya</p>
                                             </div>
                                         </div>
                                     </div>
@@ -102,15 +100,13 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Prohibited by Law</h2>
-                                                <p>Goods that are prohibited to be
-                                                    circulated according to laws and
-                                                    regulation of country like, document,
-                                                    state secret information, currency,
-                                                    counterfeit money, all kinds of
-                                                    securities paper, replica weapons,
-                                                    sharp weapon, art goods, rare animals
-                                                    and finished product</p>
+                                                <h2>Dilarang Hukum</h2>
+                                                <p>Barang yang dilarang untuk diedarkan
+                                                    sesuai dengan peraturan
+                                                    negara seperti informasi
+                                                    rahasia negara, mata uang, uang palsu,
+                                                    senjata replika, senjata tajam,
+                                                    hewan langka dan produk jadi.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -121,10 +117,10 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Radioactive</h2>
-                                                <p>Various types of radioactive elements
-                                                    and its depository like uranium,
-                                                    cobalt, radium and plutonium</p>
+                                                <h2>Radioaktif</h2>
+                                                <p>Berbagai jenis unsur radioaktif
+                                                    dan penyimpanannya, seperti uranium,
+                                                    kobalt, radium dan plutonium.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -135,12 +131,11 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Flammable</h2>
-                                                <p>All kinds of flammable material, including
-                                                    liquid, gas and solid chemistry. Like gasoline,
-                                                    kerosene, alcohol, varnish, diesel fuel,
-                                                    aerosol/ spray tube, lighters, gas holder,
-                                                    phosphorus, sulfur, matches, etc</p>
+                                                <h2>Bahan Mudah Terbakar</h2>
+                                                <p>Semua jenis bahan yang mudah terbakar,
+                                                    termasuk cairan, gas, bensin, minyak tanah, alkohol,
+                                                    pernis, bahan bakar diesel, aerosol/tabung
+                                                    semprot, korek api, korek api, dll</p>
                                             </div>
                                         </div>
                                     </div>
@@ -151,9 +146,11 @@ class Larangan extends Component {
                                         </div>
                                         <div class="details">
                                             <div class="content">
-                                                <h2>Explosive Materials</h2>
-                                                <p>Easily explosive materials like explosive
-                                                    materials & detonator, gunpowder, firecrackers, etc</p>
+                                                <h2>Bahan Kemasan yang Tidak Pantas</h2>
+                                                <p>Barang dengan kemasan yang tidak pantas,
+                                                    yang bisa membahayakan, menyebabkan polusi,
+                                                    atau barang yang dapat mencemari pengiriman
+                                                    lainnya, parsial atau total.</p>
                                             </div>
                                         </div>
                                     </div>
