@@ -64,7 +64,7 @@ class DropOff extends Component {
             estimasi: "",
             layanan: "",
 
-            email: "bella@gmail.com",
+            email: "admin",
 
             namaPengirim: "",
             telpPengirim: "",
