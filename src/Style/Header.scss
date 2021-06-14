@@ -134,7 +134,8 @@ $biru-yfa-dark : #133671;
     }
   }
 
-  .drop-down-menu:hover .drop-down-item-open {
+  .drop-down-menu:hover .drop-down-item-open,
+  .drop-down-menu:hover .drop-down-item-open-user {
     display: block;
   }
 
@@ -179,6 +180,11 @@ $biru-yfa-dark : #133671;
       .nav-burger {
         display: none;
       }
+
+      .user-menu {
+        position: absolute;
+        right: 0;
+      }
     }
 
     .flex-center {
@@ -190,11 +196,16 @@ $biru-yfa-dark : #133671;
       }
     }
 
-    .drop-down-item-open {
+    .drop-down-item-open, .drop-down-item-open-user {
       position: absolute;
       top: 50px;
       background: $black-half-2;
       width: 200px;
+    }
+
+    .drop-down-item-open-user {
+      top: 50px;
+      right: 0;
     }
 
     .nav-item-center {
