@@ -20,6 +20,7 @@ import Loading from "../Components/Loading";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {PhotoCamera} from "@material-ui/icons";
+import {Link} from "react-router-dom";
 
 class MenuAdmin extends Component {
     constructor() {
@@ -82,7 +83,11 @@ class MenuAdmin extends Component {
             setDetail: false,
             display: 'none',
             loadDisplay : 'none',
-            imageUplod : ''
+            imageUplod : '',
+
+            //ganti tabel
+            tabelTransaksi : true,
+            tabelKurir : false
         }
         this.modalToggleInsert = this.modalToggleInsert.bind(this)
         this.modalToggleEdit = this.modalToggleEdit.bind(this)
@@ -817,6 +822,30 @@ class MenuAdmin extends Component {
         )
     }
 
+    //pindah table
+    tabelTransaksi () {
+        this.setState({
+            tabelTransaksi : true,
+            tabelKurir : false
+        })
+        const link = document.createElement("a")
+        link.href = "/#/admin/transaksi"
+        document.body.appendChild(link)
+        link.click()
+    }
+
+    tabelKurir () {
+        this.setState({
+            tabelTransaksi : false,
+            tabelKurir : true
+        })
+        const link = document.createElement("a")
+        link.href = "/#/kurir"
+        document.body.appendChild(link)
+        link.click()
+    }
+
+
     render() {
         return (
             <Fragment>
@@ -825,33 +854,60 @@ class MenuAdmin extends Component {
                              jumboAfter={'linear-gradient(to right, rgba(19,54,113,1), rgba(19,54,113,0) 70%)'}
                              title={"Menu Admin"}/>
                 <main>
-                    <ModalKu headerColor={'#133671'}
-                             namaModalInsert={"Form Transaksi"}
-                             namaModalEdit={"Edit Transaksi"}
-                             formData={this.state.dataForm}
-                             isiFormInsert={this.contentForm()}
-                             isiFormEdit={this.contentFormEdit()}
-                             isiFormAlert={this.contentFormDelete()}
-                             modalInsert={this.state.modalInsert}
-                             modalEdit={this.state.modalEdit}
-                             modalAlert={this.state.modalDelete}
-                             togglesInsert={this.modalToggleInsert}
-                             togglesEdit={this.modalToggleEdit}
-                             togglesAlert={this.modalToggleDelete}
-                             // saveDataInsert={this.sendDataFormInsert} saveDataEdit={this.sendDataEditForm}
-                             />
-                    <Table title={"Data Transaksi"}
-                           color={"rgba(30, 171, 255, 1)"}
-                           data={this.state.dataTable}
-                           column={this.state.column}
-                           search={true}
-                           paging={true}
-                           filter={false}
-                           export={false}
-                           actionAdd={this.modalToggleInsert}
-                           actionEdit={this.selectDataRow}
-                           actionDelete={this.selectDataRow}/>
-                    <Loading display={this.state.loadDisplay}/>
+                    <div style={{marginBottom: '70px'}}>
+
+                        <div className="pilih">
+                            <div className="pilih-tabel-transaksi" onClick={this.tabelTransaksi.bind(this)}>
+                                <div className={`pilih-tabel-transaksi-desc ${this.state.tabelTransaksi? 'font-biru' : ''}`}>
+                                    <div className="title">
+                                        Transaksi
+                                    </div>
+                                    <div className="deskripsi">
+                                        Data drop off user
+                                    </div>
+                                    <div className={`garis ${this.state.tabelTransaksi? 'bg-biru' : ''}`}></div>
+                                </div>
+                                <div className="pilih-tabel-transaksi-image-tabel"></div>
+                            </div>
+                            <div className="pilih-tabel-kurir" onClick={this.tabelKurir.bind(this)}>
+                                <div className={`pilih-tabel-kurir-desc ${this.state.tabelKurir? 'font-biru' : ''}`}>
+                                    <div className="title">
+                                        Kurir
+                                    </div>
+                                    <div className="deskripsi">
+                                        Data kurir YFA
+                                    </div>
+                                    <div className={`garis ${this.state.tabelKurir? 'bg-biru' : ''}`}></div>
+                                </div>
+                                <div className="pilih-tabel-kurir-image-tabel"></div>
+                            </div>
+                        </div>
+                        <Table title={"Data Transaksi"}
+                               color={"rgba(30, 171, 255, 1)"}
+                               data={this.state.dataTable}
+                               column={this.state.column}
+                               search={true}
+                               paging={true}
+                               filter={false}
+                               export={false}
+                               actionAdd={this.modalToggleInsert}
+                               actionEdit={this.selectDataRow}
+                               actionDelete={this.selectDataRow}/>
+                        <ModalKu headerColor={'#133671'}
+                                 namaModalInsert={"Form Transaksi"}
+                                 namaModalEdit={"Edit Transaksi"}
+                                 formData={this.state.dataForm}
+                                 isiFormInsert={this.contentForm()}
+                                 isiFormEdit={this.contentFormEdit()}
+                                 isiFormAlert={this.contentFormDelete()}
+                                 modalInsert={this.state.modalInsert}
+                                 modalEdit={this.state.modalEdit}
+                                 modalAlert={this.state.modalDelete}
+                                 togglesInsert={this.modalToggleInsert}
+                                 togglesEdit={this.modalToggleEdit}
+                                 togglesAlert={this.modalToggleDelete}/>
+                        <Loading display={this.state.loadDisplay}/>
+                    </div>
                 </main>
                 <Footer />
             </Fragment>

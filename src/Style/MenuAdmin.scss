@@ -2,6 +2,90 @@
 //  display: none;
 //}
 
+.pilih {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 35px;
+  a, a:hover {
+    text-decoration: none;
+    color: black;
+  }
+  &-tabel-transaksi {
+    cursor: pointer;
+    min-width: 200px;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 1px 5px 8px #dddddd;
+    padding: 12px 10px;
+    display: flex;
+    &-desc {
+      width: 80%;
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .deskripsi {
+        margin-top: -5px;
+        font-size: 13px;
+      }
+      .garis {
+        height: 2px;
+        width: 30px;
+      }
+    }
+    &-image-tabel {
+      width: 30%;
+      background-image: url("../img/bag.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position-x: 5px ;
+    }
+  }
+  &-tabel-kurir {
+    cursor: pointer;
+    min-width: 200px;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: 1px 5px 8px #dddddd;
+    padding: 12px 10px;
+    display: flex;
+    &-desc {
+      width: 80%;
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+      }
+      .deskripsi {
+        margin-top: -5px;
+        font-size: 13px;
+      }
+      .garis {
+        height: 2px;
+        width: 30px;
+      }
+    }
+    &-image-tabel {
+      width: 30%;
+      background-image: url("../img/motor.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position-x: 5px ;
+    }
+  }
+}
+
+.font-biru {
+  color: rgba(30,171,255,1);
+}
+
+.bg-biru {
+  background: rgba(30,171,255,1);
+}
+
+
+
+
 .MuiFormControl-root.MuiTextField-root.MuiFormControl-marginNormal.MuiFormControl-fullWidth {
   margin-bottom: 0;
   margin-top: 0;
