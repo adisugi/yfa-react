@@ -135,7 +135,7 @@ class MenuAdmin extends Component {
 
     //request data transaksi dan gambar
     async getDataTransaksi() {
-        const res = await axios.get("http://localhost:3333/api/transaksi", {
+        const res = await axios.get("http://localhost:3333/api/transaksi/admin", {
             headers: {'Content-Type': 'application/json'}
         })
         let img = [];
@@ -150,10 +150,13 @@ class MenuAdmin extends Component {
             idTransaksi: content.idTransaksi,
             idPenerima: content.idPenerima,
             idPengirim: content.idPengirim,
+            isDelete: content.isDelete,
             idKurir: content.idKurir,
+            fotoPenerima: content.fotoPenerima,
             image: <img src={"data:image/*;base64," + img[index]} alt="foto penerima" style={{width:"100px", borderRadius:"5px"}} />,
             tanggalTransaksi: content.tanggalTransaksi,
             resi: content.resi,
+            email: content.email,
             firstName: content.firstName,
             namaBarang: content.namaBarang,
             jumlahBarang: content.jumlahBarang,
@@ -501,6 +504,7 @@ class MenuAdmin extends Component {
             "idTransaksi": this.state.dataForm.idTransaksi,
             "idPengirim": this.state.dataForm.idPengirim,
             "idPenerima": this.state.dataForm.idPenerima,
+            "isDelete" : this.state.dataForm.isDelete,
             "jumlahBarang": this.state.dataForm.jumlahBarang,
             "kategoriLayanan": this.state.dataForm.kategoriLayanan,
             "kodePosPenerima": this.state.dataForm.kodePosPenerima,
@@ -551,23 +555,27 @@ class MenuAdmin extends Component {
     }
 
     //delete mapping
-    dataFormDelete(e) {
-
+    async dataFormDelete(e) {
         this.setState({
             loadDisplay : 'block'
         })
 
-        const id = this.state.dataForm.idTransaksi
-        axios.delete(`http://localhost:3333/api/transaksi/${id}`)
-            .then(res => {
-                this.getDataTransaksi().then(response => {
-                    this.setState({
-                        dataTable : response,
-                        loadDisplay : 'none'
+        const data = this.state.dataForm
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            }
+        }
+        await axios.post("http://localhost:3333/api/transaksi/delete", data, config)
+                .then(res => {
+                    this.getDataTransaksi().then(response => {
+                        this.setState({
+                            dataTable : response,
+                            loadDisplay : 'none'
+                        })
                     })
+                    console.log('Deleted Successfully.');
                 })
-                console.log('Deleted Successfully.');
-        })
         this.modalToggleDelete(e)
     }
 
