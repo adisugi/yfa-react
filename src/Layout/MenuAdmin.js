@@ -607,7 +607,11 @@ class MenuAdmin extends Component {
                     <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
                         <h5>Data Pengirim</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPengirim" />
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPengirim" />
+                        <TextField style={{width: '100%'}}
+                                   inputProps={{maxLength:13}}
+                                   onChange={this.handleChange}
+                                   label="No.Telp"
+                                   name="telpPengirim" />
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
@@ -625,12 +629,21 @@ class MenuAdmin extends Component {
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" />}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" />
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPengirim" />
+                        <TextField
+                            style={{width: '100%'}}
+                            inputProps={{maxLength:5}}
+                            onChange={this.handleChange}
+                            label="Kode Pos"
+                            name="kodePosPengirim" />
                     </div>
                     <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
                         <h5>Data Penerima</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPenerima" />
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPenerima" />
+                        <TextField style={{width: '100%'}}
+                                   inputProps={{maxLength:13}}
+                                   onChange={this.handleChange}
+                                   label="No.Telp"
+                                   name="telpPenerima" />
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
@@ -648,7 +661,12 @@ class MenuAdmin extends Component {
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Tujuan" name="cityNamePenerima" onChange={this.handleChange} margin="normal" />}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPenerima" />
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPenerima" />
+                        <TextField
+                            style={{width: '100%'}}
+                            inputProps={{maxLength:5}}
+                            onChange={this.handleChange}
+                            label="Kode Pos"
+                            name="kodePosPenerima" />
                     </div>
 
                     <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
@@ -697,7 +715,12 @@ class MenuAdmin extends Component {
                     <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
                         <h5>Data Pengirim</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPengirim" value={this.state.dataForm && this.state.dataForm.namaPengirim}/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPengirim" value={this.state.dataForm && this.state.dataForm.telpPengirim}/>
+                        <TextField style={{width: '100%'}}
+                                   inputProps={{maxLength:13}}
+                                   onChange={this.handleChange}
+                                   label="No.Telp"
+                                   name="telpPengirim"
+                                   value={this.state.dataForm && this.state.dataForm.telpPengirim}/>
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
@@ -717,12 +740,23 @@ class MenuAdmin extends Component {
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.cityName}/>}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" value={this.state.dataForm && this.state.dataForm.alamatPengirim}/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPengirim" value={this.state.dataForm && this.state.dataForm.kodePosPengirim}/>
+                        <TextField
+                            style={{width: '100%'}}
+                            inputProps={{maxLength:5}}
+                            onChange={this.handleChange}
+                            label="Kode Pos"
+                            name="kodePosPengirim"
+                            value={this.state.dataForm && this.state.dataForm.kodePosPengirim}/>
                     </div>
                     <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
                         <h5>Data Penerima</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPenerima" value={this.state.dataForm && this.state.dataForm.namaPenerima}/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp" name="telpPenerima" value={this.state.dataForm && this.state.dataForm.telpPenerima}/>
+                        <TextField style={{width: '100%'}}
+                                   inputProps={{maxLength:13}}
+                                   onChange={this.handleChange}
+                                   label="No.Telp"
+                                   name="telpPenerima"
+                                   value={this.state.dataForm && this.state.dataForm.telpPenerima}/>
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
@@ -742,7 +776,13 @@ class MenuAdmin extends Component {
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Tujuan" name="cityNamePenerima" onChange={this.handleChange} margin="normal" value={this.state.dataForm && this.state.dataForm.cityNamePenerima}/>}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPenerima" value={this.state.dataForm && this.state.dataForm.alamatPenerima}/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Kode Pos" name="kodePosPenerima" value={this.state.dataForm && this.state.dataForm.kodePosPenerima}/>
+                        <TextField
+                            style={{width: '100%'}}
+                            inputProps={{maxLength:5}}
+                            onChange={this.handleChange}
+                            label="Kode Pos"
+                            name="kodePosPenerima"
+                            value={this.state.dataForm && this.state.dataForm.kodePosPenerima}/>
                     </div>
                     <div style={{paddingTop: '20px', paddingBottom: '25px'}}>
                         <h5>Data Barang</h5>

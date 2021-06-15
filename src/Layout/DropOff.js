@@ -276,7 +276,7 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="  No Telp :" />
-                                                <Input type="tel" name="telpPengirim" id="telpPengirim"
+                                                <Input maxLength={13} type="tel" name="telpPengirim" id="telpPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
@@ -310,7 +310,7 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input type="text" name="kodePosPengirim" id="kodePosPengirim"
+                                                <Input maxLength={5} type="text" name="kodePosPengirim" id="kodePosPengirim"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                         </Form>
@@ -332,7 +332,7 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="No Telp :"/>
-                                                <Input type="tel" name="telpPenerima" id="telpPenerima"
+                                                <Input maxLength={13} type="tel" name="telpPenerima" id="telpPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                             <FormGroup>
@@ -369,7 +369,7 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input type="text" name="kodePosPenerima" id="kodePosPenerima"
+                                                <Input maxLength={5} type="text" name="kodePosPenerima" id="kodePosPenerima"
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                         </Form>
