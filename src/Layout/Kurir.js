@@ -27,10 +27,12 @@ class TableData extends React.Component {
             modal: false,
             modalEdit: false,
             modalDelete: false,
+
             //ganti tabel
             tabelTransaksi : false,
             tabelKurir : true,
             hiddenFoto :"none",
+
             id: 0,
             dataForm: dataForm,
             imageUplod: ''
@@ -100,7 +102,8 @@ class TableData extends React.Component {
                         style={{width: "100px", borderRadius: "5px"}}/>,
             namaKurir: content.namaKurir,
             noTelpKurir: content.noTelpKurir,
-            isDelete:content.isDelete
+            isDelete:content.isDelete,
+            file:content.file
         }))
         return dataTable
     }
