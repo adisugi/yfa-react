@@ -18,7 +18,8 @@ class TableData extends React.Component {
         let dataForm = {
             namaKurir: "",
             noTelpKurir: "",
-            file: ""
+            file: "",
+            isDelete:""
         }
         this.state = {
             dataTable: [],
@@ -78,21 +79,6 @@ class TableData extends React.Component {
         })
     }
 
-    //delete mapping
-    dataFormDelete(rowData) {
-        const id = this.state.dataForm.idKurir
-        console.log(rowData)
-        axios.delete(`http://localhost:3333/api/kurir/${id}`)
-            .then(res => {
-                this.getDataKurir().then(response => {
-                    this.setState({dataTable: response})
-                })
-                console.log('Deleted Successfully.');
-            })
-        //memanggil modal delete
-        this.toggleDelete(rowData)
-    }
-
     //ngambil data di tabel
     async getDataKurir() {
         const res = await axios.get("http://localhost:3333/api/kurir", {
@@ -113,7 +99,8 @@ class TableData extends React.Component {
             image: <img src={"data:image/*;base64," + img[index]} alt="foto kurir"
                         style={{width: "100px", borderRadius: "5px"}}/>,
             namaKurir: content.namaKurir,
-            noTelpKurir: content.noTelpKurir
+            noTelpKurir: content.noTelpKurir,
+            isDelete:content.isDelete
         }))
         return dataTable
     }
@@ -194,6 +181,28 @@ class TableData extends React.Component {
 
         this.modalToggleEdit(e)
         console.log(this.state.dataTable)
+    }
+
+    //delete mapping
+    dataFormDelete(rowData) {
+
+        const data = this.state.dataForm
+        const config = {
+            headers: {
+                "content-type": "application/json",
+            }
+        }
+
+        console.log(rowData)
+        axios.post(`http://localhost:3333/api/kurir/delete`, data, config )
+            .then(res => {
+                this.getDataKurir().then(response => {
+                    this.setState({dataTable: response})
+                })
+                console.log('Deleted Successfully.');
+            })
+        //memanggil modal delete
+        this.toggleDelete(rowData)
     }
 
     //handleChange input modal form
