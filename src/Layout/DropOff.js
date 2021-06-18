@@ -45,7 +45,7 @@ var berat
 
 class DropOff extends Component {
     constructor() {
-        super();
+        super(); //merujuk ke parent jd identitas yg ada di parent ada juga di anak
         this.state = {
             selectOptions: [],
             selectOptionsKota: [],
@@ -84,15 +84,18 @@ class DropOff extends Component {
         this.toggleSuccess = this.toggleSuccess.bind(this)
     }
 
+    //digunakan untuk mengisi si value input yg diketik
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
     }
 
+    //digunakan untuk mengisi si input berat yg diketik
     handleChangeBerat = (e) => {
         this.setState({[e.target.name]: e.target.value})
         berat = e.target.value
     }
 
+    // axios: menghubungkan api be dengan fe
     async getOptions() {
         const res = await axios.get('http://localhost:3333/api/provinsi', {
             headers: {'Content-Type': 'application/json'}
@@ -233,7 +236,7 @@ class DropOff extends Component {
         })
     }
 
-    //isi form success
+    //isi modal success
     contentFormSuccess () {
         return (
             <Fragment>
@@ -270,48 +273,47 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faUserEdit}/>
                                                 <NamaLabel name="Nama Pengirim :"/>
-                                                <Input type="text" name="namaPengirim" id="namaPengirim"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="namaPengirim" id="namaPengirim" required={true}
+                                                       onChange={this.handleChange}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="  No Telp :" />
-                                                <Input maxLength={13} type="tel" name="telpPengirim" id="telpPengirim"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="tel" name="telpPengirim" id="telpPengirim" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faSearchLocation}/>
                                                 <NamaLabel name="  Provinsi :"/>
                                                 <Select type="select" name="province_id" id="province"
-                                                        placeholder="Pilih Provinsi"
+                                                        placeholder="Pilih Provinsi" required={true}
                                                         options={this.state.selectOptions}
-                                                        onChange={this.handleChangeSelectProvince.bind(this)} required/>
-                                                <Input type="hidden" id="provinceName" name="provinceName"
-                                                       value={this.state.provinceName}/>
+                                                        onChange={this.handleChangeSelectProvince.bind(this)} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faCity}/>
                                                 <NamaLabel name="Kota Asal :"/>
                                                 <Select name="city_id" id="city_name"
                                                         placeholder="Pilih Kota"
+                                                        required={true}
                                                         options={this.state.selectOptionsKota}
-                                                        onChange={this.handleChangeSelectKota.bind(this)} required/>
-                                                <Input type="hidden" id="cityName" name="cityName"
-                                                       value={this.state.city_name}/>
-                                                <Input type="hidden" id="cityPengirimId" name="cityPengirimId"
-                                                       value={this.state.city_id}/>
+                                                        onChange={this.handleChangeSelectKota.bind(this)}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faMapMarkerAlt}/>
                                                 <NamaLabel name="Alamat :"/>
-                                                <Input type="text" name="alamatPengirim" id="alamatPengirim"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="alamatPengirim" id="alamatPengirim" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input maxLength={5} type="text" name="kodePosPengirim" id="kodePosPengirim"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text"
+                                                       name="kodePosPengirim"
+                                                       id="kodePosPengirim"
+                                                       maxLength={5}
+                                                       required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                         </Form>
                                     </CardBody>
@@ -326,14 +328,14 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faUserEdit}/>
                                                 <NamaLabel name="Nama Penerima :"/>
-                                                <Input type="text" name="namaPenerima" id="namaPenerima"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="namaPenerima" id="namaPenerima" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="No Telp :"/>
-                                                <Input maxLength={13} type="tel" name="telpPenerima" id="telpPenerima"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="tel" name="telpPenerima" id="telpPenerima" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faSearchLocation}/>
@@ -342,10 +344,7 @@ class DropOff extends Component {
                                                         placeholder="Pilih Provinsi"
                                                         options={this.state.selectOptions}
                                                         onChange={this.handleChangeSelectProvincePenerima.bind(this)}
-                                                        required/>
-                                                <Input type="hidden" id="provinceNamePenerima"
-                                                       name="provinceNamePenerima"
-                                                       value={this.state.provinceNamePenerima}/>
+                                                        required={true}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faCity}/>
@@ -354,22 +353,22 @@ class DropOff extends Component {
                                                         placeholder="Pilih Kota"
                                                         options={this.state.selectOptionsKotaPenerima}
                                                         onChange={this.handleChangeSelectKotaPenerima.bind(this)}
-                                                        required/>
-                                                <Input type="hidden" id="cityNamePenerima" name="cityNamePenerima"
-                                                       value={this.state.city_namepenerima}/>
-                                                <Input type="hidden" id="cityPenerimaId" name="cityPenerimaId"
-                                                       value={this.state.city_idpenerima}/>
+                                                        required={true}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faMapMarkerAlt}/>
                                                 <NamaLabel name="Alamat :"/>
-                                                <Input type="text" name="alamatPenerima" id="alamatPenerima"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="alamatPenerima" id="alamatPenerima" required={true}
+                                                       onChange={this.handleChange}/>
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faEnvelopeSquare}/>
                                                 <NamaLabel name="Kode Pos :"/>
-                                                <Input maxLength={5} type="text" name="kodePosPenerima" id="kodePosPenerima"
+                                                <Input type="text"
+                                                       name="kodePosPenerima"
+                                                       id="kodePosPenerima"
+                                                       maxLength={5}
+                                                       required={true}
                                                        onChange={this.handleChange} required/>
                                             </FormGroup>
                                         </Form>
@@ -385,20 +384,20 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faFileSignature}/>
                                                 <NamaLabel name="Nama Barang :"/>
-                                                <Input type="text" name="namaBarang" id="namaBarang"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="namaBarang" id="namaBarang" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faSortAmountUp}/>
                                                 <NamaLabel name="Jumlah Barang :"/>
-                                                <Input type="text" name="jumlahBarang" id="jumlahBarang"
-                                                       onChange={this.handleChange} required/>
+                                                <Input type="text" name="jumlahBarang" id="jumlahBarang" required={true}
+                                                       onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faBalanceScaleRight}/>
                                                 <NamaLabel name="Total Berat Barang (gram) :"/>
                                                 <Input type="number" name="beratBarang" id="kategoriBeratBarang"
-                                                       onChange={this.handleChangeBerat} required/>
+                                                       onChange={this.handleChangeBerat} required={true}/>
                                             </FormGroup>
                                             <Button className="mb-2 mr-2 btn-icon" color="primary" id="btn-cekharga"
                                                     type="button" onClick={this.handleRequestCost.bind(this)}>
@@ -421,9 +420,8 @@ class DropOff extends Component {
                                                 <Select type="select" name="layanan_id" id="layanan"
                                                         placeholder="Pilih Layanan"
                                                         options={this.state.selectOptionLayanan}
-                                                        onChange={this.handleChangeSelectLayanan.bind(this)} required/>
-                                                <Input type="hidden" id="kategoriLayanan" name="kategoriLayanan"
-                                                       value={this.state.setDetail ? this.state.layanan : ""}/>
+                                                        onChange={this.handleChangeSelectLayanan.bind(this)}
+                                                        required={true}/>
                                             </FormGroup>
                                             <FormGroup className="ongkirajadeh">
                                                 <NamaLabel name="Total Biaya Kirim :"/>

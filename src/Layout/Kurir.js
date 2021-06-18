@@ -19,7 +19,7 @@ class TableData extends React.Component {
             namaKurir: "",
             noTelpKurir: "",
             file: "",
-            isDelete:""
+            isDelete: ""
         }
         this.state = {
             dataTable: [],
@@ -29,9 +29,9 @@ class TableData extends React.Component {
             modalDelete: false,
 
             //ganti tabel
-            tabelTransaksi : false,
-            tabelKurir : true,
-            hiddenFoto :"none",
+            tabelTransaksi: false,
+            tabelKurir: true,
+            hiddenFoto: "none",
 
             id: 0,
             dataForm: dataForm,
@@ -102,8 +102,8 @@ class TableData extends React.Component {
                         style={{width: "100px", borderRadius: "5px"}}/>,
             namaKurir: content.namaKurir,
             noTelpKurir: content.noTelpKurir,
-            isDelete:content.isDelete,
-            file:content.file
+            isDelete: content.isDelete,
+            file: content.file
         }))
         return dataTable
     }
@@ -197,7 +197,7 @@ class TableData extends React.Component {
         }
 
         console.log(rowData)
-        axios.post(`http://localhost:3333/api/kurir/delete`, data, config )
+        axios.post(`http://localhost:3333/api/kurir/delete`, data, config)
             .then(res => {
                 this.getDataKurir().then(response => {
                     this.setState({dataTable: response})
@@ -224,7 +224,7 @@ class TableData extends React.Component {
         let url = URL.createObjectURL(e.target.files[0]);
         this.setState({
             imageUplod: url,
-            hiddenFoto:"block"
+            hiddenFoto: "block"
 
         })
         this.setState(prevState => ({
@@ -245,8 +245,11 @@ class TableData extends React.Component {
                         <h5>Data Pengirim</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
                                    name="namaKurir"/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
-                                   name="noTelpKurir"/>
+                        <TextField style={{width: '100%'}}
+                                   onChange={this.handleChange}
+                                   label="No.Telp Kurir"
+                                   name="noTelpKurir"
+                                   inputProps={{maxLength: 13}}/>
                         <div style={{marginTop: '20px'}}>
                             <input accept="image/*" style={{display: 'none'}}
                                    id="icon-button-file" type="file" name='file'
@@ -257,7 +260,7 @@ class TableData extends React.Component {
                                 </IconButton>
                                 <span style={{color: '#3f51b5', fontWeight: 'bold'}}>Upload Gambar</span>
                             </label>
-                            <CardActionArea style={{display:this.state.hiddenFoto}}>
+                            <CardActionArea style={{display: this.state.hiddenFoto}}>
                                 <CardMedia
                                     component="img"
                                     alt="Foto Kurir"
@@ -268,7 +271,7 @@ class TableData extends React.Component {
                             </CardActionArea>
                         </div>
 
-                        <div align="right" style={{paddingTop:"15px"}}>
+                        <div align="right" style={{paddingTop: "15px"}}>
                             <Button variant="contained" color="primary" style={{marginRight: '5px'}}
                                     onClick={this.sendDataFormInsert}>Insert</Button>
                             <Button variant="outlined" color="primary" style={{marginLeft: '5px'}}
@@ -291,10 +294,8 @@ class TableData extends React.Component {
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
                                    name="namaKurir" value={this.state.dataForm && this.state.dataForm.namaKurir}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
-                                   name="noTelpKurir" value={this.state.dataForm && this.state.dataForm.noTelpKurir}/>
-                        {/*<Label>Upload Picture : </Label>*/}
-                        {/*<Input type="file" name="file" id="file" onChange={this.handleFileChange}/>*/}
-
+                                   name="noTelpKurir" inputProps={{maxLength: 13}}
+                                   value={this.state.dataForm && this.state.dataForm.noTelpKurir}/>
                         <div style={{marginTop: '20px'}}>
                             <input accept="image/*" style={{display: 'none'}}
                                    id="icon-button-file" type="file" name='file'
@@ -353,20 +354,21 @@ class TableData extends React.Component {
     }
 
     //pindah table
-    tabelTransaksi () {
+    tabelTransaksi() {
         this.setState({
-            tabelTransaksi : true,
-            tabelKurir : false
+            tabelTransaksi: true,
+            tabelKurir: false
         })
         const link = document.createElement("a")
         link.href = "/#/admin/transaksi"
         document.body.appendChild(link)
         link.click()
     }
-    tabelKurir () {
+
+    tabelKurir() {
         this.setState({
-            tabelTransaksi : false,
-            tabelKurir : true
+            tabelTransaksi: false,
+            tabelKurir: true
         })
         const link = document.createElement("a")
         link.href = "/#/kurir"
@@ -384,6 +386,7 @@ class TableData extends React.Component {
                 <main>
                     <div style={{marginBottom: '70px'}}>
 
+                        {/*button pilih tabel*/}
                         <div className="pilih">
                             <div className="pilih-tabel-transaksi" onClick={this.tabelTransaksi.bind(this)}>
                                 <div
