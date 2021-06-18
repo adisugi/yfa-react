@@ -231,6 +231,7 @@ class TableData extends React.Component {
             dataForm: {
                 ...prevState.dataForm,
                 file: e.target.files[0]
+
             }
         }));
         //this.setState({[e.target.name]: e.target.files[0]})
