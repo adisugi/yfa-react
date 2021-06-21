@@ -18,6 +18,9 @@ class TableData extends React.Component {
         let dataForm = {
             namaKurir: "",
             noTelpKurir: "",
+            nik:"",
+            ttl:"",
+            alamat:"",
             file: "",
             isDelete: ""
         }
@@ -102,6 +105,9 @@ class TableData extends React.Component {
                         style={{width: "100px", borderRadius: "5px"}}/>,
             namaKurir: content.namaKurir,
             noTelpKurir: content.noTelpKurir,
+            nik:content.nik,
+            ttl:content.ttl,
+            alamat:content.alamat,
             isDelete: content.isDelete,
             file: content.file
         }))
@@ -118,6 +124,9 @@ class TableData extends React.Component {
                     {title: 'Id Kurir', field: 'idKurir'},
                     {title: 'Nama Kurir', field: 'namaKurir'},
                     {title: 'No Telp Kurir', field: 'noTelpKurir'},
+                    {title: 'Nik', field: 'nik'},
+                    {title: 'TTL', field: 'ttl'},
+                    {title: 'Alamat', field: 'alamat'},
                     {title: 'File', field: 'image'}
                 ]
             })
@@ -129,7 +138,10 @@ class TableData extends React.Component {
         const formData = new FormData();
         const json = JSON.stringify({
             "namaKurir": this.state.dataForm.namaKurir,
-            "noTelpKurir": this.state.dataForm.noTelpKurir
+            "noTelpKurir": this.state.dataForm.noTelpKurir,
+            "nik":this.state.dataForm.nik,
+            "ttl":this.state.dataForm.ttl,
+            "alamat":this.state.dataForm.alamat
         });
 
         const blobDoc = new Blob([json], {
@@ -163,7 +175,10 @@ class TableData extends React.Component {
         const json = JSON.stringify({
             "idKurir": this.state.dataForm.idKurir,
             "namaKurir": this.state.dataForm.namaKurir,
-            "noTelpKurir": this.state.dataForm.noTelpKurir
+            "noTelpKurir": this.state.dataForm.noTelpKurir,
+            "nik":this.state.dataForm.nik,
+            "ttl":this.state.dataForm.ttl,
+            "alamat":this.state.dataForm.alamat
         });
 
         const blobDoc = new Blob([json], {
@@ -246,6 +261,14 @@ class TableData extends React.Component {
                         <h5>Data Pengirim</h5>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
                                    name="namaKurir"/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nik"
+                                   name="nik"/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="TTL"
+                                   type="date"
+                                   defaultValue="2021-06-21"
+                                   name="ttl"/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat"
+                                   name="alamat"/>
                         <TextField style={{width: '100%'}}
                                    onChange={this.handleChange}
                                    label="No.Telp Kurir"
@@ -294,6 +317,12 @@ class TableData extends React.Component {
 
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
                                    name="namaKurir" value={this.state.dataForm && this.state.dataForm.namaKurir}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nik"
+                                   name="nik" value={this.state.dataForm && this.state.dataForm.nik}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="TTL" type="date"
+                                   name="ttl" value={this.state.dataForm && this.state.dataForm.ttl}/>
+                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat"
+                                   name="alamat" value={this.state.dataForm && this.state.dataForm.alamat}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="No.Telp Kurir"
                                    name="noTelpKurir" inputProps={{maxLength: 13}}
                                    value={this.state.dataForm && this.state.dataForm.noTelpKurir}/>
