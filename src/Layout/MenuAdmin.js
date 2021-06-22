@@ -100,6 +100,7 @@ class MenuAdmin extends Component {
 
     //action edit dan delete data pada tabel
     async selectDataRow (data, modal) {
+        console.log(data.image.props.src)
         await this.setState({
             dataForm : data,
             imageUplod : data.image.props.src
@@ -547,7 +548,7 @@ class MenuAdmin extends Component {
                         dataTable:response,
                         loadDisplay: 'none'
                     })
-            })
+                })
         })
 
         // "fotoPenerima": File {name: "R2df1752f0c2cd444d33cd6b1d798d4a9.jpg", lastModified: 1618734546600, lastModifiedDate: Sun Apr 18 2021 15:29:06 GMT+0700 (Western Indonesia Time), webkitRelativePath: "", size: 365422, …}
@@ -606,12 +607,16 @@ class MenuAdmin extends Component {
                 <form>
                     <div style={{paddingTop: '10px', paddingBottom: '25px'}}>
                         <h5>Data Pengirim</h5>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama" name="namaPengirim" />
                         <TextField style={{width: '100%'}}
-                                   inputProps={{maxLength:13}}
                                    onChange={this.handleChange}
-                                   label="No.Telp"
-                                   name="telpPengirim" />
+                                   label="Nama"
+                                   name="namaPengirim" />
+                        <TextField  style={{width: '100%'}}
+                                    inputProps={{maxLength:13}}
+                                    onChange={this.handleChange}
+                                    label="No.Telp"
+                                    name="telpPengirim"
+                                    />
                         <Autocomplete
                             options={this.state.selectOptionProvince}
                             getOptionLabel={option => option.label}
@@ -628,7 +633,11 @@ class MenuAdmin extends Component {
                             }}
                             blurOnSelect
                             renderInput={(params) => <TextField {...params} label="Kota Asal" name="cityName" onChange={this.handleChange} margin="normal" />}/>
-                        <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat" name="alamatPengirim" />
+                        <TextField
+                            style={{width: '100%'}}
+                            onChange={this.handleChange}
+                            label="Alamat"
+                            name="alamatPengirim" />
                         <TextField
                             style={{width: '100%'}}
                             inputProps={{maxLength:5}}

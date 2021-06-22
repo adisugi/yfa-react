@@ -130,10 +130,16 @@ class Lacak extends Component {
             isAlert : false
         })
 
-        await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
+        //java
+        // await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
+        //go
+        await axios.get(`http://localhost:2222/transaksi/resi/${resi}`)
             .then(res => {
                 this.setState({
-                    data: res.data,
+                    //java
+                    // data: res.data,
+                    //go
+                    data: res.data.data,
                     display: 'none',
                     displayTable: 'block',
                     displayLoading: "none"
