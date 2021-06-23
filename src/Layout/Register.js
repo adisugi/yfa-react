@@ -9,6 +9,7 @@ class Register extends Component {
             phoneNumber: '',
             email: '',
             password: '',
+            noKtp:'',
             error: null,
             users: [],
             loading: false
@@ -37,8 +38,8 @@ class Register extends Component {
     handleSignUp = event => {
         event.preventDefault()
         this.setState({ loading: true });
-        const { firstName, lastName, phoneNumber, email, password } = this.state;
-        if (!firstName.length || !lastName.length || !phoneNumber.length || !email.length || !password.length) {
+        const { username, noKtp, phoneNumber, email, password } = this.state;
+        if (!username.length || !noKtp.length || !phoneNumber.length || !email.length || !password.length) {
             this.setState({ error: "please fill out all the details", loading: false })
             return false;
         } else if (password.length < 6) {
@@ -46,8 +47,8 @@ class Register extends Component {
             return false;
         } else {
             const regesterData = {
-                firstName: firstName,
-                lastName: lastName,
+                username: username,
+                noKtp: noKtp,
                 phoneNumber: phoneNumber,
                 email: email,
                 password: password
@@ -55,8 +56,8 @@ class Register extends Component {
 
             this.setState({
                 error: "",
-                firstName: "",
-                lastName: "",
+                username: "",
+                noKtp: "",
                 phoneNumber: "",
                 email: "",
                 password: "",
@@ -71,7 +72,7 @@ class Register extends Component {
 
 
     render() {
-        const { firstName, lastName, phoneNumber, email, password, error, loading } = this.state;
+        const { username, noKtp, phoneNumber, email, password, error, loading } = this.state;
 
         return (
             <React.Fragment>
@@ -88,14 +89,14 @@ class Register extends Component {
                                             <div className="form-group mb-3">
                                                 <label className="font-weight-bold small" htmlFor="firstName">Firest Name:</label>
                                                 <input
-                                                    id="firstName"
+                                                    id="userName"
                                                     type="text"
                                                     autoFocus
                                                     className="form-control"
-                                                    placeholder="first name"
-                                                    name="firstName"
+                                                    placeholder="user name"
+                                                    name="userName"
                                                     onChange={this.handleOnchange}
-                                                    value={firstName}
+                                                    value={username}
                                                 />
 
                                             </div>

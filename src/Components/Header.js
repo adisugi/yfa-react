@@ -37,6 +37,11 @@ const Header = (props) => {
     //     }
     // })
 
+    const logout = (e) => {
+        localStorage.clear()
+        window.location.reload();
+    }
+
     return (
         <Navbar className={`${styles.root} navbar navbar-expand-lg`}>
             <Container className="navbar-container">
@@ -127,9 +132,7 @@ const Header = (props) => {
                                     <Link to="/admin/transaksi">
                                         <Dropdown.Item style={{textAlign: 'center'}}>Menu Admin</Dropdown.Item>
                                     </Link>
-                                    <Link to="/informasi/larangan">
-                                        <Dropdown.Item style={{textAlign: 'center'}}>Logout</Dropdown.Item>
-                                    </Link>
+                                    <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
                                 </div>
                             </Nav.Item>
                         </div>
