@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import axios from "axios";
+import AlertKu from "../Components/AlertKu";
 
 export default class Login extends Component {
     state = {
@@ -8,6 +9,8 @@ export default class Login extends Component {
         password: "",
         error: null,
         users: null,
+        errmessage: "",
+        isAlert: false,
     };
 
     // componentDidMount() {
@@ -17,6 +20,10 @@ export default class Login extends Component {
 
     handleSignUp = event => {
         event.preventDefault()
+
+        this.setState({
+            isAlert:false
+        })
 
         const { username, password, users } = this.state;
         // const formLogin = new FormData();
@@ -40,6 +47,14 @@ export default class Login extends Component {
             .then(res=> {
                 localStorage.setItem("access_token", res.data.data.access_token)
                 localStorage.setItem("username", username)
+                this.props.history.push("/Home");
+                window.location.reload();
+            })
+            .catch(err=>{
+                this.setState({
+                    errmessage:err.response.data.message,
+                    isAlert:true
+                })
             })
 
 
@@ -60,6 +75,12 @@ export default class Login extends Component {
         //     }) : this.setState({ error: "no user found" })
         // }
     };
+
+    handleClear() {
+        localStorage.clear()
+    }
+
+
 
 
     render() {
@@ -116,6 +137,10 @@ export default class Login extends Component {
                             <div className="card card-footer">
                                 <span className="text-center small">Not have an account ? <Link to="/Register">Register</Link></span>
                             </div>
+                            <button className="btn btn-primary btn-block" onClick={()=>this.handleClear()}>Clear</button>
+                            <AlertKu isAlert={this.state.isAlert}
+                                     alertMessage={this.state.errmessage}
+                            />
                         </div>
                     </div>
                     <br />
