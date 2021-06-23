@@ -15,7 +15,7 @@ import {Link} from 'react-router-dom';
 
 
 const Header = (props) => {
-
+    const username = localStorage.getItem("username")
     const useStyles = makeStyles((theme) => ({
         root: {
             backgroundColor: props.bgNav,
@@ -116,7 +116,7 @@ const Header = (props) => {
                                 <div className="flex-center cursor">
                                     <FontAwesomeIcon className="icon-center"
                                                      icon={faUser}/>
-                                    <Nav.Link className='font-putih'>User</Nav.Link>
+                                    <Nav.Link className='font-putih'>{username}</Nav.Link>
                                     <FontAwesomeIcon className="icon-center margin-left-minus chevron-down"
                                                      icon={faChevronDown}/>
                                 </div>
