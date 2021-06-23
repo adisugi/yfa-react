@@ -1,45 +1,41 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import axios from "axios";
 
 class Register extends Component {
     constructor() {
         super()
         this.state = {
             username: '',
-            phoneNumber: '',
+            phone: '',
             email: '',
             password: '',
-            noKtp:'',
+            ktp:'',
+            alamat:'',
             error: null,
             users: [],
             loading: false
         };
     }
     componentDidMount() {
-        try {
-            const json = localStorage.getItem("users")
-            const users = JSON.parse(json);
-            if (users) {
-                this.setState(() => ({ users }))
-            }
-        } catch (e) {
-        }
+        // try {
+        //     const json = localStorage.getItem("users")
+        //     const users = JSON.parse(json);
+        //     if (users) {
+        //         this.setState(() => ({ users }))
+        //     }
+        // } catch (e) {
+        // }
     };
 
-    componentDidUpdate(prevState, preProps) {
-        if (preProps.users.length !== this.state.users.length) {
-            const json = JSON.stringify(this.state.users);
-            localStorage.setItem("users", json);
-        }
-    }
 
     handleOnchange = e => this.setState({ [e.target.name]: e.target.value });
 
     handleSignUp = event => {
         event.preventDefault()
         this.setState({ loading: true });
-        const { username, noKtp, phoneNumber, email, password } = this.state;
-        if (!username.length || !noKtp.length || !phoneNumber.length || !email.length || !password.length) {
+        const { username, ktp, phone, email, password, alamat } = this.state;
+        if (!username.length || !ktp.length || !phone.length || !email.length || !password.length || !alamat.length) {
             this.setState({ error: "please fill out all the details", loading: false })
             return false;
         } else if (password.length < 6) {
@@ -48,21 +44,46 @@ class Register extends Component {
         } else {
             const regesterData = {
                 username: username,
-                noKtp: noKtp,
-                phoneNumber: phoneNumber,
+                ktp: ktp,
+                phone: phone,
                 email: email,
-                password: password
+                password: password,
+                alamat: alamat
             };
 
             this.setState({
                 error: "",
                 username: "",
-                noKtp: "",
-                phoneNumber: "",
+                ktp: "",
+                phone: "",
                 email: "",
                 password: "",
+                alamat:"",
                 users: this.state.users.concat(regesterData)
             });
+
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+
+            // const json = JSON.stringify({
+            //     "username": this.state.username,
+            //     "": this.state.dataForm.noTelpKurir,
+            //     "nik":this.state.dataForm.nik,
+            //     "ttl":this.state.dataForm.ttl,
+            //     "alamat":this.state.dataForm.alamat
+            // });
+
+
+            console.log(regesterData)
+
+            axios.post("http://localhost:3333/register/create",regesterData, config)
+                .then(res=>{
+                    console.log(res)
+                })
+
             setTimeout(() => {
                 this.props.history.push("/")
                 this.setState({ loading: false })
@@ -72,7 +93,7 @@ class Register extends Component {
 
 
     render() {
-        const { username, noKtp, phoneNumber, email, password, error, loading } = this.state;
+        const { username, ktp, phone, email, password, error, alamat, loading } = this.state;
 
         return (
             <React.Fragment>
@@ -87,42 +108,42 @@ class Register extends Component {
                                     <div className="col-lg-12">
                                         <form onSubmit={this.handleSignUp}>
                                             <div className="form-group mb-3">
-                                                <label className="font-weight-bold small" htmlFor="firstName">Firest Name:</label>
+                                                <label className="font-weight-bold small" htmlFor="firstName">User Name:</label>
                                                 <input
                                                     id="userName"
                                                     type="text"
                                                     autoFocus
                                                     className="form-control"
                                                     placeholder="user name"
-                                                    name="userName"
+                                                    name="username"
                                                     onChange={this.handleOnchange}
                                                     value={username}
                                                 />
 
                                             </div>
                                             <div className="form-group mb-3">
-                                                <label className="font-weight-bold small" htmlFor="lastName">Last Name:</label>
+                                                <label className="font-weight-bold small" htmlFor="lastName">Nomor KTP:</label>
                                                 <input
-                                                    id="lastName"
-                                                    type="text"
+                                                    id="ktp"
+                                                    type="number"
                                                     className="form-control"
-                                                    placeholder="last name"
-                                                    name="lastName"
+                                                    placeholder="ktp"
+                                                    name="ktp"
                                                     onChange={this.handleOnchange}
-                                                    value={lastName}
+                                                    value={ktp}
                                                 />
 
                                             </div>
                                             <div className="form-group mb-3">
                                                 <label className="font-weight-bold small" htmlFor="phoneNumber">Phone Number:</label>
                                                 <input
-                                                    id="phoneNumber"
+                                                    id="phoner"
                                                     type="number"
                                                     className="form-control"
-                                                    placeholder="phone number"
-                                                    name="phoneNumber"
+                                                    placeholder="phone"
+                                                    name="phone"
                                                     onChange={this.handleOnchange}
-                                                    value={phoneNumber}
+                                                    value={phone}
                                                 />
 
                                             </div>
@@ -137,6 +158,20 @@ class Register extends Component {
                                                     name="email"
                                                     onChange={this.handleOnchange}
                                                     value={email}
+                                                />
+
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label className="font-weight-bold small" htmlFor="email">Alamat:</label>
+
+                                                <input
+                                                    type="text"
+                                                    id="alamat"
+                                                    className="form-control"
+                                                    placeholder="alamat"
+                                                    name="alamat"
+                                                    onChange={this.handleOnchange}
+                                                    value={alamat}
                                                 />
 
                                             </div>
