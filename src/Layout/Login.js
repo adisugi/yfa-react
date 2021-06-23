@@ -1,44 +1,69 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import axios from "axios";
 
 export default class Login extends Component {
     state = {
-        email: "",
+        username: "",
         password: "",
         error: null,
-        users: null
+        users: null,
     };
 
-    componentDidMount() {
-        const users = localStorage.getItem("users");
-        this.setState({ users: JSON.parse(users) })
-    }
+    // componentDidMount() {
+    // }
 
     handleOnchange = e => this.setState({ [e.target.name]: e.target.value });
 
     handleSignUp = event => {
         event.preventDefault()
 
-        const { email, password, users } = this.state;
-        if (!email.length || !password.length) {
-            this.setState({ error: "please fill out all the details" })
-            return false;
-        } else {
-            users ? users.filter(user => {
-                if (user.email !== email || user.password !== password) {
-                    this.setState({ error: "Invalid creadetials" })
-                } else {
-                    const json = JSON.stringify(user);
-                    localStorage.setItem("currentUser", json);
-                    this.props.history.push("/Home");
-                    window.location.reload();
-                }
-            }) : this.setState({ error: "no user found" })
+        const { username, password, users } = this.state;
+        // const formLogin = new FormData();
+
+        const param = new URLSearchParams()
+        param.append("username", username)
+        param.append("password", password)
+
+        // const formLogin = JSON.stringify({
+        //     "username":email,
+        //     "password":password
+        // })
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         }
+        console.log(param)
+        axios.post("http://localhost:3333/auth/token",param, config)
+            .then(res=> {
+                localStorage.setItem("access_token", res.data.data.access_token)
+                localStorage.setItem("username", username)
+            })
+
+
+
+        // if (!email.length || !password.length) {
+        //     this.setState({ error: "please fill out all the details" })
+        //     return false;
+        // } else {
+        //     users ? users.filter(user => {
+        //         if (user.email !== email || user.password !== password) {
+        //             this.setState({ error: "Invalid creadetials" })
+        //         } else {
+        //             const json = JSON.stringify(user);
+        //             localStorage.setItem("currentUser", json);
+        //             this.props.history.push("/Home");
+        //             window.location.reload();
+        //         }
+        //     }) : this.setState({ error: "no user found" })
+        // }
     };
 
+
     render() {
-        const { email, password, error } = this.state;
+        const { username, password, error } = this.state;
         return (
             <React.Fragment>
                 <div className="container">
@@ -56,13 +81,13 @@ export default class Login extends Component {
                                                 <label className="font-weight-bold small" htmlFor="email">Email address:</label>
 
                                                 <input
-                                                    type="email"
+                                                    // type="email"
                                                     id="email"
                                                     className="form-control"
                                                     placeholder="email"
-                                                    name="email"
+                                                    name="username"
                                                     onChange={this.handleOnchange}
-                                                    value={email}
+                                                    value={username}
                                                 />
 
                                             </div>
