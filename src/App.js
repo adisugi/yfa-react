@@ -8,10 +8,11 @@ import TableData from "./Layout/Kurir";
 import MenuAdmin from "./Layout/MenuAdmin";
 import React, {Fragment} from 'react'
 import {Route, Redirect} from 'react-router-dom'
-import MenuUser from "./Layout/MenuUser";
 import Larangan from "./Layout/Larangan";
 import Home from "./Layout/Home";
 import Panduan from "./Layout/Panduan";
+import Register from "./Layout/Register";
+import Login from "./Layout/Login";
 
 function App() {
   return (
@@ -23,9 +24,11 @@ function App() {
         <Route path="/about-us" component={AboutUs}/>
         <Route path="/admin/transaksi" component={MenuAdmin}/>
         <Route path="/kurir" component={TableData}/>
-        <Route path="/user/transaksi" component={MenuUser}/>
+        {/*<Route path="/user/transaksi" component={MenuUser}/>*/}
         <Route path="/informasi/larangan" component={Larangan}/>
         <Route path="/informasi/panduan" component={Panduan}/>
+        <Route path="/register" component={Register}/>
+        <Route path="/login" component={Login}/>
         <Route exact path="/" render={() => (
             <Redirect to="/home" />
         )} />

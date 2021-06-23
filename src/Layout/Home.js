@@ -3,6 +3,16 @@ import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 
 class Home extends Component {
+    state = {
+        currentUser: null
+    }
+    componentDidMount() {
+        this.setCurrentUser()
+    }
+    setCurrentUser = () => {
+        const user = localStorage.getItem("currentUser");
+        this.setState({ currentUser: JSON.parse(user) })
+    }
     render() {
         return (
             <Fragment>

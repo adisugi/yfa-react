@@ -105,9 +105,6 @@ class MenuAdmin extends Component {
             dataForm : data,
             imageUplod : data.image.props.src
         })
-        // this.state.dataForm = data
-        // this.state.displayImage = 'none'
-        // this.state.imageUplod = data.image.props.src
         if (modal === "Edit") {
 
             this.modalToggleEdit()
@@ -451,7 +448,7 @@ class MenuAdmin extends Component {
     }
 
     //handleChangePreview
-    handleChangePreview(e) {
+    handleChangePreview(e)  {
         let url = URL.createObjectURL(e.target.files[0]);
         // console.log(e.target.files[0])
         // console.log(url)
