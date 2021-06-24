@@ -20,7 +20,7 @@ import Loading from "../Components/Loading";
 import IconButton from "@material-ui/core/IconButton";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import {PhotoCamera} from "@material-ui/icons";
-import {Link} from "react-router-dom";
+import decode from "jwt-decode";
 
 class MenuAdmin extends Component {
     constructor() {
@@ -245,6 +245,18 @@ class MenuAdmin extends Component {
         this.setState({selectOptionKurir : kurir})
     }
 
+    //get email user login
+    decodeToken() {
+        const token = localStorage.getItem("access_token")
+        const userData = decode(token)
+        this.setState({
+            dataForm: {
+                email : userData.email
+            }
+        })
+        localStorage.setItem("email", userData.email)
+    }
+
     //mounting
     componentDidMount() {
         //set state data transaksi
@@ -289,7 +301,11 @@ class MenuAdmin extends Component {
         //set state all data layanan
         this.setLayananEdit();
 
+        //set state all data kurir
         this.getKurir();
+
+        //token decode
+        this.decodeToken();
     }
 
     //handleChange input modal form
@@ -473,6 +489,7 @@ class MenuAdmin extends Component {
                 'content-type': 'application/json'
             }
         }
+
         await axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config)
             .then(res => {
                 // const dataUpdate = this.state.dataTable.concat(res.data)
@@ -497,7 +514,7 @@ class MenuAdmin extends Component {
             "cityName": this.state.dataForm.cityName,
             "cityNamePenerima": this.state.dataForm.cityNamePenerima,
             "estimasi": this.state.dataForm.estimasi,
-            "email" : "admin",
+            "email" : localStorage.getItem("email"),
             "idKurir": this.state.dataForm.idKurir,
             "idTransaksi": this.state.dataForm.idTransaksi,
             "idPengirim": this.state.dataForm.idPengirim,
@@ -589,7 +606,7 @@ class MenuAdmin extends Component {
         this.setState(prevState =>({
             dataForm : {
                 ...prevState.dataForm,
-                email: 'admin',
+                email: localStorage.getItem("email"),
                 statusDelivery: 'Undelivered',
                 penerimaPaket: 'penerima',
                 fotoPenerima: 'penerima.jpg'
