@@ -6,6 +6,8 @@ class Register extends Component {
     constructor() {
         super()
         this.state = {
+            firstname:'',
+            lastname:'',
             username: '',
             phone: '',
             email: '',
@@ -34,7 +36,7 @@ class Register extends Component {
     handleSignUp = event => {
         event.preventDefault()
         this.setState({ loading: true });
-        const { username, ktp, phone, email, password, alamat } = this.state;
+        const { firstname, lastname, username, ktp, phone, email, password, alamat } = this.state;
         if (!username.length || !ktp.length || !phone.length || !email.length || !password.length || !alamat.length) {
             this.setState({ error: "please fill out all the details", loading: false })
             return false;
@@ -43,6 +45,8 @@ class Register extends Component {
             return false;
         } else {
             const regesterData = {
+                firstname: firstname,
+                lastname: lastname,
                 username: username,
                 ktp: ktp,
                 phone: phone,
@@ -53,6 +57,8 @@ class Register extends Component {
 
             this.setState({
                 error: "",
+                firstname:"",
+                lastname:"",
                 username: "",
                 ktp: "",
                 phone: "",
@@ -93,7 +99,7 @@ class Register extends Component {
 
 
     render() {
-        const { username, ktp, phone, email, password, error, alamat, loading } = this.state;
+        const { firstname, lastname, username, ktp, phone, email, password, error, alamat, loading } = this.state;
 
         return (
             <React.Fragment>
@@ -108,7 +114,35 @@ class Register extends Component {
                                     <div className="col-lg-12">
                                         <form onSubmit={this.handleSignUp}>
                                             <div className="form-group mb-3">
-                                                <label className="font-weight-bold small" htmlFor="firstName">User Name:</label>
+                                                <label className="font-weight-bold small" htmlFor="firstname">First Name:</label>
+                                                <input
+                                                    id="firstname"
+                                                    type="text"
+                                                    autoFocus
+                                                    className="form-control"
+                                                    placeholder="first name"
+                                                    name="firstname"
+                                                    onChange={this.handleOnchange}
+                                                    value={firstname}
+                                                />
+
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label className="font-weight-bold small" htmlFor="lastname">Last Name:</label>
+                                                <input
+                                                    id="lastname"
+                                                    type="text"
+                                                    autoFocus
+                                                    className="form-control"
+                                                    placeholder="lastname"
+                                                    name="lastname"
+                                                    onChange={this.handleOnchange}
+                                                    value={lastname}
+                                                />
+
+                                            </div>
+                                            <div className="form-group mb-3">
+                                                <label className="font-weight-bold small" htmlFor="userName">User Name:</label>
                                                 <input
                                                     id="userName"
                                                     type="text"
