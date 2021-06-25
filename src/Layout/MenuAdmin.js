@@ -100,7 +100,7 @@ class MenuAdmin extends Component {
 
     //action edit dan delete data pada tabel
     async selectDataRow (data, modal) {
-        console.log(data.image.props.src)
+        // console.log(data.image.props.src)
         await this.setState({
             dataForm : data,
             imageUplod : data.image.props.src
@@ -155,7 +155,7 @@ class MenuAdmin extends Component {
             tanggalTransaksi: content.tanggalTransaksi,
             resi: content.resi,
             email: content.email,
-            firstName: content.firstName,
+            firstName: content.username,
             namaBarang: content.namaBarang,
             jumlahBarang: content.jumlahBarang,
             beratBarang: content.beratBarang,

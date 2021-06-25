@@ -1,0 +1,113 @@
+.carousel-item {
+  height: 30%;
+  margin-top: 50px;
+}
+
+
+//next previous carousel navigation
+.fa-chevron-left, .fa-chevron-right {
+  text-shadow: 0 0 2px rgba(0,0,0,.3);
+  font-size: 30px;
+  opacity: 0;
+  transition: .3s;
+  color: rgba(30, 171, 255, 1);
+}
+
+.fa-chevron-left {
+  transform: translateX(-10px);
+}
+
+.fa-chevron-right {
+  transform: translateX(10px);
+}
+
+#carouselExampleControls {
+  position: relative;
+}
+
+#carouselExampleControls:hover .fa-chevron-left,
+#carouselExampleControls:hover .fa-chevron-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.carousel-item-1::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-image: radial-gradient(circle at bottom left, rgba(245, 245, 245, 1) 30%, rgba(245, 245, 245, 0) 80%);
+  position: absolute;
+  top: 0;
+}
+
+
+
+
+.carousel-item-2::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background-image: radial-gradient(circle at bottom left, rgba(245, 245, 245, 1) 20%, rgba(245, 245, 245, 0) 75%),
+  radial-gradient(circle at top left, rgba(245, 245, 245, 1) 20%, rgba(245, 245, 245, 0) 75%);
+  position: absolute;
+  top: 0;
+}
+
+
+
+.carousel-item-3::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,.5);
+  position: absolute;
+  top: 0;
+}
+
+@media (min-width: 420px) {
+  .carousel-item {
+    height: 350px;
+  }
+}
+
+/* desktp version*/
+@media (min-width: 992px) {
+  /* carousel */
+  .carousel-item {
+    height: 450px;
+    margin-top: 0;
+  }
+
+  .fa-chevron-left, .fa-chevron-right {
+    font-size: 45px;
+  }
+
+  .carousel-item-1 .carousel-caption h5 {
+    font-size: 50px;
+  }
+
+  .carousel-item-2 .carousel-caption h5 {
+    font-size: 40px;
+  }
+
+  .carousel-item-3 .carousel-caption {
+    text-align: right;
+  }
+
+  .carousel-item-3::after {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: rgba(0,0,0,.5);
+    position: absolute;
+    top: 50px;
+  }
+
+  .carousel-item-3 .carousel-caption h5 {
+    font-size: 50px;
+  }
+}
