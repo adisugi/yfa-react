@@ -64,7 +64,7 @@ class DropOff extends Component {
             estimasi: "",
             layanan: "",
 
-            email: "admin",
+            email: localStorage.getItem("username"),
 
             namaPengirim: "",
             telpPengirim: "",
