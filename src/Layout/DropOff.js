@@ -279,7 +279,9 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="  No Telp :" />
-                                                <Input type="tel" name="telpPengirim" id="telpPengirim" required={true}
+                                                <Input type="tel" name="telpPengirim" id="telpPengirim"
+                                                       maxLength={13}
+                                                       required={true}
                                                        onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
@@ -334,7 +336,9 @@ class DropOff extends Component {
                                             <FormGroup>
                                                 <FontAwesomeIcon icon={faPhoneAlt}/>
                                                 <NamaLabel name="No Telp :"/>
-                                                <Input type="tel" name="telpPenerima" id="telpPenerima" required={true}
+                                                <Input type="tel" name="telpPenerima" id="telpPenerima"
+                                                       maxLength={13}
+                                                       required={true}
                                                        onChange={this.handleChange} />
                                             </FormGroup>
                                             <FormGroup>
