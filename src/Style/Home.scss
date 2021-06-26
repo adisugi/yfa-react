@@ -1,3 +1,7 @@
+a, a:hover {
+  text-decoration: none;
+}
+
 .carousel-item {
   margin-top: 50px;
 }
@@ -221,7 +225,6 @@
 }
 
 
-//fitur
 /* fitur section */
 .fitur-wrapper, .mitra-wrapper {
   margin-top: -10px;
@@ -288,7 +291,7 @@
   }
 
   .fitur p {
-    font-size: 14px;
+    font-size: 12px;
   }
 
   .carousel-absolute .container {
@@ -302,7 +305,7 @@
   }
 
   .fitur p {
-    font-size: 12px;
+    font-size: 10px;
     margin-top: 5px;
   }
 
@@ -322,7 +325,7 @@
   }
 
   .carousel-absolute .container {
-    //padding-top: 85px;
+    padding-top: 50px;
   }
 }
 
@@ -359,4 +362,239 @@
 
 .owl-carousel-1 .owl-nav i:hover {
   transform: scale(.9);
+}
+
+@media (min-width: 992px) {
+  .title-wrapper p {
+    font-size: 26px;
+  }
+}
+
+
+/* NEWS SECTION */
+.section-news {
+  margin-bottom: 70px;
+}
+
+.container-news {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.berita, .events, .ask {
+  width: 350px;
+  padding: 15px;
+  margin: 5px;
+}
+
+
+/* berita */
+.section-news h5 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.section-news h5::before {
+  content: "";
+  display: block;
+  height: 2px;
+  width: 20px;
+  background: rgba(30, 171, 255, 1);
+}
+
+.berita .berita1, .berita .berita2 {
+  width: 100%;
+  border-radius: 8px;
+  height: 100px;
+  background: #fff;
+  margin-bottom: 20px;
+  display: flex;
+  box-shadow: 0 0 8px 0 #bbb;;
+}
+
+.berita1 .image, .berita2 .image {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 40%;
+  height: 100%;
+  background: #133671;
+  margin-right: 5px;
+}
+
+.berita1 .image {
+  background-image: url("../img/berita1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.berita2 .image {
+  background-image: url("../img/berita2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.berita1 .content-berita, .berita2 .content-berita {
+  width: 60%;
+  padding: 5px;
+}
+
+.isi-berita {
+  line-height: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #133671;
+  margin: 0;
+}
+
+.content-berita .date, .list-berita .date, .content-event .date {
+  margin-top: 5px;
+  color: #a3a3a3;
+  font-size: 10px;
+}
+
+.list-berita div {
+  border-bottom: 1px solid #a3a3a3;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  margin-bottom: 5px;
+  color: rgba(30, 171, 255, 1);
+}
+
+.list-berita div:hover {
+  color: #133671;
+}
+
+.list-berita div p {
+  line-height: 12px;
+  font-size: 12px;
+  margin: 0;
+}
+
+.selengkapnya {
+  margin-top: 15px;
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  color: #133671;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.selengkapnya:hover {
+  transform: scale(.9);
+}
+
+@media(max-width: 350px) {
+  .isi-berita, .list-berita div p {
+    line-height: 10px;
+    font-size: 10px;
+  }
+
+  .content-berita .date {
+    font-size: 8px;
+  }
+}
+
+/* event */
+.img-event {
+  width: 100%;
+  max-height: 180px;
+  text-align: center;
+}
+
+.img-event img {
+  object-fit: cover;
+  width: 80%;
+}
+
+.content-event .date {
+  margin-top: 30px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.content-event h6 {
+  color: #181818;
+}
+
+
+/* Ask YFA */
+.siap {
+  width: 100%;
+  height: 100px;
+  position: relative;
+  font-size: 12px;
+}
+
+.melayani {
+  height: 70%;
+  width: 100%;
+  background: #133671;
+  position: absolute;
+  bottom: 0;
+  padding: 10px;
+  color: #fff;
+}
+
+.melayani p {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.siap img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  object-fit: cover;
+  width: 40%;
+}
+
+.subject {
+  margin-top: 10px;
+  display: flex;
+  position: relative;
+  padding-top: 30px;
+}
+
+.subject label {
+  display: block;
+  position: absolute;
+  top: 7px;
+  left: 3px;
+  font-size: 13px;
+}
+
+.pilih-keluhan {
+  font-size: 13px;
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  text-align: left;
+  color: #666;
+  border-radius: 5px;
+  width: 70%;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.subject button {
+  width: 25%;
+  margin-right: auto;
+  font-size: 12px;
+}
+
+.contact-us {
+  margin-top: 10px;
+  padding: 10px;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.contact-us p {
+  text-align: right;
+  font-size: 14px;
+  font-weight: bold;
+  color: #777;
+  margin: 5px;
 }
