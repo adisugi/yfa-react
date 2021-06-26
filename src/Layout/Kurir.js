@@ -262,10 +262,10 @@ class TableData extends React.Component {
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nama Kurir"
                                    name="namaKurir"/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Nik"
-                                   name="nik"/>
+                                   name="nik" inputProps={{maxLength: 16}}/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="TTL"
                                    type="date"
-                                   defaultValue="2021-06-21"
+                                   defaultValue="2021-06-29"
                                    name="ttl"/>
                         <TextField style={{width: '100%'}} onChange={this.handleChange} label="Alamat"
                                    name="alamat"/>
