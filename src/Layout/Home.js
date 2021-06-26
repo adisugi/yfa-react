@@ -6,8 +6,16 @@ import {BImg} from "bootstrap-4-react/lib/components/dom";
 import bg from '../img/1.jpg'
 import bg2 from '../img/2.jpg'
 import bg3 from '../img/5.jpg'
+import utama from '../img/utama.png'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {
+    faChevronLeft,
+    faChevronRight,
+    faCogs,
+    faGlobeAsia,
+    faMapMarkedAlt,
+    faTruck, faUserClock
+} from "@fortawesome/free-solid-svg-icons";
 import '../Style/Home.scss'
 import {Link} from "react-router-dom";
 // import {carousel} from "bootstrap-4-react/src";
@@ -25,7 +33,6 @@ class Home extends Component {
                 <div>
                     <Carousel w="100" id="carouselExampleControls">
                         <Carousel.Inner>
-                            {/*style={{backgroundImage: `url(${bg})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}}*/}
                             <Carousel.Item active className="carousel-item carousel-item-1">
                                 <BImg display="block" w="100" src={bg} />
                                 <div className="carousel-caption">
@@ -58,6 +65,45 @@ class Home extends Component {
                             <i className="fa-chevron-right" ><FontAwesomeIcon icon={faChevronRight}/></i>
                         </Carousel.Next>
                     </Carousel>
+
+                    {/*fitur-slider*/}
+                    <div className="container-fitur">
+                        <img src={utama} alt="peta indonesia"/>
+                        <div className="carousel-absolute">
+                            <div className="container owl-carousel owl-carousel-1">
+                                <div className="fitur">
+                                    <i className="fa fa-globe-asia">
+                                        <FontAwesomeIcon icon={faGlobeAsia}/>
+                                    </i>
+                                    <p>Menjangkau seluruh Indonesia</p>
+                                </div>
+                                <div className="fitur">
+                                    <i className="fa fa-map-marked-alt">
+                                        <FontAwesomeIcon icon={faMapMarkedAlt}/>
+                                    </i>
+                                    <p>Sistem cek ongkir</p>
+                                </div>
+                                <div className="fitur">
+                                    <i className="fa fa-cogs">
+                                        <FontAwesomeIcon icon={faCogs}/>
+                                    </i>
+                                    <p>Operational 365 hari</p>
+                                </div>
+                                <div className="fitur">
+                                    <i className="fa fa-truck">
+                                        <FontAwesomeIcon icon={faTruck}/>
+                                    </i>
+                                    <p>Harga regular service premium</p>
+                                </div>
+                                <div className="fitur">
+                                    <i className="fa fa-user-clock">
+                                        <FontAwesomeIcon icon={faUserClock}/>
+                                    </i>
+                                    <p>24 jam layanan</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
