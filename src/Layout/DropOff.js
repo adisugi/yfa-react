@@ -255,7 +255,7 @@ class DropOff extends Component {
                     <p style={{margin: '0', color: 'rgba(0,0,0,.5)'}}>Anda Berhasil Order, Silahkan Drop Off Barang Anda ke Kantor YFA Express Terdekat</p>
                 </div>
                 <div align="center">
-                    <Button style={{marginRight: '5px', background:'#006A4E', color: '#ffffff'}} href="#/user/transaksi"
+                    <Button style={{marginRight: '5px', background:'#006A4E', color: '#ffffff'}} href="/user/transaksi"
                             onClick={this.toggleSuccess}>Oke</Button>
                 </div>
             </Fragment>

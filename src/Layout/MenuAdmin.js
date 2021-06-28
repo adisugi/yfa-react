@@ -930,7 +930,7 @@ class MenuAdmin extends Component {
             tabelKurir : false
         })
         const link = document.createElement("a")
-        link.href = "/#/admin/transaksi"
+        link.href = "/admin/transaksi"
         document.body.appendChild(link)
         link.click()
     }
@@ -940,7 +940,7 @@ class MenuAdmin extends Component {
             tabelKurir : true
         })
         const link = document.createElement("a")
-        link.href = "/#/kurir"
+        link.href = "/kurir"
         document.body.appendChild(link)
         link.click()
     }

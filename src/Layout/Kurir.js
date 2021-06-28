@@ -209,14 +209,14 @@ class TableData extends React.Component {
     dataFormDelete(rowData) {
 
         const data = this.state.dataForm
-        const config = {
-            headers: {
-                "content-type": "application/json",
-            }
-        }
+        // const config = {
+        //     headers: {
+        //         "content-type": "application/json",
+        //     }
+        // }
 
         console.log(rowData)
-        axios.post(`http://localhost:3333/api/kurir/delete`, data, config)
+        axios.post(`http://localhost:3333/api/kurir/delete`, data)
             .then(res => {
                 this.getDataKurir().then(response => {
                     this.setState({dataTable: response})
@@ -394,7 +394,7 @@ class TableData extends React.Component {
             tabelKurir: false
         })
         const link = document.createElement("a")
-        link.href = "/#/admin/transaksi"
+        link.href = "/admin/transaksi"
         document.body.appendChild(link)
         link.click()
     }
@@ -405,7 +405,7 @@ class TableData extends React.Component {
             tabelKurir: true
         })
         const link = document.createElement("a")
-        link.href = "/#/kurir"
+        link.href = "/kurir"
         document.body.appendChild(link)
         link.click()
     }
