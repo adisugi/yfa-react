@@ -8,6 +8,7 @@ import bg from "../img/2.jpg"
 import '../Style/MenuAdmin.scss'
 import axios from "axios";
 import Loading from "../Components/Loading";
+import {TableViewOnly} from "../Components/TableViewOnly";
 // import IconButton from "@material-ui/core/IconButton";
 // import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 // import {PhotoCamera} from "@material-ui/icons";
@@ -57,6 +58,7 @@ class MenuAdmin extends Component {
         const res = await axios.get(`http://localhost:3333/api/transaksi/history/${email}`, {
             headers: {'Content-Type': 'application/json'}
         })
+        console.log(res)
         let img = [];
         for (let i=0; i<res.data.length; i++) {
             const dataImage = await axios.get("http://localhost:3333/api/transaksi/getImage/" + res.data[i].idTransaksi, {
@@ -106,6 +108,7 @@ class MenuAdmin extends Component {
     componentDidMount() {
         //set state data transaksi
         this.getDataTransaksi().then(res => {
+            console.log(res)
             this.setState({dataTable: res})
             this.setState({
                 column: [
@@ -176,33 +179,33 @@ class MenuAdmin extends Component {
                 <main>
                     <div style={{marginBottom: '70px'}}>
 
-                        <div className="pilih">
-                            <div className="pilih-tabel-transaksi" onClick={this.tabelTransaksi.bind(this)}>
-                                <div className={`pilih-tabel-transaksi-desc ${this.state.tabelTransaksi? 'font-biru' : ''}`}>
-                                    <div className="title">
-                                        Transaksi
-                                    </div>
-                                    <div className="deskripsi">
-                                        Data drop off user
-                                    </div>
-                                    <div className={`garis ${this.state.tabelTransaksi? 'bg-biru' : ''}`}></div>
-                                </div>
-                                <div className="pilih-tabel-transaksi-image-tabel"></div>
-                            </div>
-                            <div className="pilih-tabel-kurir" onClick={this.tabelKurir.bind(this)}>
-                                <div className={`pilih-tabel-kurir-desc ${this.state.tabelKurir? 'font-biru' : ''}`}>
-                                    <div className="title">
-                                        Kurir
-                                    </div>
-                                    <div className="deskripsi">
-                                        Data kurir YFA
-                                    </div>
-                                    <div className={`garis ${this.state.tabelKurir? 'bg-biru' : ''}`}></div>
-                                </div>
-                                <div className="pilih-tabel-kurir-image-tabel"></div>
-                            </div>
-                        </div>
-                        <Table title={"Data Transaksi"}
+                        {/*<div className="pilih">*/}
+                        {/*    <div className="pilih-tabel-transaksi" onClick={this.tabelTransaksi.bind(this)}>*/}
+                        {/*        <div className={`pilih-tabel-transaksi-desc ${this.state.tabelTransaksi? 'font-biru' : ''}`}>*/}
+                        {/*            <div className="title">*/}
+                        {/*                Transaksi*/}
+                        {/*            </div>*/}
+                        {/*            <div className="deskripsi">*/}
+                        {/*                Data drop off user*/}
+                        {/*            </div>*/}
+                        {/*            <div className={`garis ${this.state.tabelTransaksi? 'bg-biru' : ''}`}></div>*/}
+                        {/*        </div>*/}
+                        {/*        <div className="pilih-tabel-transaksi-image-tabel"></div>*/}
+                        {/*    </div>*/}
+                        {/*    <div className="pilih-tabel-kurir" onClick={this.tabelKurir.bind(this)}>*/}
+                        {/*        <div className={`pilih-tabel-kurir-desc ${this.state.tabelKurir? 'font-biru' : ''}`}>*/}
+                        {/*            <div className="title">*/}
+                        {/*                Kurir*/}
+                        {/*            </div>*/}
+                        {/*            <div className="deskripsi">*/}
+                        {/*                Data kurir YFA*/}
+                        {/*            </div>*/}
+                        {/*            <div className={`garis ${this.state.tabelKurir? 'bg-biru' : ''}`}></div>*/}
+                        {/*        </div>*/}
+                        {/*        <div className="pilih-tabel-kurir-image-tabel"></div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                        <TableViewOnly title={"Data Transaksi"}
                                color={"rgba(30, 171, 255, 1)"}
                                data={this.state.dataTable}
                                column={this.state.column}

@@ -126,7 +126,7 @@ const Header = (props) => {
                                                      icon={faChevronDown}/>
                                 </div>
                                 <div className="drop-down-item drop-down-item-open-user font-putih">
-                                    <Link to="/informasi/panduan">
+                                    <Link to="/user/transaksi">
                                         <Dropdown.Item style={{textAlign: 'center'}}>Menu Customer</Dropdown.Item>
                                     </Link>
                                     <Link to="/admin/transaksi">
