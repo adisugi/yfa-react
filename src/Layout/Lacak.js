@@ -131,15 +131,15 @@ class Lacak extends Component {
         })
 
         //java
-        // await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
+        await axios.get(`http://localhost:3333/api/transaksi/resi/${resi}`)
         //go
-        await axios.get(`http://localhost:2222/transaksi/resi/${resi}`)
+       // await axios.get(`http://localhost:2222/transaksi/resi/${resi}`)
             .then(res => {
                 this.setState({
                     //java
-                    // data: res.data,
+                     data: res.data,
                     //go
-                    data: res.data.data,
+                    //data: res.data.data,
                     display: 'none',
                     displayTable: 'block',
                     displayLoading: "none"
