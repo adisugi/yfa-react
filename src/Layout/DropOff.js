@@ -97,9 +97,11 @@ class DropOff extends Component {
 
     // axios: menghubungkan api be dengan fe
     async getOptions() {
-        const res = await axios.get('http://localhost:3333/api/provinsi', {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get('http://localhost:3333/api/provinsi'
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
         const data = res.data
         const options = data.map(d => ({
             "value": d.province_id,
@@ -114,9 +116,11 @@ class DropOff extends Component {
             provinceName: e.label
         })
         const province_id = e.value
-        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + province_id, {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + province_id
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
 
         const data = res.data
         const options = data.map(d => ({
@@ -132,9 +136,11 @@ class DropOff extends Component {
             provinceNamePenerima: e.label
         })
         const provinceIdPenerima = e.value
-        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + provinceIdPenerima, {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/kotaRaja/" + provinceIdPenerima
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
         const data = res.data
         const options = data.map(d => ({
             "value": d.city_id,
@@ -144,9 +150,11 @@ class DropOff extends Component {
     }
 
     async handleRequestCost(e) {
-        const res = await axios.get("http://localhost:3333/api/cost/" + cityId + "/" + cityIdPenerima + "/" + berat, {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/cost/" + cityId + "/" + cityIdPenerima + "/" + berat
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
         const data = res.data
         const options = data.map(d => ({
             "value": d.cost[0].value,

@@ -86,15 +86,19 @@ class TableData extends React.Component {
 
     //ngambil data di tabel
     async getDataKurir() {
-        const res = await axios.get("http://localhost:3333/api/kurir", {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/kurir"
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
 
         let img = [];
         for (let i = 0; i < res.data.length; i++) {
-            const dataImage = await axios.get("http://localhost:3333/api/kurir/getImage/" + res.data[i].idKurir, {
-                headers: {'Content-Type': 'application/json'}
-            })
+            const dataImage = await axios.get("http://localhost:3333/api/kurir/getImage/" + res.data[i].idKurir
+            //     , {
+            //     headers: {'Content-Type': 'application/json'}
+            // }
+            )
             img.push(dataImage.data)
         }
 
