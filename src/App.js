@@ -29,6 +29,7 @@ function App() {
         <Route path="/informasi/larangan" component={Larangan}/>
         <Route path="/informasi/panduan" component={Panduan}/>
         <Route path="/register" component={Register}/>
+
         <Route path="/register/admin" component={RegisterAdmin}/>
         <Route path="/login" component={Login}/>
           <Route exact path="/" render={() => (
