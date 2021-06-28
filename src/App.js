@@ -13,6 +13,7 @@ import Home from "./Layout/Home";
 import Panduan from "./Layout/Panduan";
 import Register from "./Layout/Register";
 import Login from "./Layout/Login";
+import RegisterAdmin from "./Layout/RegisterAdmin";
 
 function App() {
   return (
@@ -28,8 +29,9 @@ function App() {
         <Route path="/informasi/larangan" component={Larangan}/>
         <Route path="/informasi/panduan" component={Panduan}/>
         <Route path="/register" component={Register}/>
+        <Route path="/register/admin" component={RegisterAdmin}/>
         <Route path="/login" component={Login}/>
-        <Route exact path="/" render={() => (
+          <Route exact path="/" render={() => (
             <Redirect to="/home" />
         )} />
     </Fragment>
