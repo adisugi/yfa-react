@@ -162,7 +162,7 @@ const Header = (props) => {
                                                 <Link to="/admin/transaksi">
                                                     <Dropdown.Item style={{textAlign: 'center'}}>Menu Admin</Dropdown.Item>
                                                 </Link>
-                                                <Link to={"/#/home"}>
+                                                <Link to={"/home"}>
                                                     <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
                                                 </Link>
                                             </div>
@@ -184,7 +184,9 @@ const Header = (props) => {
                                                 <Link to="/user/transaksi">
                                                     <Dropdown.Item style={{textAlign: 'center'}}>Menu Customer</Dropdown.Item>
                                                 </Link>
-                                                <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
+                                                <Link to={"/home"}>
+                                                    <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
+                                                </Link>
                                             </div>
                                         </Nav.Item>
                                     </div>
