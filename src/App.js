@@ -14,6 +14,7 @@ import Panduan from "./Layout/Panduan";
 import Register from "./Layout/Register";
 import Login from "./Layout/Login";
 import RegisterAdmin from "./Layout/RegisterAdmin";
+import MenuUser from "./Layout/MenuUser";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
         <Route path="/about-us" component={AboutUs}/>
         <Route path="/admin/transaksi" component={MenuAdmin}/>
         <Route path="/kurir" component={TableData}/>
-        {/*<Route path="/user/transaksi" component={MenuUser}/>*/}
+        <Route path="/user/transaksi" component={MenuUser}/>
         <Route path="/informasi/larangan" component={Larangan}/>
         <Route path="/informasi/panduan" component={Panduan}/>
         <Route path="/register" component={Register}/>

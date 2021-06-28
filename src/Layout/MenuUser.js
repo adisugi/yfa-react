@@ -7,20 +7,11 @@ import ModalKu from "../Components/ModalKu"
 import bg from "../img/2.jpg"
 import '../Style/MenuAdmin.scss'
 import axios from "axios";
-import {
-    Button, CardActionArea,
-    CardMedia,
-    FormControl,
-    InputLabel,
-    Select,
-    TextField
-} from "@material-ui/core";
-import Autocomplete from '@material-ui/lab/Autocomplete';
 import Loading from "../Components/Loading";
-import IconButton from "@material-ui/core/IconButton";
-import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import {PhotoCamera} from "@material-ui/icons";
-import decode from "jwt-decode";
+// import IconButton from "@material-ui/core/IconButton";
+// import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+// import {PhotoCamera} from "@material-ui/icons";
+// import decode from "jwt-decode";
 
 class MenuAdmin extends Component {
     constructor() {
@@ -62,7 +53,8 @@ class MenuAdmin extends Component {
 
     //request data transaksi dan gambar
     async getDataTransaksi() {
-        const res = await axios.get("http://localhost:3333/api/transaksi/admin", {
+        const email = localStorage.getItem("email")
+        const res = await axios.get(`http://localhost:3333/api/transaksi/history/${email}`, {
             headers: {'Content-Type': 'application/json'}
         })
         let img = [];
@@ -110,61 +102,13 @@ class MenuAdmin extends Component {
         return dataTable
     }
 
-    //request data provinsi
-    async getProvinceOption() {
-        const res = await axios.get('http://localhost:3333/api/provinsi', {
-            headers : {'Content-Type' : 'application/json'}
-        })
-        const data = res.data
-        const option = data.map(item => ({
-            "value" : item.province_id,
-            "label" : item.province
-        }))
-        this.setState({selectOptionProvince : option})
-    }
-
-    //request data cost
-    async getCost () {
-        this.setState({
-            loadDisplay : 'block'
-        })
-        const res = await axios.get("http://localhost:3333/api/cost/" + this.state.cityId + "/" + this.state.cityIdPenerima + "/" + this.state.dataForm.beratBarang, {
-            headers: {'Content-Type': 'application/json'}
-        })
-        const options = res.data.map(cost => ({
-            "value": cost.cost[0].value,
-            "label": cost.service,
-            "title": cost.cost[0].etd
-        }))
-        this.setState({
-            selectOptionLayanan : options,
-            display: 'block',
-            loadDisplay : 'none'
-        })
-    }
-
-
-    //request data kurir
-    async getKurir() {
-        const res = await axios.get("http://localhost:3333/api/kurir", {
-            headers : {'Content-Type' : 'application/json'}
-        })
-        const kurir = res.data.map(ponse => ({
-            "value" : ponse.idKurir,
-            "label" : ponse.namaKurir
-        }))
-        this.setState({selectOptionKurir : kurir})
-    }
-
-    //get email user login
-
-
     //mounting
     componentDidMount() {
         //set state data transaksi
         this.getDataTransaksi().then(res => {
-            this.setState({ dataTable:res })
-            this.setState({ column: [
+            this.setState({dataTable: res})
+            this.setState({
+                column: [
                     // {title: 'id', field: 'id'},
                     {title: 'Tanggal Transaksi', field: 'tanggalTransaksi'},
                     {title: 'No. Resi', field: 'resi'},
@@ -191,104 +135,32 @@ class MenuAdmin extends Component {
                     {title: 'Penerima Paket', field: 'penerimaPaket'},
                     {title: 'Status', field: 'statusDelivery'},
                     {title: 'Foto Penerima', field: 'image'}
-                ]})
+                ]
+            })
         })
-
-        //set state data provinsi
-        this.getProvinceOption()
-
-        //set state all data kota
-        this.getCity();
-
-        //set state all data layanan
-        this.setLayananEdit();
-
-        //set state all data kurir
-        this.getKurir();
+    }
 
         //token decode
         // this.decodeToken();
-    }
-
-    //handle change input modal form (pilih layanan dan simpan value, label, tittle ke state)
-    handleChangeLayanan (content) {
-        if (content == null) {
-            this.setState(prevState =>({
-                dataForm : {
-                    ...prevState.dataForm,
-                    kategoriLayanan: "",
-                    ongkosKirim: "",
-                    estimasi: "",
-                }
-            }));
-        } else {
-            this.setState(prevState =>({
-                dataForm : {
-                    ...prevState.dataForm,
-                    kategoriLayanan: content.label,
-                    ongkosKirim: content.value,
-                    estimasi: content.title,
-                },
-                setDetail : true
-            }));
-        }
-    }
-
-    //handle change input modal form (pilih kurir)
-    handleChangeKurir (content) {
-        if (content == null) {
-            this.setState(prevState =>({
-                dataForm : {
-                    ...prevState.dataForm,
-                    idKurir: "",
-                    namaKurir: "",
-                }
-            }));
-        } else {
-            this.setState(prevState =>({
-                dataForm : {
-                    ...prevState.dataForm,
-                    idKurir: content.value,
-                    namaKurir: content.label,
-                },
-            }));
-        }
-    }
-
-    //handleChangePreview
-    handleChangePreview(e)  {
-        let url = URL.createObjectURL(e.target.files[0]);
-        // console.log(e.target.files[0])
-        // console.log(url)
-        this.setState({
-            imageUplod : url
-        })
-        this.setState(prevState =>({
-            dataForm : {
-                ...prevState.dataForm,
-                image: e.target.files[0],
-            },
-        }));
-    }
 
     //pindah table
-    tabelTransaksi () {
+    tabelTransaksiUser () {
         this.setState({
             tabelTransaksi : true,
-            tabelKurir : false
+            tabelUser : false
         })
         const link = document.createElement("a")
-        link.href = "/#/admin/transaksi"
+        link.href = "/#/user/transaksi"
         document.body.appendChild(link)
         link.click()
     }
-    tabelKurir () {
+    tabelUser () {
         this.setState({
             tabelTransaksi : false,
-            tabelKurir : true
+            tabelUser : true
         })
         const link = document.createElement("a")
-        link.href = "/#/kurir"
+        link.href = "/#/profiluser"
         document.body.appendChild(link)
         link.click()
     }
@@ -337,24 +209,7 @@ class MenuAdmin extends Component {
                                search={true}
                                paging={true}
                                filter={false}
-                               export={false}
-                               actionAdd={this.modalToggleInsert}
-                               actionEdit={this.selectDataRow}
-                               actionDelete={this.selectDataRow}/>
-                        <ModalKu headerColor={'#133671'}
-                                 namaModalInsert={"Form Transaksi"}
-                                 namaModalEdit={"Edit Transaksi"}
-                                 formData={this.state.dataForm}
-                                 isiFormInsert={this.contentForm()}
-                                 isiFormEdit={this.contentFormEdit()}
-                                 isiFormAlert={this.contentFormDelete()}
-                                 modalInsert={this.state.modalInsert}
-                                 modalEdit={this.state.modalEdit}
-                                 modalAlert={this.state.modalDelete}
-                                 togglesInsert={this.modalToggleInsert}
-                                 togglesEdit={this.modalToggleEdit}
-                                 togglesAlert={this.modalToggleDelete}/>
-                        <Loading display={this.state.loadDisplay}/>
+                               export={false}/>
                     </div>
                 </main>
                 <Footer />
