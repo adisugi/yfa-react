@@ -47,6 +47,7 @@ export default class Login extends Component {
                 const userData = decode(res.data.data.access_token)
                 localStorage.setItem("email", userData.email)
                 localStorage.setItem("username", userData.preferred_username)
+                localStorage.setItem("roles", userData.resource_access["yfa-express"].roles[0])
                 this.props.history.push("/Home");
                 window.location.reload();
             })

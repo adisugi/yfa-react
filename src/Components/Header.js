@@ -13,7 +13,6 @@ import '../Style/Header.scss';
 import {makeStyles} from "@material-ui/core";
 import {Link} from 'react-router-dom';
 
-
 const Header = (props) => {
     const username = localStorage.getItem("username")
     const useStyles = makeStyles((theme) => ({
@@ -39,7 +38,6 @@ const Header = (props) => {
 
     const logout = (e) => {
         localStorage.clear()
-        window.location.reload();
     }
 
     return (
@@ -62,15 +60,33 @@ const Header = (props) => {
                     {/* style={collapse?{position: 'absolute'}:{display:"block"}} */}
                     {/* style={slide?{transform: 'translateX(0)'}:{transform:"translateX(100%)"}} */}
                     <Navbar.Nav className='font-putih' mr="auto">
-                            <Link to="/dropoff">
-                                <Nav.Item className="nav-item-center nav-item-background">
-                                    <div className="flex-center cursor">
-                                        <FontAwesomeIcon className="icon-center"
-                                                         icon={faBoxOpen}/>
-                                        <Nav.Link className='font-putih'>DropOff</Nav.Link>
-                                    </div>
-                                </Nav.Item>
-                            </Link>
+                            {(() => {
+                                if (localStorage.getItem("roles") === null) {
+                                    return (
+                                        <Link to="/login">
+                                            <Nav.Item className="nav-item-center nav-item-background">
+                                                <div className="flex-center cursor">
+                                                    <FontAwesomeIcon className="icon-center"
+                                                                     icon={faBoxOpen}/>
+                                                    <Nav.Link className='font-putih'>DropOff</Nav.Link>
+                                                </div>
+                                            </Nav.Item>
+                                        </Link>
+                                    )
+                                } else {
+                                    return (
+                                        <Link to="/dropoff">
+                                            <Nav.Item className="nav-item-center nav-item-background">
+                                                <div className="flex-center cursor">
+                                                    <FontAwesomeIcon className="icon-center"
+                                                                     icon={faBoxOpen}/>
+                                                    <Nav.Link className='font-putih'>DropOff</Nav.Link>
+                                                </div>
+                                            </Nav.Item>
+                                        </Link>
+                                    )
+                                }
+                            })()}
                             <Link to="/lacak">
                                 <Nav.Item className="nav-item-center nav-item-background">
                                     <div className="flex-center cursor">
@@ -116,26 +132,65 @@ const Header = (props) => {
                                     </div>
                                 </Nav.Item>
                             </Link>
-                        <div className="user-menu">
-                            <Nav.Item dropdown className="drop-down-menu nav-item-center nav-item-background">
-                                <div className="flex-center cursor">
-                                    <FontAwesomeIcon className="icon-center"
-                                                     icon={faUser}/>
-                                    <Nav.Link className='font-putih'>{username}</Nav.Link>
-                                    <FontAwesomeIcon className="icon-center margin-left-minus chevron-down"
-                                                     icon={faChevronDown}/>
-                                </div>
-                                <div className="drop-down-item drop-down-item-open-user font-putih">
-                                    <Link to="/user/transaksi">
-                                        <Dropdown.Item style={{textAlign: 'center'}}>Menu Customer</Dropdown.Item>
-                                    </Link>
-                                    <Link to="/admin/transaksi">
-                                        <Dropdown.Item style={{textAlign: 'center'}}>Menu Admin</Dropdown.Item>
-                                    </Link>
-                                    <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
-                                </div>
-                            </Nav.Item>
-                        </div>
+                        {(() => {
+                            if (localStorage.getItem("roles") === null) {
+                                return (
+                                    <div className="user-menu">
+                                        <Nav.Item dropdown className="drop-down-menu nav-item-center nav-item-background">
+                                            <div className="flex-center cursor">
+                                                <FontAwesomeIcon className="icon-center"
+                                                                 icon={faUser}/>
+                                                 <Link to={"/login"}>
+                                                     <Nav.Link className='font-putih'>Login</Nav.Link>
+                                                 </Link>
+                                            </div>
+                                        </Nav.Item>
+                                    </div>
+                                )
+                            } else if (localStorage.getItem("roles").includes("ROLE_ADMIN")) {
+                                return (
+                                    <div className="user-menu">
+                                        <Nav.Item dropdown className="drop-down-menu nav-item-center nav-item-background">
+                                            <div className="flex-center cursor">
+                                                <FontAwesomeIcon className="icon-center"
+                                                                 icon={faUser}/>
+                                                <Nav.Link className='font-putih'>{username}</Nav.Link>
+                                                <FontAwesomeIcon className="icon-center margin-left-minus chevron-down"
+                                                                 icon={faChevronDown}/>
+                                            </div>
+                                            <div className="drop-down-item drop-down-item-open-user font-putih">
+                                                <Link to="/admin/transaksi">
+                                                    <Dropdown.Item style={{textAlign: 'center'}}>Menu Admin</Dropdown.Item>
+                                                </Link>
+                                                <Link to={"/#/home"}>
+                                                    <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
+                                                </Link>
+                                            </div>
+                                        </Nav.Item>
+                                    </div>
+                                )
+                            } else if (localStorage.getItem("roles").includes("ROLE_USER")) {
+                                return (
+                                    <div className="user-menu">
+                                        <Nav.Item dropdown className="drop-down-menu nav-item-center nav-item-background">
+                                            <div className="flex-center cursor">
+                                                <FontAwesomeIcon className="icon-center"
+                                                                 icon={faUser}/>
+                                                <Nav.Link className='font-putih'>{username}</Nav.Link>
+                                                <FontAwesomeIcon className="icon-center margin-left-minus chevron-down"
+                                                                 icon={faChevronDown}/>
+                                            </div>
+                                            <div className="drop-down-item drop-down-item-open-user font-putih">
+                                                <Link to="/user/transaksi">
+                                                    <Dropdown.Item style={{textAlign: 'center'}}>Menu Customer</Dropdown.Item>
+                                                </Link>
+                                                <Dropdown.Item style={{textAlign: 'center'}} onClick={logout}>Logout</Dropdown.Item>
+                                            </div>
+                                        </Nav.Item>
+                                    </div>
+                                )
+                            }
+                        })()}
                     </Navbar.Nav>
                 </div>
             </Container>
