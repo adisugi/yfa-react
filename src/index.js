@@ -5,6 +5,7 @@ import App from './App';
 import { HashRouter } from 'react-router-dom'
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
+import './axiosintercept'
 
 ReactDOM.render(
     <HashRouter>

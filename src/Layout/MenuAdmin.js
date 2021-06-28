@@ -133,9 +133,11 @@ class MenuAdmin extends Component {
 
     //request data transaksi dan gambar
     async getDataTransaksi() {
-        const res = await axios.get("http://localhost:3333/api/transaksi/admin", {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/transaksi/admin"
+            // , {
+            // headers: {'Content-Type': 'application/json'}
+            // }
+        )
         let img = [];
         for (let i=0; i<res.data.length; i++) {
             const dataImage = await axios.get("http://localhost:3333/api/transaksi/getImage/" + res.data[i].idTransaksi, {
@@ -183,9 +185,11 @@ class MenuAdmin extends Component {
 
     //request data provinsi
     async getProvinceOption() {
-        const res = await axios.get('http://localhost:3333/api/provinsi', {
-            headers : {'Content-Type' : 'application/json'}
-        })
+        const res = await axios.get('http://localhost:3333/api/provinsi'
+            // , {
+            // headers : {'Content-Type' : 'application/json'}
+            // }
+        )
         const data = res.data
         const option = data.map(item => ({
             "value" : item.province_id,
@@ -199,9 +203,11 @@ class MenuAdmin extends Component {
         this.setState({
             loadDisplay : 'block'
         })
-        const res = await axios.get("http://localhost:3333/api/cost/" + this.state.cityId + "/" + this.state.cityIdPenerima + "/" + this.state.dataForm.beratBarang, {
-            headers: {'Content-Type': 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/cost/" + this.state.cityId + "/" + this.state.cityIdPenerima + "/" + this.state.dataForm.beratBarang
+        //     , {
+        //     headers: {'Content-Type': 'application/json'}
+        // }
+        )
         const options = res.data.map(cost => ({
             "value": cost.cost[0].value,
             "label": cost.service,
@@ -216,9 +222,11 @@ class MenuAdmin extends Component {
 
     //request all data kota
     async getCity() {
-        const city = await axios.get("http://localhost:3333/api/kotaRaja", {
-            headers : {'Content-Type' : 'application/json'}
-        })
+        const city = await axios.get("http://localhost:3333/api/kotaRaja"
+        //     , {
+        //     headers : {'Content-Type' : 'application/json'}
+        // }
+        )
         const dataCity = city.data.map(res => ({
             "value" : res.city_id,
             "label": res.type + " " + res.city_name
@@ -235,9 +243,11 @@ class MenuAdmin extends Component {
 
     //request data kurir
     async getKurir() {
-        const res = await axios.get("http://localhost:3333/api/kurir", {
-            headers : {'Content-Type' : 'application/json'}
-        })
+        const res = await axios.get("http://localhost:3333/api/kurir"
+        //     , {
+        //     headers : {'Content-Type' : 'application/json'}
+        // }
+        )
         const kurir = res.data.map(ponse => ({
             "value" : ponse.idKurir,
             "label" : ponse.namaKurir
@@ -329,9 +339,11 @@ class MenuAdmin extends Component {
 
             }));
 
-            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value, {
-                headers : {'Content-Type' : 'application/json'}
-            })
+            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value
+            //     , {
+            //     headers : {'Content-Type' : 'application/json'}
+            // }
+            )
             const cityName = dataKota.data.map(data => ({
                 "value": data.city_id,
                 "label": data.type + " " + data.city_name
@@ -378,9 +390,11 @@ class MenuAdmin extends Component {
 
             }));
 
-            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value, {
-                headers : {'Content-Type' : 'application/json'}
-            })
+            const dataKota = await axios.get("http://localhost:3333/api/kotaRaja/"+content.value
+            //     , {
+            //     headers : {'Content-Type' : 'application/json'}
+            // }
+            )
             const cityNamePenerima = dataKota.data.map(data => ({
                 "value": data.city_id,
                 "label": data.type + " " + data.city_name
@@ -475,13 +489,14 @@ class MenuAdmin extends Component {
         this.setState({
             loadDisplay : 'block'
         })
-        const config = {
-            headers: {
-                'content-type': 'application/json'
-            }
-        }
 
-        await axios.post("http://localhost:3333/api/transaksi", this.state.dataForm, config)
+        // const config = {
+        //     headers: {
+        //         'content-type': 'application/json'
+        //     }
+        // }
+
+        await axios.post("http://localhost:3333/api/transaksi", this.state.dataForm)
             .then(res => {
                 // const dataUpdate = this.state.dataTable.concat(res.data)
                 // this.setState({ dataTable:dataUpdate })
