@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import AlertKu from "../Components/AlertKu";
+import decode from "jwt-decode";
 
 export default class Login extends Component {
     state = {
@@ -46,7 +47,9 @@ export default class Login extends Component {
         axios.post("http://localhost:3333/auth/token",param, config)
             .then(res=> {
                 localStorage.setItem("access_token", res.data.data.access_token)
-                localStorage.setItem("username", username)
+                const userData = decode(res.data.data.access_token)
+                localStorage.setItem("email", userData.email)
+                localStorage.setItem("username", userData.preferred_username)
                 this.props.history.push("/Home");
                 window.location.reload();
             })
@@ -56,6 +59,8 @@ export default class Login extends Component {
                     isAlert:true
                 })
             })
+
+
 
 
 

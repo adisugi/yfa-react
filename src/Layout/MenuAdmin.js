@@ -246,16 +246,7 @@ class MenuAdmin extends Component {
     }
 
     //get email user login
-    // decodeToken() {
-    //     const token = localStorage.getItem("access_token")
-    //     const userData = decode(token)
-    //     this.setState({
-    //         dataForm: {
-    //             email : userData.email
-    //         }
-    //     })
-    //     localStorage.setItem("email", userData.email)
-    // }
+
 
     //mounting
     componentDidMount() {
