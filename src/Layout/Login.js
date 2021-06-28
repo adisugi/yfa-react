@@ -34,10 +34,6 @@ export default class Login extends Component {
         param.append("username", username)
         param.append("password", password)
 
-        // const formLogin = JSON.stringify({
-        //     "username":email,
-        //     "password":password
-        // })
 
         const config = {
             headers: {
