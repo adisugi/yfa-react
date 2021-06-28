@@ -14,8 +14,9 @@ export default class Login extends Component {
         isAlert: false,
     };
 
-    // componentDidMount() {
-    // }
+    componentDidMount() {
+        this.handleClear()
+    }
 
     handleOnchange = e => this.setState({ [e.target.name]: e.target.value });
 

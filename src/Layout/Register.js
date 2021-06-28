@@ -20,14 +20,7 @@ class Register extends Component {
         };
     }
     componentDidMount() {
-        // try {
-        //     const json = localStorage.getItem("users")
-        //     const users = JSON.parse(json);
-        //     if (users) {
-        //         this.setState(() => ({ users }))
-        //     }
-        // } catch (e) {
-        // }
+        localStorage.clear()
     };
 
 
