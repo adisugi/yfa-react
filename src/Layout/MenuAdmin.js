@@ -505,7 +505,7 @@ class MenuAdmin extends Component {
             "cityName": this.state.dataForm.cityName,
             "cityNamePenerima": this.state.dataForm.cityNamePenerima,
             "estimasi": this.state.dataForm.estimasi,
-            "email" : localStorage.getItem("username"),
+            "email" : localStorage.getItem("email"),
             "idKurir": this.state.dataForm.idKurir,
             "idTransaksi": this.state.dataForm.idTransaksi,
             "idPengirim": this.state.dataForm.idPengirim,
@@ -597,7 +597,7 @@ class MenuAdmin extends Component {
         this.setState(prevState =>({
             dataForm : {
                 ...prevState.dataForm,
-                email: localStorage.getItem("username"),
+                email: localStorage.getItem("email"),
                 statusDelivery: 'Undelivered',
                 penerimaPaket: 'penerima',
                 fotoPenerima: 'penerima.jpg'
